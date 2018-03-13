@@ -10,14 +10,6 @@ import Model from '../../model.js';
 import PropTypes from 'prop-types';
 import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 
-function checkJsonSchema(json) {
-  let newJson = Object.assign({}, json);
-  if (_.isUndefined(json.type) && _.isObject(json.properties)) {
-    newJson.type = 'object';
-  }
-
-  return newJson;
-}
 
 const mapping = (name, data) => {
   switch (data.type) {
@@ -272,7 +264,7 @@ const SchemaJson = props => {
     case 'array':
       return <SchemaArray prefix={[]} data={props.data} />;
     default:
-      console.log(11);
+      return null;
   }
 };
 
