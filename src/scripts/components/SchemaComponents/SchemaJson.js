@@ -31,7 +31,7 @@ function checkJsonSchema(json) {
 const mapping = (name, data, changeHandler) => {
   switch (data.type) {
     case 'array':
-      return <SchemaArray onChange={changeHandler} key={name} data={data} />;
+      return <SchemaArray onChange={changeHandler} map={`${name}.properties`} data={data} />;
       break;
     case 'object':
       return <SchemaObject onChange={changeHandler} map={`${name}.properties`} data={data} />;
@@ -112,26 +112,17 @@ class SchemaInt extends React.Component {
 }
 
 class SchemaArray extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = props.data;
+ 
+
+  static contextTypes={
+    changeNameAction: PropTypes.func
   }
 
   change = event => {
     this.state.items.type = event;
     this.setState(this.state);
   };
-  export = () => {
-    console.log(this.refs['items']);
-    return {
-      items: _.isUndefined(this.refs['items']) ? {} : this.refs['items'].export(),
-      minItems: this.state.minItems,
-      maxItems: this.state.maxItems,
-      uniqueItems: this.state.uniqueItems ? true : undefined,
-      format: this.state.format,
-      type: 'array'
-    };
-  };
+  
   componentDidUpdate = () => {
     this.onChange();
   };
@@ -145,13 +136,16 @@ class SchemaArray extends React.Component {
       paddingLeft: '25px',
       paddingTop: '8px'
     };
-    this.state.items = this.state.items || { type: 'string' };
-    var optionForm = mapping('items', this.state.items, this.onChange);
+    const {data, map} = this.props
+    console.log('data', data)
+    // this.state.items = this.state.items || { type: 'string' };
+    // var optionForm = mapping('items', this.state.items, this.onChange);
+    var optionForm = mapping(`${map}.items`, data.items, this.onChange);
     return (
       <div style={{ marginTop: '60px' }}>
         <div className="array-item-type">
           Items Type:
-          <Select name="itemtype" onChange={e => this.change(e)} value={this.state.items.type}>
+          <Select name="itemtype" onChange={e => this.change(e)} value={data.items.type}>
             <Option value="string">string</Option>
             <Option value="number">number</Option>
             <Option value="array">array</Option>
