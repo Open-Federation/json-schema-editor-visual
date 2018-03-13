@@ -3,7 +3,7 @@ import { Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal } from 'an
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
-
+import './schemaJson.css';
 import _ from 'underscore';
 import { connect } from 'react-redux'
 import Model from '../../model.js'
@@ -122,7 +122,7 @@ const SchemaArray = (props, context) => {
           <Option value="boolean">boolean</Option>
         </Select>
       </div>
-      <div style={optionFormStyle}>{optionForm}</div>
+      <div className='option-formStyle'>{optionForm}</div>
     </div>
   );
 
@@ -176,10 +176,7 @@ const add = (key, change) => {
 
 const SchemaObject = (props, context) => {
 
-  var optionFormStyle = {
-      paddingLeft: '25px',
-      paddingTop: '4px'
-  };
+ 
   var requiredIcon = {
       fontSize: '1em',
       color: 'red',
@@ -265,7 +262,7 @@ const SchemaObject = (props, context) => {
                     <Icon type="delete" />
                   </span>
                 </Col>
-                <div style={optionFormStyle}>{optionForm}</div>
+                <div className='option-formStyle'>{optionForm}</div>
               </Row>
             );
           })

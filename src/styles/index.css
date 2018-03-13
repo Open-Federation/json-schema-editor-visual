@@ -1,5 +1,6 @@
 @charset "utf-8";
 @import '~antd/dist/antd.css';
+@import '../scripts/components/SchemaComponents/schemaJson.css';
 body {
   margin: 0;
   padding: 0;
