@@ -1,9 +1,8 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import App from './components/App'
 import Model from './model'
-import Schema from './jsonSchema.js'
+import Schema from './App.js'
 
 const store = Model.getStore()
 render(
