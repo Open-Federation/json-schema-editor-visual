@@ -142,6 +142,6 @@ export default connect((state) => ({
     changeValueAction: Model.schema.changeValueAction,
     enableRequireAction: Model.schema.enableRequireAction,
     addValueAction: Model.schema.addValueAction,
-    deleteItemAction: Model.schema.deleteItemAction
-   
+    deleteItemAction: Model.schema.deleteItemAction,
+    changeTypeAction: Model.schema.changeTypeAction
   })(jsonSchema)

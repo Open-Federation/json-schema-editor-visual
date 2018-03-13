@@ -1,6 +1,25 @@
   const JSONPATH_JOIN_CHAR = '.'
   exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR
 
+  exports.defaultSchema = {
+    string: {
+      type: 'string'
+    },
+    number: {
+      type: 'number'
+    },
+    array: {
+      type: 'array',
+      items: {
+        type: 'string'
+      }
+    },
+    object: {
+      type: 'object',
+      properties: {}
+    }
+  }
+
   function getData(state,keys){ 
     let curState = state;
     for(let i =0; i< keys.length; i++){
@@ -24,4 +43,12 @@
     let arr = [].concat(keys)
     arr.splice(keys.length - 1, 1)
     return arr
+  }
+
+  exports.clearSomeFields = function(keys, data){
+    const newData = Object.assign({}, data)
+    keys.forEach(key=>{
+      delete newData[key]
+    })
+    return newData
   }
