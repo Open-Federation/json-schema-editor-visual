@@ -1,6 +1,6 @@
 const _ = require("underscore");
 import utils from "../utils";
-let fieleNum = 1;
+let fieldNum = 1;
 
 const schema = {
   "title": "Product",

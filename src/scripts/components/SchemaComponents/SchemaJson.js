@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal } from 'antd';
+import {Dropdown, Menu, Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -10,14 +10,13 @@ import Model from '../../model.js';
 import PropTypes from 'prop-types';
 import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 
-
 const mapping = (name, data) => {
   switch (data.type) {
     case 'array':
       return <SchemaArray prefix={name} data={data} />;
       break;
     case 'object':
-      let nameArray = [].concat(name, 'properties')
+      let nameArray = [].concat(name, 'properties');
       return <SchemaObject prefix={nameArray} data={data} />;
       break;
     default:
@@ -85,7 +84,7 @@ const SchemaInt = props => {
 
 const SchemaArray = (props, context) => {
   const { data, prefix } = props;
-  let prefixArray = [].concat(prefix, 'items')
+  let prefixArray = [].concat(prefix, 'items');
   const optionForm = mapping(prefixArray, data.items);
 
   return (
@@ -95,14 +94,7 @@ const SchemaArray = (props, context) => {
           Items Type:
           <Select
             name="itemtype"
-            onChange={e =>
-              changeType(
-                prefixArray,
-                `type`,
-                e,
-                context.changeTypeAction
-              )
-            }
+            onChange={e => changeType(prefixArray, `type`, e, context.changeTypeAction)}
             value={data.items.type}
           >
             {SCHEMA_TYPE.map((item, index) => {
@@ -132,13 +124,13 @@ const SchemaBoolean = props => {
   return <div>SchemaBoolean</div>;
 };
 
-const changeType = (prefix ,type , value, change) => {
-  let key = [].concat(prefix, type)
+const changeType = (prefix, type, value, change) => {
+  let key = [].concat(prefix, type);
   change(key, value);
 };
 
-const changeValue = (prefix ,type, value, change) => {
-  let key = [].concat(prefix, type)
+const changeValue = (prefix, type, value, change) => {
+  let key = [].concat(prefix, type);
   change(key, value);
 };
 const changeName = (value, prefix, name, change) => {
@@ -150,18 +142,18 @@ const enableRequire = (prefix, name, required, change) => {
 };
 
 const deleteItem = (prefix, name, change) => {
-  let nameArray = [].concat(prefix, name)
+  let nameArray = [].concat(prefix, name);
   change.deleteItemAction(nameArray);
   change.enableRequireAction(prefix, name, false);
 };
 
-const add = (key, change) => {
-  change(key);
+const addField = (prefix, name, change) => {
+  change(prefix, name);
 };
 
 const SchemaObject = (props, context) => {
   const { data, prefix } = props;
- 
+
   return (
     <div className="object-style">
       {Object.keys(data.properties).map((name, index) => {
@@ -208,12 +200,7 @@ const SchemaObject = (props, context) => {
                 placeholder="默认值"
                 value={value.default}
                 onChange={e =>
-                  changeValue(
-                    prefixArray,
-                    `default`,
-                    e.target.value,
-                    context.changeValueAction
-                  )
+                  changeValue(prefixArray, `default`, e.target.value, context.changeValueAction)
                 }
               />
             </Col>
@@ -222,12 +209,7 @@ const SchemaObject = (props, context) => {
                 placeholder="备注"
                 value={value.description}
                 onChange={e =>
-                  changeValue(
-                    prefixArray,
-                    `description`,
-                    e.target.value,
-                    context.changeValueAction
-                  )
+                  changeValue(prefixArray, `description`, e.target.value, context.changeValueAction)
                 }
               />
             </Col>
@@ -237,9 +219,13 @@ const SchemaObject = (props, context) => {
               </span>
             </Col>
             <Col span={1} className="col-item">
-              <span onClick={() => deleteItem(prefix, name, context)}>
-                <Icon type="plus" />
-              </span>
+              {value.type === 'object' ? (
+                <DropPlus />
+              ) : (
+                <span onClick={() => addField(prefix, name, context.addFieldAction)}>
+                  <Icon type="plus" />
+                </span>
+              )}
             </Col>
             <div className="option-formStyle">{optionForm}</div>
           </Row>
@@ -261,10 +247,29 @@ SchemaObject.contextTypes = {
   changeTypeAction: PropTypes.func
 };
 
-const SchemaJson = props => {
-   const item = mapping([],props.data)
-   return <div>{item}</div>
+const DropPlus = () => {
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <span>兄弟节点</span>
+      </Menu.Item>
+      <Menu.Item>
+        <span>子节点</span>
+      </Menu.Item>
+      
+    </Menu>
+  );
 
+  return (
+    <Dropdown overlay={menu}>
+      <Icon type="plus" />
+    </Dropdown>
+  );
+};
+
+const SchemaJson = props => {
+  const item = mapping([], props.data);
+  return <div>{item}</div>;
 };
 
 export default SchemaJson;
