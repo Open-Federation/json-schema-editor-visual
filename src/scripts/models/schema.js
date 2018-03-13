@@ -222,7 +222,7 @@ export default {
       const keys = action.key
       
       let name = keys[keys.length - 1]
-      
+      let oldData = oldState.data;
       let parentKeys = utils.getParentKeys(keys);
       let parentData = utils.getData(oldData, parentKeys);
       let newParentData = {}
