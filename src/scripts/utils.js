@@ -9,6 +9,30 @@
     'boolean',
     'integer'
   ]
+  exports.defaultSchema = {
+    string: {
+      type: 'string'
+    },
+    number: {
+      type: 'number'
+    },
+    array: {
+      type: 'array',
+      items: {
+        type: 'string'
+      }
+    },
+    object: {
+      type: 'object',
+      properties: {}
+    },
+    boolean: {
+      type: 'boolean'
+    },
+    integer: {
+      type: 'integer'
+    }
+  }
 
   function getData(state,keys){ 
     let curState = state;
@@ -33,4 +57,12 @@
     let arr = [].concat(keys)
     arr.splice(keys.length - 1, 1)
     return arr
+  }
+
+  exports.clearSomeFields = function(keys, data){
+    const newData = Object.assign({}, data)
+    keys.forEach(key=>{
+      delete newData[key]
+    })
+    return newData
   }

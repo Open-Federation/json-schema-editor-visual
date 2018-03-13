@@ -106,6 +106,14 @@ export default {
     };
   },
 
+  changeTypeAction: (key, value) =>{
+    console.log("changeTypeAction", key, value);
+    return {
+      key,
+      value
+    }
+  },
+
   addValueAction: (key) =>{
     console.log('addValueAction', key)
     return {}
@@ -165,6 +173,21 @@ export default {
     changeValueAction: function(state, action){
       const keys = action.key.split(".");
       utils.setData(state.data, keys, action.value)
+    },
+
+    changeTypeAction: function(state, action, oldState){
+      const keys = action.key.split(".");
+      const value = action.value;
+
+      let parentKeys = utils.getParentKeys(keys);
+      let oldData = oldState.data;
+      let parentData = utils.getData(oldData, parentKeys);
+      if(parentData.type === value){
+        return ;
+      }
+      let newParentData = utils.defaultSchema[value];
+      let newKeys = [].concat('data', parentKeys)
+      utils.setData(state, newKeys, newParentData)
     },
 
     enableRequireAction: function(state, action, oldState){

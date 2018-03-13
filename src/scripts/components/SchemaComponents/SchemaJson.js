@@ -20,6 +20,7 @@ function checkJsonSchema(json) {
 }
 
 const mapping = (name, data) => {
+  
   switch (data.type) {
     case 'array':
       return <SchemaArray prefix={`${name}`} data={data} />;
@@ -59,9 +60,8 @@ class AdvModal extends React.Component {
     return {
       string: <SchemaString onChange={changeHandler} data={data} />,
       number: <SchemaNumber onChange={changeHandler} data={data} />,
-      array: <SchemaArray onChange={changeHandler} data={data} />,
-
-      boolean: <SchemaBoolean onChange={changeHandler} data={data} />
+      boolean: <SchemaBoolean onChange={changeHandler} data={data} />,
+      integer: <SchemaInt onChange={changeHandler} data={data} />
     }[data.type];
   };
 
@@ -109,10 +109,10 @@ const SchemaArray = (props, context) => {
           <Select
             name="itemtype"
             onChange={e =>
-              changeValue(
+              changeType(
                 `${prefix}${JSONPATH_JOIN_CHAR}items${JSONPATH_JOIN_CHAR}type`,
                 e,
-                context.changeValueAction
+                context.changeTypeAction
               )
             }
             value={data.items.type}
@@ -144,6 +144,10 @@ const SchemaBoolean = props => {
   return <div>SchemaBoolean</div>;
 };
 
+const changeType = (key, value, change) => {
+  change(key, value);
+};
+
 const changeValue = (key, value, change) => {
   change(key, value);
 };
@@ -170,7 +174,7 @@ const SchemaObject = (props, context) => {
     <div className="object-style">
       {Object.keys(data.properties).map((name, index) => {
         let value = data.properties[name];
-        var copiedState = JSON.parse(JSON.stringify(value));
+        var copiedState = value;
         var optionForm = mapping(`${prefix}${JSONPATH_JOIN_CHAR}${name}`, copiedState);
         return (
           <Row data-index={index} key={index}>
@@ -184,10 +188,10 @@ const SchemaObject = (props, context) => {
               <Select
                 className="type-select-style"
                 onChange={e =>
-                  changeValue(
+                  changeType(
                     `${prefix}${JSONPATH_JOIN_CHAR}${name}${JSONPATH_JOIN_CHAR}type`,
                     e,
-                    context.changeValueAction
+                    context.changeTypeAction
                   )
                 }
                 value={value.type}
@@ -259,7 +263,8 @@ SchemaObject.contextTypes = {
   changeValueAction: PropTypes.func,
   enableRequireAction: PropTypes.func,
   addValueAction: PropTypes.func,
-  deleteItemAction: PropTypes.func
+  deleteItemAction: PropTypes.func,
+  changeTypeAction: PropTypes.func
 };
 
 export default SchemaObject;
