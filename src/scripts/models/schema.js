@@ -100,7 +100,10 @@ export default {
 
   changeValueAction: (key, value) => {
     console.log("changeValueAction", key, value);
-    return {};
+    return {
+      key,
+      value
+    };
   },
 
   addValueAction: (key) =>{
@@ -146,6 +149,11 @@ export default {
         } else newPropertiesData[i] = propertiesData[i];
       }
       utils.setData(state.data, keys, newPropertiesData);
+    },
+
+    changeValueAction: function(state, action){
+      const keys = action.key.split(".");
+      utils.setData(state.data, keys, action.value)
     }
   }
 };
