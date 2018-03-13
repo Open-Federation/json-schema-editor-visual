@@ -43,16 +43,6 @@ class jsonSchema extends React.Component {
     
   }
 
-  onChange = (value, item, index) => {
-    console.log(value, item, index);
-  };
-
-  handleSubmit = e => {};
-
-  getValue = () => {
-    console.log(this.refs.object.export());
-    return this.export();
-  };
 
   handleParams = e => {
     if(!e.text) return;
@@ -60,7 +50,7 @@ class jsonSchema extends React.Component {
     if(e.format !== true){
       return message.error('不是合法的 json 字符串')
     }
-    handleSchema(e.jsonData);
+    handleSchema(e.jsonData)
     this.props.changeEditorSchemaAction(e.jsonData);
   };
 
@@ -70,14 +60,13 @@ class jsonSchema extends React.Component {
   }
 
   render() {
-    console.log(this.state.type)
     return (
       <Row>
         <Col span={8}>
           <AceEditor
             className="pretty-editor"
             mode="json"
-            data={JSON.stringify(this.props.p, null, 2)}
+            data={JSON.stringify(this.props.schema, null, 2)}
             onChange={this.handleParams}
           />
         </Col>
@@ -90,7 +79,7 @@ class jsonSchema extends React.Component {
                 e
               )
             }
-            value={this.props.p.type || 'object'}
+            value={this.props.schema.type || 'object'}
           >
             {SCHEMA_TYPE.map((item, index) => {
               return (
@@ -101,11 +90,8 @@ class jsonSchema extends React.Component {
             })}
           </Select>
           <SchemaJson
-            prefix={'properties'}
-            type={this.state.type}
-            data={this.props.p}
+            data={this.props.schema}
           />
-          <Button onClick={this.getValue}>导出</Button>
         </Col>
       </Row>
     );
@@ -114,7 +100,7 @@ class jsonSchema extends React.Component {
 
 export default connect(
   state => ({
-    p: state.schema.data
+    schema: state.schema.data
   }),
   {
     changeEditorSchemaAction: Model.schema.changeEditorSchemaAction,

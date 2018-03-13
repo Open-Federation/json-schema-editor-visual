@@ -185,6 +185,7 @@ export default {
       }
       let newParentData = utils.defaultSchema[value];
       let newKeys = [].concat('data', parentKeys)
+      console.log(newKeys, newParentData)
       utils.setData(state, newKeys, newParentData)
     },
 
