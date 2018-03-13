@@ -9,11 +9,10 @@ import { connect } from 'react-redux';
 import Model from './model.js';
 import SchemaJson from './components/SchemaComponents/SchemaJson.js';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
+
 import { SCHEMA_TYPE } from './utils.js'
-=======
 import handleSchema from './schema'
->>>>>>> 8a1c54848158f4f0f8e68bef58be1ac6d2a4ffb7
+
 
 
 class jsonSchema extends React.Component {
