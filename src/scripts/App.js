@@ -9,18 +9,14 @@ import { connect } from 'react-redux';
 import Model from './model.js';
 import SchemaJson from './components/SchemaComponents/SchemaJson.js';
 import PropTypes from 'prop-types';
-
 import { SCHEMA_TYPE } from './utils.js'
 import handleSchema from './schema'
-
 
 
 class jsonSchema extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      type: 'object'
-    }
+   
   }
 
   static childContextTypes = {
@@ -44,7 +40,7 @@ class jsonSchema extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({type: this.props.schema.type})
+    
   }
 
 
@@ -59,7 +55,7 @@ class jsonSchema extends React.Component {
   };
 
   changeType = (key, value) => {
-    this.setState({type: value})
+   
     this.props.changeTypeAction([key], value)
   }
 
@@ -94,8 +90,6 @@ class jsonSchema extends React.Component {
             })}
           </Select>
           <SchemaJson
-            prefix={'properties'}
-            type={this.state.type}
             data={this.props.schema}
           />
         </Col>

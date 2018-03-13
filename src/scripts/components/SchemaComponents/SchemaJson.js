@@ -160,7 +160,7 @@ const add = (key, change) => {
 
 const SchemaObject = (props, context) => {
   const { data, prefix } = props;
-  console.log('prefix', prefix);
+ 
   return (
     <div className="object-style">
       {Object.keys(data.properties).map((name, index) => {
@@ -256,16 +256,9 @@ SchemaObject.contextTypes = {
 };
 
 const SchemaJson = props => {
-  console.log(props.type);
+   const item = mapping([],props.data)
+   return <div>{item}</div>
 
-  switch (props.type) {
-    case 'object':
-      return <SchemaObject prefix={['properties']} data={props.data} />;
-    case 'array':
-      return <SchemaArray prefix={[]} data={props.data} />;
-    default:
-      return null;
-  }
 };
 
 export default SchemaJson;
