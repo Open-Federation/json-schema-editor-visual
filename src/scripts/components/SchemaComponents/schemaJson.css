@@ -23,3 +23,8 @@
   margin-left: 5px;
 }
 
+.col-item {
+  margin-top: 16px;
+  margin-right: 8px;
+  cursor: pointer
+}

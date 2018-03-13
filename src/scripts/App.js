@@ -23,7 +23,7 @@ class jsonSchema extends React.Component {
     changeNameAction: PropTypes.func,
     changeValueAction: PropTypes.func,
     enableRequireAction: PropTypes.func,
-    addValueAction: PropTypes.func,
+    addFieldAction: PropTypes.func,
     deleteItemAction: PropTypes.func,
     changeTypeAction: PropTypes.func
   };
@@ -33,7 +33,7 @@ class jsonSchema extends React.Component {
       changeNameAction: this.props.changeNameAction,
       changeValueAction: this.props.changeValueAction,
       enableRequireAction: this.props.enableRequireAction,
-      addValueAction: this.props.addValueAction,
+      addFieldAction: this.props.addFieldAction,
       deleteItemAction: this.props.deleteItemAction,
       changeTypeAction: this.props.changeTypeAction
     };
