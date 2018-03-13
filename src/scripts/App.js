@@ -107,7 +107,7 @@ export default connect(
     changeNameAction: Model.schema.changeNameAction,
     changeValueAction: Model.schema.changeValueAction,
     enableRequireAction: Model.schema.enableRequireAction,
-    addValueAction: Model.schema.addValueAction,
+    addFieldAction: Model.schema.addFieldAction,
     deleteItemAction: Model.schema.deleteItemAction,
     changeTypeAction: Model.schema.changeTypeAction
   }
