@@ -140,9 +140,8 @@ export default {
       state.data = action.value;
     },
 
-    changeNameAction: function(state, action, oldState) {
-      
-      const keys = action.prefix.split(".");
+    changeNameAction: function(state, action, oldState) {      
+      const keys = action.prefix;
       const name = action.name;
       const value = action.value;
       let oldData = oldState.data;
@@ -154,7 +153,6 @@ export default {
         if (item === name) return value;
         return item;
       });
-      console.log(requiredData)
 
       parentKeys.push('required')
       utils.setData(state.data, parentKeys, requiredData)
@@ -171,12 +169,12 @@ export default {
     },
 
     changeValueAction: function(state, action){
-      const keys = action.key.split(".");
+      const keys = action.key;
       utils.setData(state.data, keys, action.value)
     },
 
     changeTypeAction: function(state, action, oldState){
-      const keys = action.key.split(".");
+      const keys = action.key;
       const value = action.value;
 
       let parentKeys = utils.getParentKeys(keys);
@@ -191,7 +189,7 @@ export default {
     },
 
     enableRequireAction: function(state, action, oldState){
-      const keys = action.prefix.split(".");
+      const keys = action.prefix;
       let parentKeys = utils.getParentKeys(keys);
       let oldData = oldState.data;
       let parentData = utils.getData(oldData, parentKeys);
@@ -210,7 +208,7 @@ export default {
     },
 
     deleteItemAction: function(state, action, oldState){
-      const keys = action.key.split(".")
+      const keys = action.key
       
       let name = keys[keys.length - 1]
       let oldData = oldState.data;
