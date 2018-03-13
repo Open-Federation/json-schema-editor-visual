@@ -123,6 +123,13 @@ export default {
     }
   },
 
+  addChildFieldAction: (key)=>{
+    console.log('addChildFieldAction', key)
+    return {
+      key
+    }
+  },
+
   deleteItemAction: (key) =>{
     console.log('deleteItemAction', key)
     return {
@@ -245,6 +252,15 @@ export default {
           }          
         }
       }
+      utils.setData(state.data, keys, newPropertiesData)
+    },
+    addChildFieldAction: function(state, action, oldState){
+      const keys = action.key;
+      let oldData = oldState.data;
+      let propertiesData = utils.getData(oldData, keys);
+      let newPropertiesData = {}
+      newPropertiesData = Object.assign({}, propertiesData)
+      newPropertiesData['field_' + (fieldNum++) ] = utils.defaultSchema.string
       utils.setData(state.data, keys, newPropertiesData)
     }
   }
