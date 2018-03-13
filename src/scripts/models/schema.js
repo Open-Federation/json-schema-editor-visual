@@ -113,12 +113,18 @@ export default {
 
   deleteItemAction: (key) =>{
     console.log('deleteItemAction', key)
-    return {}
+    return {
+      key
+    }
   },
 
   enableRequireAction: (prefix, name, required = true) => {
     console.log("enableRequireAction", prefix, name, required);
-    return {};
+    return {
+      prefix,
+      name,
+      required
+    };
   },
 
   reducers: {
@@ -136,11 +142,15 @@ export default {
       let parentData = utils.getData(oldData, parentKeys);
       let requiredData = [].concat(parentData.required || []);
 
-      requiredData.map(item => {
+      requiredData=requiredData.map(item => {
         if (item === name) return value;
         return item;
       });
+      console.log(requiredData)
 
+      parentKeys.push('required')
+      utils.setData(state.data, parentKeys, requiredData)
+      
       let propertiesData = utils.getData(oldData, keys);
       let newPropertiesData = {};
       for (let i in propertiesData) {
@@ -148,12 +158,49 @@ export default {
           newPropertiesData[value] = propertiesData[i];
         } else newPropertiesData[i] = propertiesData[i];
       }
+
       utils.setData(state.data, keys, newPropertiesData);
     },
 
     changeValueAction: function(state, action){
       const keys = action.key.split(".");
       utils.setData(state.data, keys, action.value)
+    },
+
+    enableRequireAction: function(state, action, oldState){
+      const keys = action.prefix.split(".");
+      let parentKeys = utils.getParentKeys(keys);
+      let oldData = oldState.data;
+      let parentData = utils.getData(oldData, parentKeys);
+      let requiredData = [].concat(parentData.required || []);
+      let index = requiredData.indexOf(action.name)
+      
+      if(!action.required && index >= 0){
+        requiredData.splice(index, 1)
+        parentKeys.push('required')
+        utils.setData(state.data, parentKeys, requiredData)
+      }else if(action.required && index === -1){
+        requiredData.push(action.name)
+        parentKeys.push('required')
+        utils.setData(state.data, parentKeys, requiredData)
+      }
+    },
+
+    deleteItemAction: function(state, action, oldState){
+      const keys = action.key.split(".")
+      
+      let name = keys[keys.length - 1]
+      let oldData = oldState.data;
+      let parentKeys = utils.getParentKeys(keys);
+      let parentData = utils.getData(oldData, parentKeys);
+      let newParentData = {}
+      for(let i in parentData){
+        if(i !== name){
+          newParentData[i] = parentData[i]
+        }
+      }
+
+      utils.setData(state.data, parentKeys, newParentData)
     }
   }
 };

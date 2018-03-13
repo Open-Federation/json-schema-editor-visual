@@ -50,11 +50,7 @@ a {
     color: #2891e0;
 }
 
-.wrapper {
-  overflow: scroll;
-  max-height: 900px;
-  
-}
+
 
 .ant-card {
     margin: 0 auto;
@@ -75,7 +71,14 @@ a {
 }
 
 .pretty-editor{
-  min-height: 900px;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
+  height: 600px;
+}
+
+.wrapper {
+  overflow: scroll;
+  height: 600px;
+  /* max-height: 900px; */
+  
 }
