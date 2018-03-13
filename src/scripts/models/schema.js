@@ -103,14 +103,14 @@ export default {
     return {};
   },
 
-  addValueAction: key => {
-    console.log("addValueAction", key, value);
-    return {};
+  addValueAction: (key) =>{
+    console.log('addValueAction', key)
+    return {}
   },
 
-  deleteItemAction: key => {
-    console.log("deleteItemAction", key, value);
-    return {};
+  deleteItemAction: (key) =>{
+    console.log('deleteItemAction', key)
+    return {}
   },
 
   enableRequireAction: (prefix, name, required = true) => {
