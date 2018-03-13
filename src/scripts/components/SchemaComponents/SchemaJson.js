@@ -151,6 +151,11 @@ const addField = (prefix, name, change) => {
   change(prefix, name);
 };
 
+const addChildField = (prefix, name, change) => {
+  let keyArr = [].concat(prefix, name, 'properties')
+  change(keyArr);
+};
+
 const SchemaObject = (props, context) => {
   const { data, prefix } = props;
 
@@ -220,7 +225,7 @@ const SchemaObject = (props, context) => {
             </Col>
             <Col span={1} className="col-item">
               {value.type === 'object' ? (
-                <DropPlus />
+                <DropPlus prefix={prefix} name={name} add={context}/>
               ) : (
                 <span onClick={() => addField(prefix, name, context.addFieldAction)}>
                   <Icon type="plus" />
@@ -231,9 +236,6 @@ const SchemaObject = (props, context) => {
           </Row>
         );
       })}
-      <Button onClick={() => add(prefix, context.addValueAction)} className="add-btn">
-        再添加一项
-      </Button>
     </div>
   );
 };
@@ -244,17 +246,19 @@ SchemaObject.contextTypes = {
   enableRequireAction: PropTypes.func,
   addFieldAction: PropTypes.func,
   deleteItemAction: PropTypes.func,
-  changeTypeAction: PropTypes.func
+  changeTypeAction: PropTypes.func,
+  addChildFieldAction: PropTypes.func
 };
 
-const DropPlus = () => {
+const DropPlus = (props) => {
+  const {prefix, name, add} = props
   const menu = (
     <Menu>
       <Menu.Item>
-        <span>兄弟节点</span>
+        <span onClick={() => addField(prefix, name, add.addFieldAction)}>兄弟节点</span>
       </Menu.Item>
       <Menu.Item>
-        <span>子节点</span>
+        <span onClick={() => addChildField(prefix, name, add.addChildFieldAction)}>子节点</span>
       </Menu.Item>
       
     </Menu>

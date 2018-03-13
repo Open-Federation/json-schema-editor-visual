@@ -25,7 +25,8 @@ class jsonSchema extends React.Component {
     enableRequireAction: PropTypes.func,
     addFieldAction: PropTypes.func,
     deleteItemAction: PropTypes.func,
-    changeTypeAction: PropTypes.func
+    changeTypeAction: PropTypes.func,
+    addChildFieldAction: PropTypes.func
   };
 
   getChildContext() {
@@ -35,7 +36,8 @@ class jsonSchema extends React.Component {
       enableRequireAction: this.props.enableRequireAction,
       addFieldAction: this.props.addFieldAction,
       deleteItemAction: this.props.deleteItemAction,
-      changeTypeAction: this.props.changeTypeAction
+      changeTypeAction: this.props.changeTypeAction,
+      addChildFieldAction: this.props.addChildFieldAction
     };
   }
 
