@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal } from 'antd';
+import { Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal, message } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -9,7 +9,11 @@ import { connect } from 'react-redux';
 import Model from './model.js';
 import SchemaJson from './components/SchemaComponents/SchemaJson.js';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 import { SCHEMA_TYPE } from './utils.js'
+=======
+import handleSchema from './schema'
+>>>>>>> 8a1c54848158f4f0f8e68bef58be1ac6d2a4ffb7
 
 
 class jsonSchema extends React.Component {
@@ -56,10 +60,13 @@ class jsonSchema extends React.Component {
   };
 
   handleParams = e => {
+    if(!e.text) return;
     // 将数据map 到store中
+    if(e.format !== true){
+      return message.error('不是合法的 json 字符串')
+    }
+    handleSchema(e.jsonData);
     this.props.changeEditorSchemaAction(e.jsonData);
-    // let value = JSON.parse(e.target.value)
-    // this.props.changeEditorSchemaAction(value);
   };
 
   changeType = (key, value) => {
