@@ -3,11 +3,12 @@ import { Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal } from 'an
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
-
+import './schemaJson.css';
 import _ from 'underscore';
-import { connect } from 'react-redux'
-import Model from '../../model.js'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
+import Model from '../../model.js';
+import PropTypes from 'prop-types';
+import { JSONPATH_JOIN_CHAR } from '../../utils.js';
 
 function checkJsonSchema(json) {
   let newJson = Object.assign({}, json);
@@ -21,7 +22,7 @@ function checkJsonSchema(json) {
 const mapping = (name, data, changeHandler) => {
   switch (data.type) {
     case 'array':
-      return <SchemaArray onChange={changeHandler} prefix={`${name}.properties`} data={data} />;
+      return <SchemaArray onChange={changeHandler} prefix={`${name}`} data={data} />;
       break;
     case 'object':
       return <SchemaObject onChange={changeHandler} prefix={`${name}.properties`} data={data} />;
@@ -59,7 +60,7 @@ class AdvModal extends React.Component {
       string: <SchemaString onChange={changeHandler} ref={name} data={data} />,
       number: <SchemaNumber onChange={changeHandler} ref={name} data={data} />,
       array: <SchemaArray onChange={changeHandler} ref={name} data={data} />,
-      
+
       boolean: <SchemaBoolean onChange={changeHandler} ref={name} data={data} />
     }[data.type];
   };
@@ -82,39 +83,39 @@ class AdvModal extends React.Component {
   }
 }
 
+const SchemaString = props => {
+  return <div>String</div>;
+};
 
-
-const SchemaString = (props) => {
-  
-    return <div>String</div>;
-  
-}
-
-const SchemaInt = (props) => {
- 
-    return <div>SchemaInt</div>;
-  
-}
-
-
+const SchemaInt = props => {
+  return <div>SchemaInt</div>;
+};
 
 const SchemaArray = (props, context) => {
-  const { data, prefix } = props
-  const change = () => {
-   
-  }
+  const { data, prefix } = props;
+  
+  // if(_.isUndefined(data.items)) {
+  //   context.changeValueAction(`${prefix}${JSONPATH_JOIN_CHAR}items`, { type: 'string' } )
+  //   return null
+  // }
 
-  const optionForm = mapping(`${prefix}.items`, data.items, change);
+  const optionForm = mapping(`${prefix}${JSONPATH_JOIN_CHAR}items`, data.items);
 
-  var optionFormStyle = {
-    paddingLeft: '25px',
-    paddingTop: '8px'
-  };
   return (
-    <div style={{ marginTop: '60px' }}>
+    !_.isUndefined(data.items) && <div style={{ marginTop: '60px' }}>
       <div className="array-item-type">
         Items Type:
-        <Select name="itemtype" onChange={e => changeValue(`${prefix}.items.type`, e, context.changeValueAction )} value={data.items.type}>
+        <Select
+          name="itemtype"
+          onChange={e =>
+            changeValue(
+              `${prefix}${JSONPATH_JOIN_CHAR}items${JSONPATH_JOIN_CHAR}type`,
+              e,
+              context.changeValueAction
+            )
+          }
+          value={data.items.type}
+        >
           <Option value="string">string</Option>
           <Option value="number">number</Option>
           <Option value="array">array</Option>
@@ -122,173 +123,143 @@ const SchemaArray = (props, context) => {
           <Option value="boolean">boolean</Option>
         </Select>
       </div>
-      <div style={optionFormStyle}>{optionForm}</div>
+      <div className="option-formStyle">{optionForm}</div>
     </div>
   );
+};
 
-}
-
-SchemaArray.contextTypes={
+SchemaArray.contextTypes = {
   changeValueAction: PropTypes.func
-}
+};
 
+const SchemaNumber = props => {
+  return <div>SchemaNumber</div>;
+};
 
-const SchemaNumber = (props) => {
- 
-    return <div>SchemaNumber</div>;
-
-}
-
-const SchemaBoolean = (props) => {
-
- 
-    return <div>SchemaBoolean</div>;
- 
-}
+const SchemaBoolean = props => {
+  return <div>SchemaBoolean</div>;
+};
 
 const changeValue = (key, value, change) => {
-  
-  change(key, value)
+  change(key, value);
 };
-const changeName = (value, prefix ,name, change) =>{
-  
-  change(value, prefix,name)
-  
-}
+const changeName = (value, prefix, name, change) => {
+  change(value, prefix, name);
+};
 
 const enableRequire = (prefix, name, required, change) => {
-  
-  change(prefix, name, required)
-}
+  change(prefix, name, required);
+};
 
-const deleteItem = (key, change) =>{
-
-  change(key)
-
-}
+const deleteItem = (prefix, name, change) => {
+  change.deleteItemAction(`${prefix}${JSONPATH_JOIN_CHAR}${name}`);
+  change.enableRequireAction(prefix, name)
+};
 
 const add = (key, change) => {
-
-  change(key)
-
-}
-
+  change(key);
+};
 
 const SchemaObject = (props, context) => {
 
-  var optionFormStyle = {
-      paddingLeft: '25px',
-      paddingTop: '4px'
-  };
-  var requiredIcon = {
-      fontSize: '1em',
-      color: 'red',
-      fontWeight: 'bold',
-      paddingLeft: '5px'
-  };
-  var fieldStyle = {
-      paddingBottom: '10px'
-  };
-  var objectStyle = {
-      borderLeft: '2px dotted gray',
-      paddingLeft: '8px',
-      paddingTop: '6px',
-      marginLeft: '20px',
-      marginTop: '60px'
-  };
-  var typeSelectStyle = {
-      marginLeft: '5px'
-  };
-  var deletePropStyle = {
-      border: '1px solid black',
-      padding: '0px 4px 0px 4px',
-      pointer: 'cursor'
-  };
-    console.log('props',props)
-    console.log('context',context)
-    const { data, prefix } = props
-    return (
-      <div style={objectStyle}>
-        {
-          Object.keys(data.properties).map((name, index) => {
-            let value = data.properties[name];
-            var copiedState = JSON.parse(JSON.stringify(value));
-            var optionForm = mapping(`${prefix}.${name}`, copiedState);
-            return (
-              <Row data-index={index} key={index}>
-                <Col span={4} className="col-item">
-                  <Input
-                    onChange={e => changeName(e.target.value, prefix, name, context.changeNameAction)}
-                    value={name}
-                  />
-                </Col>
-                <Col span={2} className="col-item">
-                  <Select
-                    style={typeSelectStyle}
-                    onChange={e => changeValue(`${prefix}.${name}.type`,e , context.changeValueAction)}
-                    value={value.type}
-                  >
-                    <Option value="string">string</Option>
-                    <Option value="number">number</Option>
-                    <Option value="array">array</Option>
-                    <Option value="object">object</Option>
-                    <Option value="boolean">boolean</Option>
-                  </Select>
-                </Col>
-                <Col span={2} className="col-item">
-                  <span style={requiredIcon}>*</span>
-                  <Checkbox
-                    onChange={e => enableRequire(prefix, name, e.target.checked,context.enableRequireAction )}
-                    checked={_.isUndefined(data.required) ? false : data.required.indexOf(name) != -1}
-                  >
-                    必要
-                  </Checkbox>
-                </Col>
-                <Col span={4} className="col-item">
-                  <Input
-                    placeholder="默认值"
-                    value={value.default}
-                    onChange={e => changeValue(`${prefix}.${name}.default`,e.target.value , context.changeValueAction)}
-                  />
-                </Col>
-                <Col span={4} className="col-item">
-                  <TextArea
-                    placeholder="备注"
-                    value={value.description}
-                    onChange={e => changeValue(`${prefix}.${name}.description`,e.target.value , context.changeValueAction)}
-                  />
-                </Col>
-                <Col span={1} className="col-item">
-                  <span 
-                    onClick={() => deleteItem(`${prefix}.${name}`, context.deleteItemAction)}
-                  >
-                    <Icon type="delete" />
-                  </span>
-                </Col>
-                <div style={optionFormStyle}>{optionForm}</div>
-              </Row>
-            );
-          })
-        }
-        <Button 
-          onClick={()=>add(prefix, context.addValueAction)} 
-          className="add-btn"
-        >
-          再添加一项
-        </Button>
-      </div>
-    );
-  }
 
+  const { data, prefix } = props;
+  return (
+    <div className='object-style'>
+      {Object.keys(data.properties).map((name, index) => {
+        let value = data.properties[name];
+        var copiedState = JSON.parse(JSON.stringify(value));
+        var optionForm = mapping(`${prefix}${JSONPATH_JOIN_CHAR}${name}`, copiedState);
+        return (
+          <Row data-index={index} key={index}>
+            <Col span={4} className="col-item">
+              <Input
+                onChange={e => changeName(e.target.value, prefix, name, context.changeNameAction)}
+                value={name}
+              />
+            </Col>
+            <Col span={2} className="col-item">
+              <Select
+                className="type-select-style"
+                onChange={e =>
+                  changeValue(
+                    `${prefix}${JSONPATH_JOIN_CHAR}${name}${JSONPATH_JOIN_CHAR}type`,
+                    e,
+                    context.changeValueAction
+                  )
+                }
+                value={value.type}
+              >
+                <Option value="string">string</Option>
+                <Option value="number">number</Option>
+                <Option value="array">array</Option>
+                <Option value="object">object</Option>
+                <Option value="boolean">boolean</Option>
+              </Select>
+            </Col>
+            <Col span={2} className="col-item">
+              <span className="required-icon">*</span>
+              <Checkbox
+                onChange={e =>
+                  enableRequire(prefix, name, e.target.checked, context.enableRequireAction)
+                }
+                checked={_.isUndefined(data.required) ? false : data.required.indexOf(name) != -1}
+              >
+                必要
+              </Checkbox>
+            </Col>
+            <Col span={4} className="col-item">
+              <Input
+                placeholder="默认值"
+                value={value.default}
+                onChange={e =>
+                  changeValue(
+                    `${prefix}${JSONPATH_JOIN_CHAR}${name}${JSONPATH_JOIN_CHAR}default`,
+                    e.target.value,
+                    context.changeValueAction
+                  )
+                }
+              />
+            </Col>
+            <Col span={4} className="col-item">
+              <TextArea
+                placeholder="备注"
+                value={value.description}
+                onChange={e =>
+                  changeValue(
+                    `${prefix}${JSONPATH_JOIN_CHAR}${name}${JSONPATH_JOIN_CHAR}description`,
+                    e.target.value,
+                    context.changeValueAction
+                  )
+                }
+              />
+            </Col>
+            <Col span={1} className="col-item">
+              <span
+                onClick={() =>
+                  deleteItem(prefix, name, context)
+                }
+              >
+                <Icon type="delete" />
+              </span>
+            </Col>
+            <div className="option-formStyle">{optionForm}</div>
+          </Row>
+        );
+      })}
+      <Button onClick={() => add(prefix, context.addValueAction)} className="add-btn">
+        再添加一项
+      </Button>
+    </div>
+  );
+};
 
-SchemaObject.contextTypes={
+SchemaObject.contextTypes = {
   changeNameAction: PropTypes.func,
   changeValueAction: PropTypes.func,
   enableRequireAction: PropTypes.func,
   addValueAction: PropTypes.func,
   deleteItemAction: PropTypes.func
-}
+};
 
-
-
-export default SchemaObject
+export default SchemaObject;
