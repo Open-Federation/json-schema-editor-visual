@@ -150,7 +150,8 @@ const enableRequire = (prefix, name, required, change) => {
 };
 
 const deleteItem = (prefix, name, change) => {
-  change.deleteItemAction(`${prefix}${JSONPATH_JOIN_CHAR}${name}`);
+  let nameArray = [].concat(prefix, name)
+  change.deleteItemAction(nameArray);
   change.enableRequireAction(prefix, name, false);
 };
 
@@ -232,7 +233,12 @@ const SchemaObject = (props, context) => {
             </Col>
             <Col span={1} className="col-item">
               <span onClick={() => deleteItem(prefix, name, context)}>
-                <Icon type="delete" />
+                <Icon type="close" />
+              </span>
+            </Col>
+            <Col span={1} className="col-item">
+              <span onClick={() => deleteItem(prefix, name, context)}>
+                <Icon type="plus" />
               </span>
             </Col>
             <div className="option-formStyle">{optionForm}</div>
@@ -250,7 +256,7 @@ SchemaObject.contextTypes = {
   changeNameAction: PropTypes.func,
   changeValueAction: PropTypes.func,
   enableRequireAction: PropTypes.func,
-  addValueAction: PropTypes.func,
+  addFieldAction: PropTypes.func,
   deleteItemAction: PropTypes.func,
   changeTypeAction: PropTypes.func
 };
