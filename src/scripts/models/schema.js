@@ -176,7 +176,7 @@ export default {
     },
 
     changeTypeAction: function(state, action, oldState){
-      const keys = action.prefix.split(".");
+      const keys = action.key.split(".");
       const value = action.value;
 
       let parentKeys = utils.getParentKeys(keys);
