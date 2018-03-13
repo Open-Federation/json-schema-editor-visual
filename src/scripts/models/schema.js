@@ -30,12 +30,12 @@ export default {
   },
 
   addValueAction: (key) =>{
-    console.log('addValueAction', key, value)
+    console.log('addValueAction', key)
     return {}
   },
 
   deleteItemAction: (key) =>{
-    console.log('deleteItemAction', key, value)
+    console.log('deleteItemAction', key)
     return {}
   },
 

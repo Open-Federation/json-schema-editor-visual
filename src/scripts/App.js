@@ -70,12 +70,20 @@ class jsonSchema extends React.Component {
   }
 
   static childContextTypes={
-    changeNameAction: PropTypes.func
+    changeNameAction: PropTypes.func,
+    changeValueAction: PropTypes.func,
+    enableRequireAction: PropTypes.func,
+    addValueAction: PropTypes.func,
+    deleteItemAction: PropTypes.func
   }
 
   getChildContext(){
     return {
-      changeNameAction: this.props.changeNameAction
+      changeNameAction: this.props.changeNameAction,
+      changeValueAction: this.props.changeValueAction,
+      enableRequireAction: this.props.enableRequireAction,
+      addValueAction: this.props.addValueAction,
+      deleteItemAction: this.props.deleteItemAction
     }
   }
 
@@ -113,7 +121,7 @@ class jsonSchema extends React.Component {
         <Col span={16} className="wrapper">
           <SchemaObject
             onChange={this.onChange}
-            map ={'properties'}
+            prefix ={'properties'}
             // data={JSON.parse(produce)}
             data={this.props.p}
             onExport={this.export}
@@ -130,6 +138,10 @@ export default connect((state) => ({
   p : state.schema.data
 }), {
     changeEditorSchemaAction: Model.schema.changeEditorSchemaAction,
-    changeNameAction: Model.schema.changeNameAction
+    changeNameAction: Model.schema.changeNameAction,
+    changeValueAction: Model.schema.changeValueAction,
+    enableRequireAction: Model.schema.enableRequireAction,
+    addValueAction: Model.schema.addValueAction,
+    deleteItemAction: Model.schema.deleteItemAction
    
   })(jsonSchema)
