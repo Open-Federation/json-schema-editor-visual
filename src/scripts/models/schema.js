@@ -1,48 +1,121 @@
 const _ = require("underscore");
-import utils from '../utils'
+import utils from "../utils";
+
+const schema = {
+  "title": "Product",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for a product",
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMinimum": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "array": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "length": {
+            "type": "number"
+          },
+          "width": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          }
+        }
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "length": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "length",
+        "width",
+        "height"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "price"
+  ]
+}
+
 
 export default {
   state: {
     message: null,
-    data: {
-      title: "",
-      type: "object",
-      properties: {},
-      required: []
-    }
+    // data: {
+    //   title: "",
+    //   type: "object",
+    //   properties: {},
+    //   required: []
+    // }
+    data: schema
   },
+
 
   changeEditorSchemaAction: value => ({
     value
   }),
 
   changeNameAction: (value, prefix, name) => {
-    console.log('changeNameAction', value, prefix, name)
+    console.log("changeNameAction", value, prefix, name);
     return {
       value,
       prefix,
       name
-    } 
+    };
   },
 
   changeValueAction: (key, value) => {
-    console.log('changeValueAction', key, value)
-    return {}
+    console.log("changeValueAction", key, value);
+    return {};
   },
 
-  addValueAction: (key) =>{
-    console.log('addValueAction', key, value)
-    return {}
+  addValueAction: key => {
+    console.log("addValueAction", key, value);
+    return {};
   },
 
-  deleteItemAction: (key) =>{
-    console.log('deleteItemAction', key, value)
-    return {}
+  deleteItemAction: key => {
+    console.log("deleteItemAction", key, value);
+    return {};
   },
 
-  enableRequireAction: (prefix, name, required = true)=>{
-    console.log('enableRequireAction',prefix, name, required)
-    return {}
+  enableRequireAction: (prefix, name, required = true) => {
+    console.log("enableRequireAction", prefix, name, required);
+    return {};
   },
 
   reducers: {
@@ -51,55 +124,28 @@ export default {
     },
 
     changeNameAction: function(state, action, oldState) {
+      
+      const keys = action.prefix.split(".");
+      const name = action.name;
+      const value = action.value;
+      let oldData = oldState.data;
+      let parentKeys = utils.getParentKeys(keys);
+      let parentData = utils.getData(oldData, parentKeys);
+      let requiredData = [].concat(parentData.required || []);
 
-      let indexList = action.prefix.split(".");
+      requiredData.map(item => {
+        if (item === name) return value;
+        return item;
+      });
 
-      let newObject = Object.assign({}, oldState.data);
-      let required = [];
-      console.log(action.prefix);
-      for (let i = 0; i <= indexList.length - 1; i++) {
-        let index = indexList[i];
-
-        required = [].concat(newObject.required);
-        newObject = newObject[index];
+      let propertiesData = utils.getData(oldData, keys);
+      let newPropertiesData = {};
+      for (let i in propertiesData) {
+        if (i === name) {
+          newPropertiesData[value] = propertiesData[i];
+        } else newPropertiesData[i] = propertiesData[i];
       }
-
-      console.log("required", required);
-      let object = {};
-      for (let key in newObject) {
-        if (key === action.name) {
-          object[action.value] = newObject[key];
-        } else {
-          object[key] = newObject[key];
-        }
-      }
-
-      let name = `state.data.${action.prefix} = ${JSON.stringify(object)}`;
-      eval(name);
-
-      // 处理required
-      let index = required.indexOf(action.name);
-      console.log(index);
-      if (index >= 0) {
-        required.splice(index, 1, action.value);
-      }
-
-      let requireStr = `state.data${getPrefix(
-        action.prefix
-      )}.required = ${JSON.stringify(required)}`;
-      console.log("requireStr", requireStr);
-      eval(requireStr);
-      console.log(required);
+      utils.setData(state.data, keys, newPropertiesData);
     }
   }
 };
-
-function getPrefix(str) {
-  let preStr = str
-    .split(".")
-    .slice(0, -1)
-    .join(".");
-
-  preStr = preStr ? "." + preStr : "";
-  return preStr;
-}
