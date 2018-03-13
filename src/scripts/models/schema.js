@@ -1,5 +1,6 @@
 const _ = require("underscore");
 import utils from "../utils";
+let fieleNum = 1;
 
 const schema = {
   "title": "Product",
@@ -114,9 +115,12 @@ export default {
     }
   },
 
-  addValueAction: (key) =>{
-    console.log('addValueAction', key)
-    return {}
+  addFieldAction: (prefix, name) =>{
+    console.log('addValueAction', prefix, name)
+    return {
+      prefix,
+      name
+    }
   },
 
   deleteItemAction: (key) =>{
@@ -185,7 +189,6 @@ export default {
       }
       let newParentData = utils.defaultSchema[value];
       let newKeys = [].concat('data', parentKeys)
-      console.log(newKeys, newParentData)
       utils.setData(state, newKeys, newParentData)
     },
 
@@ -212,7 +215,7 @@ export default {
       const keys = action.key
       
       let name = keys[keys.length - 1]
-      let oldData = oldState.data;
+      
       let parentKeys = utils.getParentKeys(keys);
       let parentData = utils.getData(oldData, parentKeys);
       let newParentData = {}
@@ -223,6 +226,26 @@ export default {
       }
 
       utils.setData(state.data, parentKeys, newParentData)
+    },
+
+    addFieldAction: function(state, action, oldState){
+      const keys = action.prefix;
+      let oldData = oldState.data;
+      let name = action.name;
+      let propertiesData = utils.getData(oldData, keys);
+      let newPropertiesData = {}
+      if(!name){
+        newPropertiesData = Object.assign({}, propertiesData)
+        newPropertiesData['field_' + (fieldNum++) ] = utils.defaultSchema.string
+      }else{
+        for(let i in propertiesData){
+          newPropertiesData[i] = propertiesData[i]
+          if(i === name){
+            newPropertiesData['field_' + (fieldNum++) ] = utils.defaultSchema.string
+          }          
+        }
+      }
+      utils.setData(state.data, keys, newPropertiesData)
     }
   }
 };
