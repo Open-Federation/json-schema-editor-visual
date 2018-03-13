@@ -1,6 +1,15 @@
   const JSONPATH_JOIN_CHAR = '.'
   exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR
 
+  exports.SCHEMA_TYPE =[
+    'string',
+    'number',
+    'array',
+    'object',
+    'boolean',
+    'integer'
+  ]
+
   function getData(state,keys){ 
     let curState = state;
     for(let i =0; i< keys.length; i++){
