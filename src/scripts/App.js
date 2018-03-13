@@ -7,12 +7,17 @@ import AceEditor from './components/AceEditor/AceEditor.js';
 import _ from 'underscore';
 import { connect } from 'react-redux';
 import Model from './model.js';
-import SchemaObject from './components/SchemaComponents/SchemaJson.js';
+import SchemaJson from './components/SchemaComponents/SchemaJson.js';
 import PropTypes from 'prop-types';
+import { SCHEMA_TYPE } from './utils.js'
+
 
 class jsonSchema extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      type: 'object'
+    }
   }
 
   static childContextTypes = {
@@ -35,7 +40,9 @@ class jsonSchema extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.setState({type: this.props.p.type})
+  }
 
   onChange = (value, item, index) => {
     console.log(value, item, index);
@@ -55,7 +62,15 @@ class jsonSchema extends React.Component {
     // this.props.changeEditorSchemaAction(value);
   };
 
+  changeType = (key, value) => {
+    console.log('key',key);
+    console.log('value', value);
+    this.setState({type: value})
+    this.props.changeTypeAction(key, value)
+  }
+
   render() {
+    console.log(this.state.type)
     return (
       <Row>
         <Col span={8}>
@@ -67,12 +82,28 @@ class jsonSchema extends React.Component {
           />
         </Col>
         <Col span={16} className="wrapper">
-          
-          <SchemaObject
-            onChange={this.onChange}
+          <Select
+            className="type-select-style"
+            onChange={e =>
+              this.changeType(
+                `type`,
+                e
+              )
+            }
+            value={this.props.p.type || 'object'}
+          >
+            {SCHEMA_TYPE.map((item, index) => {
+              return (
+                <Option value={item} key={index}>
+                  {item}
+                </Option>
+              );
+            })}
+          </Select>
+          <SchemaJson
             prefix={'properties'}
+            type={this.state.type}
             data={this.props.p}
-            onExport={this.export}
           />
           <Button onClick={this.getValue}>导出</Button>
         </Col>
@@ -93,4 +124,5 @@ export default connect(
     addValueAction: Model.schema.addValueAction,
     deleteItemAction: Model.schema.deleteItemAction,
     changeTypeAction: Model.schema.changeTypeAction
-  })(jsonSchema)
+  }
+)(jsonSchema);
