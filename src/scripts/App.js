@@ -109,6 +109,7 @@ export default connect(
     enableRequireAction: Model.schema.enableRequireAction,
     addFieldAction: Model.schema.addFieldAction,
     deleteItemAction: Model.schema.deleteItemAction,
-    changeTypeAction: Model.schema.changeTypeAction
+    changeTypeAction: Model.schema.changeTypeAction,
+    addChildFieldAction: Model.schema.addChildFieldAction
   }
 )(jsonSchema);
