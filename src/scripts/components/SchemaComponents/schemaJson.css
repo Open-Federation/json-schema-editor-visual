@@ -3,3 +3,23 @@
   padding-left: 25px;
   padding-Top: 8px
 }
+
+.required-icon {
+  font-size: 1em;
+  color: red;
+  font-weight: bold;
+  padding-left: 5px
+}
+
+.object-style {
+  border-left: 2px dotted gray;
+  padding-left: 8px;
+  padding-top: 6px;
+  margin-left: 20px;
+  margin-top: 60px;
+}
+
+.type-select-style{
+  margin-left: 5px;
+}
+
