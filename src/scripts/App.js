@@ -130,6 +130,9 @@ export default connect((state) => ({
   p : state.schema.data
 }), {
     changeEditorSchemaAction: Model.schema.changeEditorSchemaAction,
-    changeNameAction: Model.schema.changeNameAction
-   
+    changeNameAction: Model.schema.changeNameAction,
+    changeValueAction: Model.schema.changeValueAction,
+    addValueAction: Model.schema.addValueAction,
+    deleteItemAction: Model.schema.deleteItemAction,
+    enableRequireAction: Model.schema.enableRequireAction
   })(jsonSchema)

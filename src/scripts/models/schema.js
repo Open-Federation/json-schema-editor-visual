@@ -1,4 +1,5 @@
 const _ = require("underscore");
+import utils from '../utils'
 
 export default {
   state: {
@@ -50,9 +51,6 @@ export default {
     },
 
     changeNameAction: function(state, action, oldState) {
-      // var str = `state.${action.name} = "${action.value}"`
-      // console.log(str)
-      // eval(str)
 
       let indexList = action.prefix.split(".");
 
