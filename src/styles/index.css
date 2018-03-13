@@ -1,0 +1,80 @@
+@charset "utf-8";
+@import '~antd/dist/antd.css';
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 2rem auto;
+}
+
+img {
+  transition: 3s;
+  height: 100px;
+  width: 100px;
+}
+
+.App:hover > img {
+  transform: rotate(1080deg);
+}
+
+
+
+body{
+    overflow: hidden;
+    font-size: 16px;
+}
+
+#app {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
+
+h1{
+    margin: 0px 0 20px;
+    font-weight: normal;
+}
+
+a {
+    display: block;
+    color: #2891e0;
+}
+
+.wrapper {
+  overflow: scroll;
+  max-height: 900px;
+  
+}
+
+.ant-card {
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+.array-item-type {
+  text-align: left
+}
+
+.col-item {
+  margin-top: 16px;
+  margin-right: 8px;
+}
+
+.add-btn {
+  margin: 8px;
+}
+
+.pretty-editor{
+  min-height: 900px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}

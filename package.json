@@ -1,0 +1,32 @@
+{
+  "name": "ykit-antd-starter",
+  "version": "1.0.0",
+  "description": "ykit ant-design 示例工程",
+  "main": "index.js",
+  "scripts": {
+    "start": "ykit server -p 8080",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "antd": "^2.13.2",
+    "json5": "^1.0.0",
+    "mockjs": "^1.0.1-beta3",
+    "moox": "^1.0.0-beta2",
+    "underscore": "^1.8.3",
+    "ykit-config-antd": "^1.2.0"
+  },
+  "devDependencies": {
+    "antd": "^2.13.2",
+    "autoprefixer": "^7.2.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.0",
+    "brace": "^0.11.1",
+    "cross-env": "^5.1.1",
+    "parcel-bundler": "latest",
+    "react-redux": "^5.0.6",
+    "underscore": "^1.8.3",
+    "ykit-config-antd": "^1.2.0"
+  }
+}
