@@ -14,7 +14,7 @@
     "generate-schema": "^2.6.0",
     "json5": "^1.0.0",
     "mockjs": "^1.0.1-beta3",
-    "moox": "^1.0.0-beta2",
+    "moox": "^1.0.0-beta5",
     "underscore": "^1.8.3",
     "ykit-config-antd": "^1.2.0"
   },

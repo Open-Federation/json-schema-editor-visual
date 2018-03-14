@@ -4,7 +4,10 @@ import { Provider } from 'react-redux'
 import Model from './model'
 import Schema from './App.js'
 
-const store = Model.getStore()
+import {combineReducers, createStore , applyMiddleware} from 'redux'
+
+const store = Model.getStore(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
 render(
   <Provider store={store} className="wrapper">
     <Schema />

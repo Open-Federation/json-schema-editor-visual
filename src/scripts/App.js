@@ -44,7 +44,8 @@ class jsonSchema extends React.Component {
     deleteItemAction: PropTypes.func,
     changeTypeAction: PropTypes.func,
     addChildFieldAction: PropTypes.func,
-    setOpenValueAction: PropTypes.func
+    setOpenValueAction: PropTypes.func,
+    getOpenValue: PropTypes.func
   };
 
   getChildContext() {
