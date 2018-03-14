@@ -42,7 +42,8 @@ class jsonSchema extends React.Component {
     addFieldAction: PropTypes.func,
     deleteItemAction: PropTypes.func,
     changeTypeAction: PropTypes.func,
-    addChildFieldAction: PropTypes.func
+    addChildFieldAction: PropTypes.func,
+    setOpenValueAction: PropTypes.func
   };
 
   getChildContext() {
@@ -53,7 +54,8 @@ class jsonSchema extends React.Component {
       addFieldAction: this.props.addFieldAction,
       deleteItemAction: this.props.deleteItemAction,
       changeTypeAction: this.props.changeTypeAction,
-      addChildFieldAction: this.props.addChildFieldAction
+      addChildFieldAction: this.props.addChildFieldAction,
+      setOpenValueAction: this.props.setOpenValueAction
     };
   }
 
@@ -148,6 +150,7 @@ export default connect(
     addFieldAction: Model.schema.addFieldAction,
     deleteItemAction: Model.schema.deleteItemAction,
     changeTypeAction: Model.schema.changeTypeAction,
-    addChildFieldAction: Model.schema.addChildFieldAction
+    addChildFieldAction: Model.schema.addChildFieldAction,
+    setOpenValueAction: Model.schema.setOpenValueAction
   }
 )(jsonSchema);

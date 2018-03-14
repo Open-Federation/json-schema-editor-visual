@@ -82,7 +82,19 @@ export default {
     //   properties: {},
     //   required: []
     // }
-    data: schema
+    data: schema,
+    Open: [{
+      key: 'properties',
+      value: false
+    }]
+  },
+
+  setOpenValueAction: (key) => {
+    console.log('setOpenValue', key);
+    return {
+      key
+    }
+
   },
 
 
@@ -262,6 +274,10 @@ export default {
       newPropertiesData = Object.assign({}, propertiesData)
       newPropertiesData['field_' + (fieldNum++) ] = utils.defaultSchema.string
       utils.setData(state.data, keys, newPropertiesData)
+    },
+
+    setOpenValueAction: function(state, action, oldState){
+     
     }
   }
 };

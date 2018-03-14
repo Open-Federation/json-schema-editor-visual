@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import Model from '../../model.js';
 import PropTypes from 'prop-types';
 import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
+const InputGroup = Input.Group;
 
 const mapping = (name, data) => {
   switch (data.type) {
@@ -87,17 +88,24 @@ const SchemaArray = (props, context) => {
   const items = data.items;
   let prefixArray = [].concat(prefix, 'items');
   const optionForm = mapping(prefixArray, items);
+  let length = prefix.filter(name => name != 'properties').length;
 
   return (
     !_.isUndefined(data.items) && (
       <div className="array-type">
         <Row className="array-item-type" type="flex" justify="space-around" align="middle">
-          <Col span={4} className="col-item">
-            <Input disabled value="Items" />
+          <Col span={8} className="col-item name-item" style={{ paddingLeft: `${20 * length}px` }}>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={2}>{items.type === 'object' ? <Icon className="icon-object" type="caret-right" /> : null}</Col>
+              <Col span={22}>
+                <Input addonAfter={<Checkbox disabled />} disabled value="Items" />
+              </Col>
+            </Row>
           </Col>
           <Col span={2} className="col-item">
             <Select
               name="itemtype"
+              className="type-select-style"
               onChange={e => changeType(prefixArray, `type`, e, context.changeTypeAction)}
               value={items.type}
             >
@@ -110,20 +118,9 @@ const SchemaArray = (props, context) => {
               })}
             </Select>
           </Col>
-          <Col span={2} className="col-item">
-            <Checkbox disabled>必要</Checkbox>
-          </Col>
           <Col span={4} className="col-item">
             <Input
-              placeholder="默认值"
-              value={items.default}
-              onChange={e =>
-                changeValue(prefixArray, `default`, e.target.value, context.changeValueAction)
-              }
-            />
-          </Col>
-          <Col span={4} className="col-item">
-            <TextArea
+              addonAfter={<Icon type="edit" />}
               placeholder="备注"
               value={items.description}
               onChange={e =>
@@ -131,8 +128,13 @@ const SchemaArray = (props, context) => {
               }
             />
           </Col>
-          <Col span={2} className="col-item"/>
-          
+          <Col span={2} className="col-item">
+            {items.type === 'object' ? (
+              <span onClick={() => addChildField(prefix, 'items', context.addChildFieldAction)}>
+                <Icon type="plus" className="plus" />
+              </span>
+            ) : null}
+          </Col>
         </Row>
         <div className="option-formStyle">{optionForm}</div>
       </div>
@@ -142,7 +144,8 @@ const SchemaArray = (props, context) => {
 
 SchemaArray.contextTypes = {
   changeTypeAction: PropTypes.func,
-  changeValueAction: PropTypes.func
+  changeValueAction: PropTypes.func,
+  addChildFieldAction: PropTypes.func
 };
 
 const SchemaNumber = props => {
@@ -185,6 +188,13 @@ const addChildField = (prefix, name, change) => {
   change(keyArr);
 };
 
+const clickIcon = (key, change) => {
+  console.log(111)
+  key = key.join(JSONPATH_JOIN_CHAR)
+  change(key)
+
+}
+
 const SchemaObject = (props, context) => {
   const { data, prefix } = props;
 
@@ -194,15 +204,49 @@ const SchemaObject = (props, context) => {
         let value = data.properties[name];
         let copiedState = value;
         let prefixArray = [].concat(prefix, name);
+
+        let length = prefix.filter(name => name != 'properties').length;
+
         let optionForm = mapping(prefixArray, copiedState);
         return (
           <div data-index={index} key={index}>
             <Row type="flex" justify="space-around" align="middle">
-              <Col span={4} className="col-item">
-                <Input
-                  onChange={e => changeName(e.target.value, prefix, name, context.changeNameAction)}
-                  value={name}
-                />
+              <Col
+                span={8}
+                className="col-item name-item"
+                style={{ paddingLeft: `${20 * length}px` }}
+              >
+                <Row type="flex" justify="space-around" align="middle">
+                  <Col span={2}>
+                    {value.type === 'object' ? 
+                    <span onClick={() => clickIcon(prefixArray, context.setOpenValueAction)}>
+                      <Icon className="icon-object" type="caret-right" />
+                    </span> : null}
+                  </Col>
+                  <Col span={22}>
+                    <Input
+                      addonAfter={
+                        <Checkbox
+                          onChange={e =>
+                            enableRequire(
+                              prefix,
+                              name,
+                              e.target.checked,
+                              context.enableRequireAction
+                            )
+                          }
+                          checked={
+                            _.isUndefined(data.required) ? false : data.required.indexOf(name) != -1
+                          }
+                        />
+                      }
+                      onChange={e =>
+                        changeName(e.target.value, prefix, name, context.changeNameAction)
+                      }
+                      value={name}
+                    />
+                  </Col>
+                </Row>
               </Col>
               <Col span={2} className="col-item">
                 <Select
@@ -219,27 +263,9 @@ const SchemaObject = (props, context) => {
                   })}
                 </Select>
               </Col>
-              <Col span={2} className="col-item">
-                <Checkbox
-                  onChange={e =>
-                    enableRequire(prefix, name, e.target.checked, context.enableRequireAction)
-                  }
-                  checked={_.isUndefined(data.required) ? false : data.required.indexOf(name) != -1}
-                >
-                  必要
-                </Checkbox>
-              </Col>
               <Col span={4} className="col-item">
                 <Input
-                  placeholder="默认值"
-                  value={value.default}
-                  onChange={e =>
-                    changeValue(prefixArray, `default`, e.target.value, context.changeValueAction)
-                  }
-                />
-              </Col>
-              <Col span={4} className="col-item">
-                <TextArea
+                  addonAfter={<Icon type="edit" />}
                   placeholder="备注"
                   value={value.description}
                   onChange={e =>
@@ -265,7 +291,7 @@ const SchemaObject = (props, context) => {
                 )}
               </Col>
             </Row>
-            <div className="option-formStyle">{optionForm}</div>
+            <div className="option-formStyle" >{optionForm}</div>
           </div>
         );
       })}
@@ -280,7 +306,8 @@ SchemaObject.contextTypes = {
   addFieldAction: PropTypes.func,
   deleteItemAction: PropTypes.func,
   changeTypeAction: PropTypes.func,
-  addChildFieldAction: PropTypes.func
+  addChildFieldAction: PropTypes.func,
+  setOpenValueAction: PropTypes.func
 };
 
 const DropPlus = props => {

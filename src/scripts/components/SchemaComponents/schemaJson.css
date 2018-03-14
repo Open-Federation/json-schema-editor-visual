@@ -1,6 +1,6 @@
 
 .option-formStyle{
-  padding-left: 25px;
+  /* padding-left: 25px; */
   padding-Top: 8px
 }
 
@@ -13,10 +13,10 @@
 
 .object-style {
   border-left: 2px dotted gray;
-  padding-left: 8px;
+  /* padding-left: 8px; */
   padding-top: 6px;
-  margin-left: 20px;
-  margin-top: 16px;
+  /* margin-left: 20px; */
+  margin-top: 8px;
 }
 
 .type-select-style{
@@ -25,7 +25,7 @@
 }
 
 .col-item {
-  margin-top: 16px;
+  
   margin-right: 8px;
   cursor: pointer
 }
@@ -39,9 +39,25 @@
 }
 
 .array-type {
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
 .delete-item {
   padding-right: 8px;
+}
+
+.object-style .name-item .ant-input-group-addon {
+  background-color: unset;
+  border: unset;
+}
+
+.object-style  .name-item .ant-input-group > .ant-input:first-child, .ant-input-group-addon:first-child {
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.icon-object {
+  color: #c7c7c7;
+  font-weight: 400;
+  font-size: 10px;
 }
