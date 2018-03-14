@@ -94,7 +94,7 @@ const SchemaArray = (props, context) => {
     !_.isUndefined(data.items) && (
       <div className="array-type">
         <Row className="array-item-type" type="flex" justify="space-around" align="middle">
-          <Col span={8} className="col-item name-item" style={{ paddingLeft: `${20 * length}px` }}>
+          <Col span={8} className="col-item name-item" style={{ paddingLeft: `${20 * (length+1)}px` }}>
             <Row type="flex" justify="space-around" align="middle">
               <Col span={2}>{items.type === 'object' ? <Icon className="icon-object" type="caret-right" /> : null}</Col>
               <Col span={22}>
@@ -214,7 +214,7 @@ const SchemaObject = (props, context) => {
               <Col
                 span={8}
                 className="col-item name-item"
-                style={{ paddingLeft: `${20 * length}px` }}
+                style={{ paddingLeft: `${20 * (length+1)}px` }}
               >
                 <Row type="flex" justify="space-around" align="middle">
                   <Col span={2}>
@@ -332,7 +332,7 @@ const DropPlus = props => {
 
 const SchemaJson = props => {
   const item = mapping([], props.data);
-  return <div>{item}</div>;
+  return <div className="schema-content">{item}</div>;
 };
 
 export default SchemaJson;
