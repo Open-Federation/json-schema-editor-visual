@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { SCHEMA_TYPE } from './utils.js'
 import handleSchema from './schema'
 const GenerateSchema = require('generate-schema/src/schemas/json.js')
+const utils = require('./utils')
 
 class jsonSchema extends React.Component {
   constructor(props) {
@@ -55,7 +56,10 @@ class jsonSchema extends React.Component {
       deleteItemAction: this.props.deleteItemAction,
       changeTypeAction: this.props.changeTypeAction,
       addChildFieldAction: this.props.addChildFieldAction,
-      setOpenValueAction: this.props.setOpenValueAction
+      setOpenValueAction: this.props.setOpenValueAction,
+      getOpenValue: (keys)=>{
+        utils.getData(this.props.open, keys)
+      }
     };
   }
 
@@ -140,7 +144,8 @@ class jsonSchema extends React.Component {
 
 export default connect(
   state => ({
-    schema: state.schema.data
+    schema: state.schema.data,
+    open: state.schema.open
   }),
   {
     changeEditorSchemaAction: Model.schema.changeEditorSchemaAction,
