@@ -12,12 +12,14 @@ import PropTypes from 'prop-types';
 import { SCHEMA_TYPE } from './utils.js';
 import handleSchema from './schema';
 const GenerateSchema = require('generate-schema/src/schemas/json.js');
+const utils = require('./utils');
 
 class jsonSchema extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
+      show: true
     };
   }
 
@@ -43,7 +45,8 @@ class jsonSchema extends React.Component {
     deleteItemAction: PropTypes.func,
     changeTypeAction: PropTypes.func,
     addChildFieldAction: PropTypes.func,
-    setOpenValueAction: PropTypes.func
+    setOpenValueAction: PropTypes.func,
+    getOpenValue: PropTypes.func
   };
 
   getChildContext() {
@@ -55,7 +58,10 @@ class jsonSchema extends React.Component {
       deleteItemAction: this.props.deleteItemAction,
       changeTypeAction: this.props.changeTypeAction,
       addChildFieldAction: this.props.addChildFieldAction,
-      setOpenValueAction: this.props.setOpenValueAction
+      setOpenValueAction: this.props.setOpenValueAction,
+      getOpenValue: keys => {
+        return utils.getData(this.props.open, keys);
+      }
     };
   }
 
@@ -78,8 +84,18 @@ class jsonSchema extends React.Component {
     this.jsonData = e.jsonData;
   };
 
-  addChildField = (key) => {
-    this.props.addChildFieldAction([key])
+  addChildField = key => {
+    this.props.addChildFieldAction([key]);
+    this.setState({ show: true });
+  };
+
+  clickIcon = () => {
+    this.setState({ show: !this.state.show });
+  };
+
+  changeValue = (key, value) => {
+
+    this.props.changeValueAction(key, value)
   }
 
   render() {
@@ -120,7 +136,18 @@ class jsonSchema extends React.Component {
                 <Row type="flex" justify="space-around" align="middle">
                   <Col span={2}>
                     {this.props.schema.type === 'object' ? (
-                      <Icon className="icon-object" type="caret-right" />
+                      <span onClick={this.clickIcon}>
+                        <Icon
+                          style={{ display: this.state.show ? 'none' : 'block' }}
+                          className="icon-object"
+                          type="caret-right"
+                        />
+                        <Icon
+                          style={{ display: this.state.show ? 'block' : 'none' }}
+                          className="icon-object"
+                          type="caret-down"
+                        />
+                      </span>
                     ) : null}
                   </Col>
                   <Col span={22}>
@@ -152,14 +179,7 @@ class jsonSchema extends React.Component {
                   addonAfter={<Icon type="edit" />}
                   placeholder="备注"
                   value={this.props.schema.description}
-                  // onChange={e =>
-                  // changeValue(
-                  //   prefixArray,
-                  //   `description`,
-                  //   e.target.value,
-                  //   context.changeValueAction
-                  // )
-                  // }
+                  onChange={e => this.changeValue(['description'], e.target.value)}
                 />
               </Col>
               <Col span={2} className="col-item">
@@ -170,8 +190,7 @@ class jsonSchema extends React.Component {
                 ) : null}
               </Col>
             </Row>
-
-            <SchemaJson data={this.props.schema} />
+            {this.state.show && <SchemaJson data={this.props.schema} />}
           </Col>
         </Row>
       </div>
@@ -181,7 +200,8 @@ class jsonSchema extends React.Component {
 
 export default connect(
   state => ({
-    schema: state.schema.data
+    schema: state.schema.data,
+    open: state.schema.open
   }),
   {
     changeEditorSchemaAction: Model.schema.changeEditorSchemaAction,
