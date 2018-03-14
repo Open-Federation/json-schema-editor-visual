@@ -58,7 +58,7 @@ class jsonSchema extends React.Component {
       addChildFieldAction: this.props.addChildFieldAction,
       setOpenValueAction: this.props.setOpenValueAction,
       getOpenValue: (keys)=>{
-        utils.getData(this.props.open, keys)
+        return utils.getData(this.props.open, keys)
       }
     };
   }
