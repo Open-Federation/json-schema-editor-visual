@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Menu, Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal } from 'antd';
+import { Dropdown, Menu, Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal,message } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -211,6 +211,7 @@ const SchemaObject = (props, context) => {
         return (
           <div data-index={index} key={index}>
             <Row type="flex" justify="space-around" align="middle">
+<<<<<<< HEAD
               <Col
                 span={8}
                 className="col-item name-item"
@@ -247,6 +248,18 @@ const SchemaObject = (props, context) => {
                     />
                   </Col>
                 </Row>
+=======
+              <Col span={4} className="col-item">
+                <Input
+                  onChange={e => {
+                    if(data.properties[e.target.value] && typeof(data.properties[e.target.value])){
+                      return message.error(`The field "${e.target.value}" is exist.`)
+                    }
+                    changeName(e.target.value, prefix, name, context.changeNameAction)
+                  }}
+                  value={name}
+                />
+>>>>>>> a730c5455f370f4260b0649f5d9fa0c744764f96
               </Col>
               <Col span={2} className="col-item">
                 <Select

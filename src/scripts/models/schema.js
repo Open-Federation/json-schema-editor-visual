@@ -171,6 +171,12 @@ export default {
       let parentKeys = utils.getParentKeys(keys);
       let parentData = utils.getData(oldData, parentKeys);
       let requiredData = [].concat(parentData.required || []);
+      let propertiesData = utils.getData(oldData, keys);
+      let newPropertiesData = {};
+
+      if(propertiesData[value] && typeof propertiesData[value] === 'object'){
+        return;
+      }
 
       requiredData=requiredData.map(item => {
         if (item === name) return value;
@@ -180,8 +186,7 @@ export default {
       parentKeys.push('required')
       utils.setData(state.data, parentKeys, requiredData)
       
-      let propertiesData = utils.getData(oldData, keys);
-      let newPropertiesData = {};
+      
       for (let i in propertiesData) {
         if (i === name) {
           newPropertiesData[value] = propertiesData[i];
