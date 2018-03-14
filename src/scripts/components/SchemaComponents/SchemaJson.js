@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dropdown, Menu, Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal } from 'antd';
+import { Dropdown, Menu, Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -20,7 +20,7 @@ const mapping = (name, data) => {
       return <SchemaObject prefix={nameArray} data={data} />;
       break;
     default:
-      return <AdvModal name={name} data={data} />;
+      return null;
     // return <SchemaOther dataSource={data}/>
   }
 };
@@ -84,28 +84,56 @@ const SchemaInt = props => {
 
 const SchemaArray = (props, context) => {
   const { data, prefix } = props;
+  const items = data.items;
   let prefixArray = [].concat(prefix, 'items');
-  const optionForm = mapping(prefixArray, data.items);
+  const optionForm = mapping(prefixArray, items);
 
   return (
     !_.isUndefined(data.items) && (
-      <div style={{ marginTop: '60px' }}>
-        <div className="array-item-type">
-          Items Type:
-          <Select
-            name="itemtype"
-            onChange={e => changeType(prefixArray, `type`, e, context.changeTypeAction)}
-            value={data.items.type}
-          >
-            {SCHEMA_TYPE.map((item, index) => {
-              return (
-                <Option value={item} key={index}>
-                  {item}
-                </Option>
-              );
-            })}
-          </Select>
-        </div>
+      <div className="array-type">
+        <Row className="array-item-type" type="flex" justify="space-around" align="middle">
+          <Col span={4} className="col-item">
+            <Input disabled value="Items" />
+          </Col>
+          <Col span={2} className="col-item">
+            <Select
+              name="itemtype"
+              onChange={e => changeType(prefixArray, `type`, e, context.changeTypeAction)}
+              value={items.type}
+            >
+              {SCHEMA_TYPE.map((item, index) => {
+                return (
+                  <Option value={item} key={index}>
+                    {item}
+                  </Option>
+                );
+              })}
+            </Select>
+          </Col>
+          <Col span={2} className="col-item">
+            <Checkbox disabled>必要</Checkbox>
+          </Col>
+          <Col span={4} className="col-item">
+            <Input
+              placeholder="默认值"
+              value={items.default}
+              onChange={e =>
+                changeValue(prefixArray, `default`, e.target.value, context.changeValueAction)
+              }
+            />
+          </Col>
+          <Col span={4} className="col-item">
+            <TextArea
+              placeholder="备注"
+              value={items.description}
+              onChange={e =>
+                changeValue(prefixArray, `description`, e.target.value, context.changeValueAction)
+              }
+            />
+          </Col>
+          <Col span={2} className="col-item"/>
+          
+        </Row>
         <div className="option-formStyle">{optionForm}</div>
       </div>
     )
@@ -113,7 +141,8 @@ const SchemaArray = (props, context) => {
 };
 
 SchemaArray.contextTypes = {
-  changeTypeAction: PropTypes.func
+  changeTypeAction: PropTypes.func,
+  changeValueAction: PropTypes.func
 };
 
 const SchemaNumber = props => {
@@ -152,7 +181,7 @@ const addField = (prefix, name, change) => {
 };
 
 const addChildField = (prefix, name, change) => {
-  let keyArr = [].concat(prefix, name, 'properties')
+  let keyArr = [].concat(prefix, name, 'properties');
   change(keyArr);
 };
 
@@ -167,73 +196,77 @@ const SchemaObject = (props, context) => {
         let prefixArray = [].concat(prefix, name);
         let optionForm = mapping(prefixArray, copiedState);
         return (
-          <Row data-index={index} key={index}>
-            <Col span={4} className="col-item">
-              <Input
-                onChange={e => changeName(e.target.value, prefix, name, context.changeNameAction)}
-                value={name}
-              />
-            </Col>
-            <Col span={2} className="col-item">
-              <Select
-                className="type-select-style"
-                onChange={e => changeType(prefixArray, 'type', e, context.changeTypeAction)}
-                value={value.type}
-              >
-                {SCHEMA_TYPE.map((item, index) => {
-                  return (
-                    <Option value={item} key={index}>
-                      {item}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </Col>
-            <Col span={2} className="col-item">
-              <span className="required-icon">*</span>
-              <Checkbox
-                onChange={e =>
-                  enableRequire(prefix, name, e.target.checked, context.enableRequireAction)
-                }
-                checked={_.isUndefined(data.required) ? false : data.required.indexOf(name) != -1}
-              >
-                必要
-              </Checkbox>
-            </Col>
-            <Col span={4} className="col-item">
-              <Input
-                placeholder="默认值"
-                value={value.default}
-                onChange={e =>
-                  changeValue(prefixArray, `default`, e.target.value, context.changeValueAction)
-                }
-              />
-            </Col>
-            <Col span={4} className="col-item">
-              <TextArea
-                placeholder="备注"
-                value={value.description}
-                onChange={e =>
-                  changeValue(prefixArray, `description`, e.target.value, context.changeValueAction)
-                }
-              />
-            </Col>
-            <Col span={1} className="col-item">
-              <span onClick={() => deleteItem(prefix, name, context)}>
-                <Icon type="close" />
-              </span>
-            </Col>
-            <Col span={1} className="col-item">
-              {value.type === 'object' ? (
-                <DropPlus prefix={prefix} name={name} add={context}/>
-              ) : (
-                <span onClick={() => addField(prefix, name, context.addFieldAction)}>
-                  <Icon type="plus" />
+          <div data-index={index} key={index}>
+            <Row type="flex" justify="space-around" align="middle">
+              <Col span={4} className="col-item">
+                <Input
+                  onChange={e => changeName(e.target.value, prefix, name, context.changeNameAction)}
+                  value={name}
+                />
+              </Col>
+              <Col span={2} className="col-item">
+                <Select
+                  className="type-select-style"
+                  onChange={e => changeType(prefixArray, 'type', e, context.changeTypeAction)}
+                  value={value.type}
+                >
+                  {SCHEMA_TYPE.map((item, index) => {
+                    return (
+                      <Option value={item} key={index}>
+                        {item}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Col>
+              <Col span={2} className="col-item">
+                <Checkbox
+                  onChange={e =>
+                    enableRequire(prefix, name, e.target.checked, context.enableRequireAction)
+                  }
+                  checked={_.isUndefined(data.required) ? false : data.required.indexOf(name) != -1}
+                >
+                  必要
+                </Checkbox>
+              </Col>
+              <Col span={4} className="col-item">
+                <Input
+                  placeholder="默认值"
+                  value={value.default}
+                  onChange={e =>
+                    changeValue(prefixArray, `default`, e.target.value, context.changeValueAction)
+                  }
+                />
+              </Col>
+              <Col span={4} className="col-item">
+                <TextArea
+                  placeholder="备注"
+                  value={value.description}
+                  onChange={e =>
+                    changeValue(
+                      prefixArray,
+                      `description`,
+                      e.target.value,
+                      context.changeValueAction
+                    )
+                  }
+                />
+              </Col>
+              <Col span={2} className="col-item">
+                <span className="delete-item" onClick={() => deleteItem(prefix, name, context)}>
+                  <Icon type="close" className="close" />
                 </span>
-              )}
-            </Col>
+                {value.type === 'object' ? (
+                  <DropPlus prefix={prefix} name={name} add={context} />
+                ) : (
+                  <span onClick={() => addField(prefix, name, context.addFieldAction)}>
+                    <Icon type="plus" className="plus" />
+                  </span>
+                )}
+              </Col>
+            </Row>
             <div className="option-formStyle">{optionForm}</div>
-          </Row>
+          </div>
         );
       })}
     </div>
@@ -250,8 +283,8 @@ SchemaObject.contextTypes = {
   addChildFieldAction: PropTypes.func
 };
 
-const DropPlus = (props) => {
-  const {prefix, name, add} = props
+const DropPlus = props => {
+  const { prefix, name, add } = props;
   const menu = (
     <Menu>
       <Menu.Item>
@@ -260,13 +293,12 @@ const DropPlus = (props) => {
       <Menu.Item>
         <span onClick={() => addChildField(prefix, name, add.addChildFieldAction)}>子节点</span>
       </Menu.Item>
-      
     </Menu>
   );
 
   return (
     <Dropdown overlay={menu}>
-      <Icon type="plus" />
+      <Icon type="plus" className="plus" />
     </Dropdown>
   );
 };

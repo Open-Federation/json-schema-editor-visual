@@ -16,15 +16,32 @@
   padding-left: 8px;
   padding-top: 6px;
   margin-left: 20px;
-  margin-top: 60px;
+  margin-top: 16px;
 }
 
 .type-select-style{
   margin-left: 5px;
+  width: 80px;
 }
 
 .col-item {
   margin-top: 16px;
   margin-right: 8px;
   cursor: pointer
+}
+
+.plus {
+  color: #2395f1
+}
+
+.close {
+  color: #ff561b
+}
+
+.array-type {
+  margin-top: 16px;
+}
+
+.delete-item {
+  padding-right: 8px;
 }

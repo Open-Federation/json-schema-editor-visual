@@ -70,12 +70,12 @@ a {
 .pretty-editor{
   border: 1px solid #d9d9d9;
   border-radius: 4px;
-  height: 600px;
+  height: 800px;
 }
 
 .wrapper {
   overflow: scroll;
-  height: 600px;
+  height: 800px;
   /* max-height: 900px; */
   
 }
