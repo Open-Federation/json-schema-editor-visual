@@ -24,14 +24,14 @@ import PropTypes from 'prop-types';
 import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 const InputGroup = Input.Group;
 
-const mapping = (name, data) => {
+const mapping = (name, data, showEdit) => {
   switch (data.type) {
     case 'array':
-      return <SchemaArray prefix={name} data={data} />;
+      return <SchemaArray prefix={name} data={data} showEdit={showEdit} />;
       break;
     case 'object':
       let nameArray = [].concat(name, 'properties');
-      return <SchemaObject prefix={nameArray} data={data} />;
+      return <SchemaObject prefix={nameArray} data={data} showEdit={showEdit} />;
       break;
     default:
       return null;
@@ -97,10 +97,10 @@ const SchemaInt = props => {
 };
 
 const SchemaArray = (props, context) => {
-  const { data, prefix } = props;
+  const { data, prefix, showEdit } = props;
   const items = data.items;
   let prefixArray = [].concat(prefix, 'items');
-  const optionForm = mapping(prefixArray, items);
+  const optionForm = mapping(prefixArray, items, showEdit);
   let length = prefix.filter(name => name != 'properties').length;
 
   let prefixArrayStr = [].concat(prefixArray, 'properties').join(JSONPATH_JOIN_CHAR);
@@ -119,16 +119,16 @@ const SchemaArray = (props, context) => {
               <Col span={2}>
                 {items.type === 'object' ? (
                   <span onClick={() => clickIcon(prefixArray, context.setOpenValueAction)}>
-                       <Icon
-                            style={{ display: showIcon ? 'none' : 'block' }}
-                            className="icon-object"
-                            type="caret-right"
-                          />
-                          <Icon
-                            style={{ display: showIcon ? 'block' : 'none' }}
-                            className="icon-object"
-                            type="caret-down"
-                          />
+                    <Icon
+                      style={{ display: showIcon ? 'none' : 'block' }}
+                      className="icon-object"
+                      type="caret-right"
+                    />
+                    <Icon
+                      style={{ display: showIcon ? 'block' : 'none' }}
+                      className="icon-object"
+                      type="caret-down"
+                    />
                   </span>
                 ) : null}
               </Col>
@@ -155,7 +155,12 @@ const SchemaArray = (props, context) => {
           </Col>
           <Col span={4} className="col-item">
             <Input
-              addonAfter={<Icon type="edit" />}
+              addonAfter={
+                <Icon
+                  type="edit"
+                  onClick={() => showEdit(prefixArray, `description`, items.description)}
+                />
+              }
               placeholder="备注"
               value={items.description}
               onChange={e =>
@@ -223,7 +228,7 @@ const addField = (prefix, name, change) => {
 const addChildField = (prefix, name, change) => {
   let keyArr = [].concat(prefix, name, 'properties');
   change.addChildFieldAction(keyArr);
-  change.setOpenValueAction(keyArr)
+  change.setOpenValueAction(keyArr);
 };
 
 const clickIcon = (prefix, change) => {
@@ -233,7 +238,7 @@ const clickIcon = (prefix, change) => {
 };
 
 const SchemaObject = (props, context) => {
-  const { data, prefix } = props;
+  const { data, prefix, showEdit } = props;
 
   return (
     <div className="object-style">
@@ -244,7 +249,7 @@ const SchemaObject = (props, context) => {
 
         let length = prefix.filter(name => name != 'properties').length;
 
-        let optionForm = mapping(prefixArray, copiedState);
+        let optionForm = mapping(prefixArray, copiedState, showEdit);
 
         let prefixStr = prefix.join(JSONPATH_JOIN_CHAR);
         let prefixArrayStr = [].concat(prefixArray, 'properties').join(JSONPATH_JOIN_CHAR);
@@ -321,7 +326,12 @@ const SchemaObject = (props, context) => {
                 </Col>
                 <Col span={4} className="col-item">
                   <Input
-                    addonAfter={<Icon type="edit" />}
+                    addonAfter={
+                      <Icon
+                        type="edit"
+                        onClick={() => showEdit(prefixArray, `description`, value.description)}
+                      />
+                    }
                     placeholder="备注"
                     value={value.description}
                     onChange={e =>
@@ -389,7 +399,7 @@ const DropPlus = props => {
 };
 
 const SchemaJson = props => {
-  const item = mapping([], props.data);
+  const item = mapping([], props.data, props.showEdit);
   return <div className="schema-content">{item}</div>;
 };
 

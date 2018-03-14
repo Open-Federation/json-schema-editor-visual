@@ -19,7 +19,10 @@ class jsonSchema extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      show: true
+      show: true,
+      editVisible: false,
+      description: '',
+      descriptionKey: null
     };
   }
 
@@ -94,12 +97,45 @@ class jsonSchema extends React.Component {
   };
 
   changeValue = (key, value) => {
-
     this.props.changeValueAction(key, value)
   }
 
+  handleEditOk = (e) => {
+    
+    this.setState({
+      editVisible: false,
+    });
+    this.props.changeValueAction(this.state.descriptionKey, this.state.description)
+
+  }
+  handleEditCancel = (e) => {
+    
+    this.setState({
+      editVisible: false,
+    });
+  }
+  showEdit =(prefix, name, value) => {
+    console.log(prefix, name, value)
+    let descriptionKey = [].concat(prefix, name);
+    let description = value
+    this.setState({
+      editVisible: true,
+      description: value,
+      descriptionKey
+
+    });
+  }
+
+  // 修改备注参数信息
+  changeDesc = (e) =>{
+    this.setState({
+      description:e,
+  
+    });
+  }
+
   render() {
-    const { visible } = this.state;
+    const { visible, editVisible, description } = this.state;
     return (
       <div>
         <Button onClick={this.showModal}>Import JSON</Button>
@@ -119,6 +155,15 @@ class jsonSchema extends React.Component {
           ]}
         >
           <AceEditor data="" mode="json" onChange={this.handleImportJson} />
+        </Modal>
+        <Modal
+          title="备注"
+          visible={editVisible}
+          onOk={this.handleEditOk}
+          onCancel={this.handleEditCancel}
+        >
+          
+          <TextArea value={description}  placeholder="备注" onChange={(e)=>this.changeDesc(e.target.value)} autosize={{ minRows: 6, maxRows: 10 }}/>
         </Modal>
 
         <Row>
@@ -190,7 +235,7 @@ class jsonSchema extends React.Component {
                 ) : null}
               </Col>
             </Row>
-            {this.state.show && <SchemaJson data={this.props.schema} />}
+            {this.state.show && <SchemaJson data={this.props.schema} showEdit={this.showEdit}/>}
           </Col>
         </Row>
       </div>
