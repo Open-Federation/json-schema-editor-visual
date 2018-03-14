@@ -282,8 +282,8 @@ export default {
 
     setOpenValueAction: function(state, action, oldState){
       const keys = action.key.join(utils.JSONPATH_JOIN_CHAR);
-      let status = utils.getData(oldState.open, keys) ? true : false;
-      utils.setData(state.open, keys, !status)
+      let status = utils.getData(oldState.open, [keys]) ? true : false;
+      utils.setData(state.open, [keys], !status)
     }
   }
 };
