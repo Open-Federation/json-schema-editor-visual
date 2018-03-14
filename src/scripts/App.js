@@ -11,12 +11,28 @@ import SchemaJson from './components/SchemaComponents/SchemaJson.js';
 import PropTypes from 'prop-types';
 import { SCHEMA_TYPE } from './utils.js'
 import handleSchema from './schema'
-
+const GenerateSchema = require('generate-schema/src/schemas/json.js')
 
 class jsonSchema extends React.Component {
   constructor(props) {
     super(props);
-   
+    this.state = {
+      visible: false
+    }
+  }
+
+  showModal = () => {
+    this.setState({
+      visible: true
+    });
+  }
+  handleOk = () => {
+    this.setState({ visible: false })
+    this.jsonData = GenerateSchema(this.jsonData)    
+    this.props.changeEditorSchemaAction(this.jsonData);
+  }
+  handleCancel = () => {
+    this.setState({ visible: false })
   }
 
   static childContextTypes = {
@@ -41,11 +57,6 @@ class jsonSchema extends React.Component {
     };
   }
 
-  componentDidMount() {
-    
-  }
-
-
   handleParams = e => {
     if(!e.text) return;
     // 将数据map 到store中
@@ -56,46 +67,71 @@ class jsonSchema extends React.Component {
     this.props.changeEditorSchemaAction(e.jsonData);
   };
 
-  changeType = (key, value) => {
-   
+  changeType = (key, value) => {   
     this.props.changeTypeAction([key], value)
   }
 
+  handleImportJson = (e)=>{
+    if(!e.text) return;    
+    this.jsonData = e.jsonData;
+  }
+
   render() {
+    const {visible} = this.state;
     return (
-      <Row>
-        <Col span={8}>
-          <AceEditor
-            className="pretty-editor"
-            mode="json"
-            data={JSON.stringify(this.props.schema, null, 2)}
-            onChange={this.handleParams}
-          />
-        </Col>
-        <Col span={16} className="wrapper">
-          <Select
-            className="type-select-style"
-            onChange={e =>
-              this.changeType(
-                `type`,
-                e
-              )
-            }
-            value={this.props.schema.type || 'object'}
+      <div>
+        <Button onClick={this.showModal}>Import JSON</Button>
+        <Modal
+            maskClosable={false}
+            visible={visible}
+            title="Title"
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <Button key="back" onClick={this.handleCancel}>Return</Button>,
+              <Button key="submit" type="primary"  onClick={this.handleOk}>
+                Submit
+              </Button>
+            ]}
           >
-            {SCHEMA_TYPE.map((item, index) => {
-              return (
-                <Option value={item} key={index}>
-                  {item}
-                </Option>
-              );
-            })}
-          </Select>
-          <SchemaJson
-            data={this.props.schema}
-          />
-        </Col>
-      </Row>
+            <AceEditor data="" mode="json" onChange={this.handleImportJson} />
+        </Modal>
+
+
+        <Row>        
+          <Col span={8}>
+            <AceEditor
+              className="pretty-editor"
+              mode="json"
+              data={JSON.stringify(this.props.schema, null, 2)}
+              onChange={this.handleParams}
+            />
+          </Col>
+          <Col span={16} className="wrapper">
+            <Select
+              className="type-select-style"
+              onChange={e =>
+                this.changeType(
+                  `type`,
+                  e
+                )
+              }
+              value={this.props.schema.type || 'object'}
+            >
+              {SCHEMA_TYPE.map((item, index) => {
+                return (
+                  <Option value={item} key={index}>
+                    {item}
+                  </Option>
+                );
+              })}
+            </Select>
+            <SchemaJson
+              data={this.props.schema}
+            />
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

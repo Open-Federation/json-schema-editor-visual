@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "antd": "^2.13.2",
+    "generate-schema": "^2.6.0",
     "json5": "^1.0.0",
     "mockjs": "^1.0.1-beta3",
     "moox": "^1.0.0-beta2",
