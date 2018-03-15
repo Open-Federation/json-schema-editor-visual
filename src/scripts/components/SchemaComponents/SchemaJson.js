@@ -70,7 +70,7 @@ const addField = (prefix, name, change) => {
 const addChildField = (prefix, name, change) => {
   let keyArr = [].concat(prefix, name, 'properties');
   change.addChildFieldAction(keyArr);
-  change.setOpenValueAction(keyArr);
+  change.setOpenValueAction(keyArr, true);
 };
 
 const clickIcon = (prefix, change) => {

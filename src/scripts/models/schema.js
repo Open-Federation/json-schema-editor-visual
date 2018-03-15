@@ -88,10 +88,10 @@ export default {
     }
   },
 
-  setOpenValueAction: (key) => {
-    console.log('setOpenValue', key);
+  setOpenValueAction: (key, value) => {
     return {
-      key
+      key,
+      value
     }
 
   },
@@ -102,7 +102,6 @@ export default {
   }),
 
   changeNameAction: (value, prefix, name) => {
-    console.log("changeNameAction", value, prefix, name);
     return {
       value,
       prefix,
@@ -111,7 +110,6 @@ export default {
   },
 
   changeValueAction: (key, value) => {
-    console.log("changeValueAction", key, value);
     return {
       key,
       value
@@ -119,7 +117,7 @@ export default {
   },
 
   changeTypeAction: (key, value) =>{
-    console.log("changeTypeAction", key, value);
+    
     return {
       key,
       value
@@ -127,7 +125,7 @@ export default {
   },
 
   addFieldAction: (prefix, name) =>{
-    console.log('addValueAction', prefix, name)
+    
     return {
       prefix,
       name
@@ -135,21 +133,21 @@ export default {
   },
 
   addChildFieldAction: (key)=>{
-    console.log('addChildFieldAction', key)
+    
     return {
       key
     }
   },
 
   deleteItemAction: (key) =>{
-    console.log('deleteItemAction', key)
+   
     return {
       key
     }
   },
 
   enableRequireAction: (prefix, name, required = true) => {
-    console.log("enableRequireAction", prefix, name, required);
+    
     return {
       prefix,
       name,
@@ -282,8 +280,16 @@ export default {
 
     setOpenValueAction: function(state, action, oldState){
       const keys = action.key.join(utils.JSONPATH_JOIN_CHAR);
-      let status = utils.getData(oldState.open, [keys]) ? true : false;
-      utils.setData(state.open, [keys], !status)
+      
+      let status
+      if(_.isUndefined(action.value)){
+        status = utils.getData(oldState.open, [keys]) ? false : true;
+        // status = !status;
+      } else {
+        status = action.value
+      }
+      // let status = utils.getData(oldState.open, [keys]) ? true : false;
+      utils.setData(state.open, [keys], status)
     }
   }
 };

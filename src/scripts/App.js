@@ -36,7 +36,7 @@ class jsonSchema extends React.Component {
       description: '',
       descriptionKey: null,
       advVisible: false,
-      itemKey: null
+      itemKey: []
     };
   }
 
@@ -145,8 +145,11 @@ class jsonSchema extends React.Component {
 
   // 高级设置
   handleAdvOk = () => {
-    this.props.changeValueAction(this.state.itemKey, this.curItemCustomValue);
-
+    if (this.state.itemKey.length === 0) {
+      this.props.changeEditorSchemaAction(this.curItemCustomValue);
+    } else {
+      this.props.changeValueAction(this.state.itemKey, this.curItemCustomValue);
+    }
     this.setState({
       advVisible: false
     });
@@ -157,7 +160,6 @@ class jsonSchema extends React.Component {
     });
   };
   showAdv = (key, value) => {
-    console.log(key, value);
 
     this.setState({
       advVisible: true,
@@ -244,11 +246,7 @@ class jsonSchema extends React.Component {
                     ) : null}
                   </Col>
                   <Col span={22}>
-                    <Input
-                      addonAfter={<Checkbox disabled />}
-                      disabled
-                      value={this.props.schema.title}
-                    />
+                    <Input addonAfter={<Checkbox disabled />} disabled value="root" />
                   </Col>
                 </Row>
               </Col>
@@ -281,6 +279,11 @@ class jsonSchema extends React.Component {
                 />
               </Col>
               <Col span={2} className="col-item">
+                <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
+                  <Tooltip placement="top" title="高级设置">
+                    <Icon type="setting" />
+                  </Tooltip>
+                </span>
                 {this.props.schema.type === 'object' ? (
                   <span onClick={() => this.addChildField('properties')}>
                     <Tooltip placement="top" title="添加子节点">
