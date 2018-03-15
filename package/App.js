@@ -67,7 +67,8 @@ class jsonSchema extends React.Component {
     changeTypeAction: PropTypes.func,
     addChildFieldAction: PropTypes.func,
     setOpenValueAction: PropTypes.func,
-    getOpenValue: PropTypes.func
+    getOpenValue: PropTypes.func,
+    changeCustomValue: PropTypes.func
   };
 
   getChildContext() {
@@ -82,7 +83,8 @@ class jsonSchema extends React.Component {
       setOpenValueAction: this.props.setOpenValueAction,
       getOpenValue: keys => {
         return utils.getData(this.props.open, keys);
-      }
+      },
+      changeCustomValue: this.changeCustomValue
     };
   }
 
@@ -177,10 +179,16 @@ class jsonSchema extends React.Component {
     this.curItemCustomValue = e.jsonData;
   };
 
+  changeCustomValue =(value, name) =>{
+    console.log(value, name)
+
+  }
+    
+
   render() {
     const { visible, editVisible, description, advVisible, type } = this.state;
     return (
-      <div className="json-editor">
+      <div className="json-schema-react-editor">
         <Button onClick={this.showModal}>Import JSON</Button>
         <Modal
           maskClosable={false}
@@ -217,9 +225,10 @@ class jsonSchema extends React.Component {
           visible={advVisible}
           onOk={this.handleAdvOk}
           onCancel={this.handleAdvCancel}
+          className="adv-modal"
         >
           
-          <CustomItem data={this.curItemCustomValue}  changeEditor={this.handleImportAdv}/>
+          <CustomItem data={this.curItemCustomValue} changeCustomValue={this.changeCustomValue} changeEditor={this.handleImportAdv}/>
         </Modal>
         <Row>
           <Col span={8}>
