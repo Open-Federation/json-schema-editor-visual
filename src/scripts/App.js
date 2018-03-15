@@ -26,6 +26,8 @@ import { SCHEMA_TYPE } from './utils.js';
 import handleSchema from './schema';
 const GenerateSchema = require('generate-schema/src/schemas/json.js');
 const utils = require('./utils');
+import CustomItem from './components/SchemaComponents/SchemaOther.js'
+
 
 
 class jsonSchema extends React.Component {
@@ -176,7 +178,7 @@ class jsonSchema extends React.Component {
   };
 
   render() {
-    const { visible, editVisible, description, advVisible } = this.state;
+    const { visible, editVisible, description, advVisible, type } = this.state;
     return (
       <div className="json-editor">
         <Button onClick={this.showModal}>Import JSON</Button>
@@ -216,7 +218,8 @@ class jsonSchema extends React.Component {
           onOk={this.handleAdvOk}
           onCancel={this.handleAdvCancel}
         >
-          <AceEditor data={this.curItemCustomValue} mode="json" onChange={this.handleImportAdv} />
+          
+          <CustomItem data={this.curItemCustomValue}  changeEditor={this.handleImportAdv}/>
         </Modal>
         <Row>
           <Col span={8}>
