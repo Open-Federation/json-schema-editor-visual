@@ -1,6 +1,6 @@
 {
   "name": "json-schema-react-editor",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "jsonschema editor",
   "main": "index.js",
   "license": "MIC",
@@ -10,7 +10,7 @@
     "moox": "^1.0.0-beta5",    
     "react-redux": "^5.0.6",
     "underscore": "^1.8.3",
-    "brace": "^0.11.1"
+    "brace": "^0.10.0"
   },
   "devDependencies": {    
     "autoprefixer": "^7.2.1",
