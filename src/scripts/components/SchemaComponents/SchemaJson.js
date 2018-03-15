@@ -95,8 +95,8 @@ const SchemaArray = (props, context) => {
       <div className="array-type">
         <Row className="array-item-type" type="flex" justify="space-around" align="middle">
           <Col
-            span={8}
-            className="col-item name-item"
+            span={12}
+            className="col-item name-item col-item-name"
             style={{ paddingLeft: `${20 * (length + 1)}px` }}
           >
             <Row type="flex" justify="space-around" align="middle">
@@ -121,7 +121,7 @@ const SchemaArray = (props, context) => {
               </Col>
             </Row>
           </Col>
-          <Col span={2} className="col-item">
+          <Col span={4} className="col-item col-item-type">
             <Select
               name="itemtype"
               className="type-select-style"
@@ -137,7 +137,7 @@ const SchemaArray = (props, context) => {
               })}
             </Select>
           </Col>
-          <Col span={4} className="col-item">
+          <Col span={5} className="col-item col-item-desc">
             <Input
               addonAfter={
                 <Icon
@@ -152,8 +152,7 @@ const SchemaArray = (props, context) => {
               }
             />
           </Col>
-
-          <Col span={2} className="col-item">
+          <Col span={3} className="col-item col-item-setting">
             <span className="adv-set" onClick={() => showAdv(prefixArray, items)}>
               <Tooltip placement="top" title="高级设置">
                 <Icon type="setting" />
@@ -208,8 +207,8 @@ const SchemaObject = (props, context) => {
             <div data-index={index} key={index}>
               <Row type="flex" justify="space-around" align="middle">
                 <Col
-                  span={8}
-                  className="col-item name-item"
+                  span={12}
+                  className="col-item name-item col-item-name"
                   style={{ paddingLeft: `${20 * (length + 1)}px` }}
                 >
                   <Row type="flex" justify="space-around" align="middle">
@@ -256,7 +255,7 @@ const SchemaObject = (props, context) => {
                     </Col>
                   </Row>
                 </Col>
-                <Col span={2} className="col-item">
+                <Col span={4} className="col-item col-item-type">
                   <Select
                     className="type-select-style"
                     onChange={e => changeType(prefixArray, 'type', e, context.changeTypeAction)}
@@ -271,7 +270,7 @@ const SchemaObject = (props, context) => {
                     })}
                   </Select>
                 </Col>
-                <Col span={4} className="col-item">
+                <Col span={5} className="col-item col-item-desc">
                   <Input
                     addonAfter={
                       <Icon
@@ -291,8 +290,7 @@ const SchemaObject = (props, context) => {
                     }
                   />
                 </Col>
-
-                <Col span={2} className="col-item">
+                <Col span={3} className="col-item col-item-setting">
                   <span className="adv-set" onClick={() => showAdv(prefixArray, value)}>
                     <Tooltip placement="top" title="高级设置">
                       <Icon type="setting" />

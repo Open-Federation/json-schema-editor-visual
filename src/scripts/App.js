@@ -226,8 +226,8 @@ class jsonSchema extends React.Component {
             />
           </Col>
           <Col span={16} className="wrapper object-style">
-            <Row type="flex" justify="space-around" align="middle">
-              <Col span={8} className="col-item name-item">
+            <Row type="flex"  align="middle">
+              <Col span={12} className="col-item name-item col-item-name">
                 <Row type="flex" justify="space-around" align="middle">
                   <Col span={2}>
                     {this.props.schema.type === 'object' ? (
@@ -250,7 +250,7 @@ class jsonSchema extends React.Component {
                   </Col>
                 </Row>
               </Col>
-              <Col span={2} className="col-item">
+              <Col span={4}  className="col-item col-item-type">
                 <Select
                   className="type-select-style"
                   onChange={e => this.changeType(`type`, e)}
@@ -265,7 +265,7 @@ class jsonSchema extends React.Component {
                   })}
                 </Select>
               </Col>
-              <Col span={4} className="col-item">
+              <Col span={5}    className="col-item col-item-desc">
                 <Input
                   addonAfter={
                     <Icon
@@ -278,7 +278,7 @@ class jsonSchema extends React.Component {
                   onChange={e => this.changeValue(['description'], e.target.value)}
                 />
               </Col>
-              <Col span={2} className="col-item">
+              <Col span={3}  className="col-item col-item-setting">
                 <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
                   <Tooltip placement="top" title="高级设置">
                     <Icon type="setting" />

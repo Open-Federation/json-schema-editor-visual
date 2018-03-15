@@ -19,15 +19,25 @@
   margin-top: 8px;
 }
 
-.type-select-style{
-  margin-left: 5px;
-  width: 100px;
-}
+
 
 .col-item {
-  
-  margin-right: 8px;
   cursor: pointer
+}
+
+.col-item-type{
+  text-align: center  
+}
+.col-item-name{
+  /* max-width: 400px; */
+}
+
+.col-item-desc{
+  text-align: center  
+}
+
+.col-item-setting{
+  padding-left: 16px;
 }
 
 .plus {
@@ -69,4 +79,8 @@
 .adv-set {
   padding-right: 8px;
   color: #00a854;
+}
+
+.type-select-style {
+  width: 50%
 }
