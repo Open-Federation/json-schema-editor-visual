@@ -12,7 +12,7 @@
 }
 
 .object-style {
-  border-left: 2px dotted gray;
+  /* border-left: 2px dotted gray; */
   /* padding-left: 8px; */
   padding-top: 6px;
   /* margin-left: 20px; */
@@ -65,3 +65,8 @@
 /* .schema-content {
   margin-left: 20px;
 } */
+
+.adv-set {
+  padding-right: 8px;
+  color: #00a854;
+}

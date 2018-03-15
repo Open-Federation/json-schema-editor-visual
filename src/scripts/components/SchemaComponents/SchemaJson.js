@@ -11,7 +11,8 @@ import {
   Button,
   Icon,
   Modal,
-  message
+  message,
+  Tooltip
 } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -24,14 +25,14 @@ import PropTypes from 'prop-types';
 import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 const InputGroup = Input.Group;
 
-const mapping = (name, data, showEdit) => {
+const mapping = (name, data, showEdit, showAdv) => {
   switch (data.type) {
     case 'array':
-      return <SchemaArray prefix={name} data={data} showEdit={showEdit} />;
+      return <SchemaArray prefix={name} data={data} showEdit={showEdit} showAdv={showAdv} />;
       break;
     case 'object':
       let nameArray = [].concat(name, 'properties');
-      return <SchemaObject prefix={nameArray} data={data} showEdit={showEdit} />;
+      return <SchemaObject prefix={nameArray} data={data} showEdit={showEdit} showAdv={showAdv} />;
       break;
     default:
       return null;
@@ -39,68 +40,51 @@ const mapping = (name, data, showEdit) => {
   }
 };
 
-class AdvModal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  state = { visible: false };
-  showModal = () => {
-    this.setState({
-      visible: true
-    });
-  };
-  handleOk = e => {
-    this.setState({
-      visible: false
-    });
-  };
-  handleCancel = e => {
-    this.setState({
-      visible: false
-    });
-  };
-
-  mapping = (name, data, changeHandler) => {
-    return {
-      string: <SchemaString onChange={changeHandler} data={data} />,
-      number: <SchemaNumber onChange={changeHandler} data={data} />,
-      boolean: <SchemaBoolean onChange={changeHandler} data={data} />,
-      integer: <SchemaInt onChange={changeHandler} data={data} />
-    }[data.type];
-  };
-
-  render() {
-    const { data, name } = this.props;
-    return (
-      <div>
-        <Button onClick={this.showModal}>高级</Button>
-        <Modal
-          title="Basic Modal"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-        >
-          {this.mapping(name, data)}
-        </Modal>
-      </div>
-    );
-  }
-}
-
-const SchemaString = props => {
-  return <div>String</div>;
+const changeType = (prefix, type, value, change) => {
+  let key = [].concat(prefix, type);
+  change(key, value);
 };
 
-const SchemaInt = props => {
-  return <div>SchemaInt</div>;
+const changeValue = (prefix, type, value, change) => {
+  let key = [].concat(prefix, type);
+  change(key, value);
 };
+const changeName = (value, prefix, name, change) => {
+  change(value, prefix, name);
+};
+
+const enableRequire = (prefix, name, required, change) => {
+  change(prefix, name, required);
+};
+
+const deleteItem = (prefix, name, change) => {
+  let nameArray = [].concat(prefix, name);
+  change.deleteItemAction(nameArray);
+  change.enableRequireAction(prefix, name, false);
+};
+
+const addField = (prefix, name, change) => {
+  change(prefix, name);
+};
+
+const addChildField = (prefix, name, change) => {
+  let keyArr = [].concat(prefix, name, 'properties');
+  change.addChildFieldAction(keyArr);
+  change.setOpenValueAction(keyArr);
+};
+
+const clickIcon = (prefix, change) => {
+  // 数据存储在 properties.name.properties下
+  let keyArr = [].concat(prefix, 'properties');
+  change(keyArr);
+};
+
 
 const SchemaArray = (props, context) => {
-  const { data, prefix, showEdit } = props;
+  const { data, prefix, showEdit, showAdv } = props;
   const items = data.items;
   let prefixArray = [].concat(prefix, 'items');
-  const optionForm = mapping(prefixArray, items, showEdit);
+  const optionForm = mapping(prefixArray, items, showEdit, showAdv);
   let length = prefix.filter(name => name != 'properties').length;
 
   let prefixArrayStr = [].concat(prefixArray, 'properties').join(JSONPATH_JOIN_CHAR);
@@ -168,10 +152,19 @@ const SchemaArray = (props, context) => {
               }
             />
           </Col>
+
           <Col span={2} className="col-item">
+            <span className="adv-set" onClick={() => showAdv(prefixArray, items)}>
+              <Tooltip placement="top" title="高级设置">
+                <Icon type="setting" />
+              </Tooltip>
+            </span>
+
             {items.type === 'object' ? (
               <span onClick={() => addChildField(prefix, 'items', context)}>
-                <Icon type="plus" className="plus" />
+                <Tooltip placement="top" title="添加子节点">
+                  <Icon type="plus" className="plus" />
+                </Tooltip>
               </span>
             ) : null}
           </Col>
@@ -190,55 +183,9 @@ SchemaArray.contextTypes = {
   getOpenValue: PropTypes.func
 };
 
-const SchemaNumber = props => {
-  return <div>SchemaNumber</div>;
-};
-
-const SchemaBoolean = props => {
-  return <div>SchemaBoolean</div>;
-};
-
-const changeType = (prefix, type, value, change) => {
-  let key = [].concat(prefix, type);
-  change(key, value);
-};
-
-const changeValue = (prefix, type, value, change) => {
-  let key = [].concat(prefix, type);
-  change(key, value);
-};
-const changeName = (value, prefix, name, change) => {
-  change(value, prefix, name);
-};
-
-const enableRequire = (prefix, name, required, change) => {
-  change(prefix, name, required);
-};
-
-const deleteItem = (prefix, name, change) => {
-  let nameArray = [].concat(prefix, name);
-  change.deleteItemAction(nameArray);
-  change.enableRequireAction(prefix, name, false);
-};
-
-const addField = (prefix, name, change) => {
-  change(prefix, name);
-};
-
-const addChildField = (prefix, name, change) => {
-  let keyArr = [].concat(prefix, name, 'properties');
-  change.addChildFieldAction(keyArr);
-  change.setOpenValueAction(keyArr);
-};
-
-const clickIcon = (prefix, change) => {
-  // 数据存储在 properties.name.properties下
-  let keyArr = [].concat(prefix, 'properties');
-  change(keyArr);
-};
 
 const SchemaObject = (props, context) => {
-  const { data, prefix, showEdit } = props;
+  const { data, prefix, showEdit, showAdv } = props;
 
   return (
     <div className="object-style">
@@ -249,7 +196,7 @@ const SchemaObject = (props, context) => {
 
         let length = prefix.filter(name => name != 'properties').length;
 
-        let optionForm = mapping(prefixArray, copiedState, showEdit);
+        let optionForm = mapping(prefixArray, copiedState, showEdit, showAdv);
 
         let prefixStr = prefix.join(JSONPATH_JOIN_CHAR);
         let prefixArrayStr = [].concat(prefixArray, 'properties').join(JSONPATH_JOIN_CHAR);
@@ -344,7 +291,13 @@ const SchemaObject = (props, context) => {
                     }
                   />
                 </Col>
+
                 <Col span={2} className="col-item">
+                  <span className="adv-set" onClick={() => showAdv(prefixArray, value)}>
+                    <Tooltip placement="top" title="高级设置">
+                      <Icon type="setting" />
+                    </Tooltip>
+                  </span>
                   <span className="delete-item" onClick={() => deleteItem(prefix, name, context)}>
                     <Icon type="close" className="close" />
                   </span>
@@ -352,7 +305,9 @@ const SchemaObject = (props, context) => {
                     <DropPlus prefix={prefix} name={name} add={context} />
                   ) : (
                     <span onClick={() => addField(prefix, name, context.addFieldAction)}>
-                      <Icon type="plus" className="plus" />
+                      <Tooltip placement="top" title="添加兄弟节点">
+                        <Icon type="plus" className="plus" />
+                      </Tooltip>
                     </span>
                   )}
                 </Col>
@@ -392,14 +347,16 @@ const DropPlus = props => {
   );
 
   return (
+    <Tooltip placement="top" title="添加兄弟节点/子节点">
     <Dropdown overlay={menu}>
       <Icon type="plus" className="plus" />
     </Dropdown>
+    </Tooltip>
   );
 };
 
 const SchemaJson = props => {
-  const item = mapping([], props.data, props.showEdit);
+  const item = mapping([], props.data, props.showEdit, props.showAdv);
   return <div className="schema-content">{item}</div>;
 };
 

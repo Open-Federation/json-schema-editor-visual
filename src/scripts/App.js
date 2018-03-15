@@ -1,5 +1,17 @@
 import React from 'react';
-import { Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal, message } from 'antd';
+import {
+  Input,
+  Row,
+  Tooltip,
+  Col,
+  Form,
+  Select,
+  Checkbox,
+  Button,
+  Icon,
+  Modal,
+  message
+} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -22,7 +34,9 @@ class jsonSchema extends React.Component {
       show: true,
       editVisible: false,
       description: '',
-      descriptionKey: null
+      descriptionKey: null,
+      advVisible: false,
+      itemKey: null
     };
   }
 
@@ -97,45 +111,68 @@ class jsonSchema extends React.Component {
   };
 
   changeValue = (key, value) => {
-    this.props.changeValueAction(key, value)
-  }
+    this.props.changeValueAction(key, value);
+  };
 
-  handleEditOk = (e) => {
-    
+  // 备注弹窗
+  handleEditOk = () => {
     this.setState({
-      editVisible: false,
+      editVisible: false
     });
-    this.props.changeValueAction(this.state.descriptionKey, this.state.description)
-
-  }
-  handleEditCancel = (e) => {
-    
+    this.props.changeValueAction(this.state.descriptionKey, this.state.description);
+  };
+  handleEditCancel = () => {
     this.setState({
-      editVisible: false,
+      editVisible: false
     });
-  }
-  showEdit =(prefix, name, value) => {
-    console.log(prefix, name, value)
+  };
+  showEdit = (prefix, name, value) => {
     let descriptionKey = [].concat(prefix, name);
-    let description = value
+    let description = value;
     this.setState({
       editVisible: true,
       description: value,
       descriptionKey
-
     });
-  }
+  };
 
   // 修改备注参数信息
-  changeDesc = (e) =>{
+  changeDesc = e => {
     this.setState({
-      description:e,
-  
+      description: e
     });
-  }
+  };
+
+  // 高级设置
+  handleAdvOk = () => {
+    this.props.changeValueAction(this.state.itemKey, this.curItemCustomValue);
+
+    this.setState({
+      advVisible: false
+    });
+  };
+  handleAdvCancel = () => {
+    this.setState({
+      advVisible: false
+    });
+  };
+  showAdv = (key, value) => {
+    console.log(key, value);
+
+    this.setState({
+      advVisible: true,
+      itemKey: key
+    });
+    this.curItemCustomValue = value;
+  };
+
+  handleImportAdv = e => {
+    if (!e.text) return;
+    this.curItemCustomValue = e.jsonData;
+  };
 
   render() {
-    const { visible, editVisible, description } = this.state;
+    const { visible, editVisible, description, advVisible } = this.state;
     return (
       <div>
         <Button onClick={this.showModal}>Import JSON</Button>
@@ -162,10 +199,21 @@ class jsonSchema extends React.Component {
           onOk={this.handleEditOk}
           onCancel={this.handleEditCancel}
         >
-          
-          <TextArea value={description}  placeholder="备注" onChange={(e)=>this.changeDesc(e.target.value)} autosize={{ minRows: 6, maxRows: 10 }}/>
+          <TextArea
+            value={description}
+            placeholder="备注"
+            onChange={e => this.changeDesc(e.target.value)}
+            autosize={{ minRows: 6, maxRows: 10 }}
+          />
         </Modal>
-
+        <Modal
+          title="高级设置"
+          visible={advVisible}
+          onOk={this.handleAdvOk}
+          onCancel={this.handleAdvCancel}
+        >
+          <AceEditor data={this.curItemCustomValue} mode="json" onChange={this.handleImportAdv} />
+        </Modal>
         <Row>
           <Col span={8}>
             <AceEditor
@@ -221,7 +269,12 @@ class jsonSchema extends React.Component {
               </Col>
               <Col span={4} className="col-item">
                 <Input
-                  addonAfter={<Icon type="edit" />}
+                  addonAfter={
+                    <Icon
+                      type="edit"
+                      onClick={e => this.showEdit([], 'description', e.target.value)}
+                    />
+                  }
                   placeholder="备注"
                   value={this.props.schema.description}
                   onChange={e => this.changeValue(['description'], e.target.value)}
@@ -230,12 +283,20 @@ class jsonSchema extends React.Component {
               <Col span={2} className="col-item">
                 {this.props.schema.type === 'object' ? (
                   <span onClick={() => this.addChildField('properties')}>
-                    <Icon type="plus" className="plus" />
+                    <Tooltip placement="top" title="添加子节点">
+                      <Icon type="plus" className="plus" />
+                    </Tooltip>
                   </span>
                 ) : null}
               </Col>
             </Row>
-            {this.state.show && <SchemaJson data={this.props.schema} showEdit={this.showEdit}/>}
+            {this.state.show && (
+              <SchemaJson
+                data={this.props.schema}
+                showEdit={this.showEdit}
+                showAdv={this.showAdv}
+              />
+            )}
           </Col>
         </Row>
       </div>
