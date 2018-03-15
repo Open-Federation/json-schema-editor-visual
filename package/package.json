@@ -1,21 +1,15 @@
 {
-  "name": "ykit-antd-starter",
+  "name": "json-schema-react-editor",
   "version": "1.0.0",
-  "description": "ykit ant-design 示例工程",
+  "description": "jsonschema editor",
   "main": "index.js",
-  "scripts": {
-    "start": "ykit server -p 8080",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "license": "MIC",
   "dependencies": {
     "antd": "^2.13.2",
     "generate-schema": "^2.6.0",
     "json5": "^1.0.0",
     "mockjs": "^1.0.1-beta3",
     "moox": "^1.0.0-beta5",
-    "underscore": "^1.8.3",
     "ykit-config-antd": "^1.2.0",
     "react-redux": "^5.0.6",
     "underscore": "^1.8.3",
