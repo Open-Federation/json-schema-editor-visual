@@ -4,7 +4,7 @@
   "description": "ykit ant-design 示例工程",
   "main": "index.js",
   "scripts": {
-    "start": "ykit server -p 8080",
+    "start": "ykit server -p 8082",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
