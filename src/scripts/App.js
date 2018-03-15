@@ -174,12 +174,12 @@ class jsonSchema extends React.Component {
   render() {
     const { visible, editVisible, description, advVisible } = this.state;
     return (
-      <div>
+      <div className="json-editor">
         <Button onClick={this.showModal}>Import JSON</Button>
         <Modal
           maskClosable={false}
           visible={visible}
-          title="Title"
+          title="导入JSON"
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
