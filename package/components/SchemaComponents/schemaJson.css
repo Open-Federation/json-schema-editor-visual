@@ -1,17 +1,17 @@
 
-.option-formStyle{
+.json-schema-react-editor .option-formStyle{
   /* padding-left: 25px; */
   padding-Top: 8px
 }
 
-.required-icon {
+.json-schema-react-editor .required-icon {
   font-size: 1em;
   color: red;
   font-weight: bold;
   padding-left: 5px
 }
 
-.object-style {
+.json-schema-react-editor .object-style {
   /* border-left: 2px dotted gray; */
   /* padding-left: 8px; */
   padding-top: 6px;
@@ -21,52 +21,50 @@
 
 
 
-.col-item {
+.json-schema-react-editor .col-item {
   cursor: pointer
 }
 
-.col-item-type{
-  text-align: center  
-}
-.col-item-name{
-  /* max-width: 400px; */
-}
-
-.col-item-desc{
+.json-schema-react-editor .col-item-type{
   text-align: center  
 }
 
-.col-item-setting{
+
+.json-schema-react-editor .col-item-desc{
+  text-align: center  
+}
+
+.json-schema-react-editor .col-item-setting{
   padding-left: 16px;
 }
 
-.plus {
+.json-schema-react-editor .plus {
   color: #2395f1
 }
 
-.close {
+.json-schema-react-editor .close {
   color: #ff561b
 }
 
-.array-type {
+.json-schema-react-editor .array-type {
   margin-top: 8px;
 }
 
-.delete-item {
+.json-schema-react-editor .delete-item {
   padding-right: 8px;
 }
 
-.object-style .name-item .ant-input-group-addon {
+.json-schema-react-editor .object-style .name-item .ant-input-group-addon {
   background-color: unset;
   border: unset;
 }
 
-.object-style  .name-item .ant-input-group > .ant-input:first-child, .ant-input-group-addon:first-child {
+.json-schema-react-editor .object-style  .name-item .ant-input-group > .ant-input:first-child, .ant-input-group-addon:first-child {
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
 }
 
-.icon-object {
+.json-schema-react-editor .icon-object {
   color: #c7c7c7;
   font-weight: 400;
   font-size: 10px;
@@ -76,15 +74,20 @@
   margin-left: 20px;
 } */
 
-.adv-set {
+.json-schema-react-editor .adv-set {
   padding-right: 8px;
   color: #00a854;
 }
 
-.type-select-style {
+.json-schema-react-editor .type-select-style {
   width: 50%
 }
 
-.other-row {
+.adv-modal .other-row {
   margin-bottom: 16px;
+}
+
+.adv-modal .other-label {
+  text-align: right;
+  padding-right: 8px;
 }
