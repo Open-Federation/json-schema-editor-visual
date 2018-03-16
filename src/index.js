@@ -80,7 +80,7 @@ const schema = JSON.stringify({
 
 render(
   <Provider store={store} className="wrapper">
-    <Component data={schema} onChange={(e)=>{
+    <Component showEditor={true} data={schema} onChange={(e)=>{
       console.log('changeValue', e)
     }} />
   </Provider>,

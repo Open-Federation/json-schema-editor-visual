@@ -1,5 +1,6 @@
 const JSONPATH_JOIN_CHAR = '.';
 exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR;
+exports.lang = 'en'
 
 exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
 exports.defaultSchema = {

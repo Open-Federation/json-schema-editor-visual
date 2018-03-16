@@ -10,11 +10,13 @@ import {
   Button,
   Icon,
   Modal,
-  message
+  message,
+  Tabs
 } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
+const TabPane = Tabs.TabPane;
 import './index.css'
 import AceEditor from './components/AceEditor/AceEditor.js';
 import _ from 'underscore';
@@ -47,7 +49,8 @@ class jsonSchema extends React.Component {
 
   static propTypes = {
     data: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    showEditor: PropTypes.bool
   }
 
   showModal = () => {
@@ -57,7 +60,10 @@ class jsonSchema extends React.Component {
   };
   handleOk = () => {
     this.setState({ visible: false });
-    this.jsonData = GenerateSchema(this.jsonData);
+    if(this.importJsonType !== 'schema'){
+      this.jsonData = GenerateSchema(this.jsonData);
+    }
+    
     this.props.changeEditorSchemaAction(this.jsonData);
   };
   handleCancel = () => {
@@ -71,7 +77,6 @@ class jsonSchema extends React.Component {
       if(oldData !== newData)return this.props.onChange(newData)
     }
     if(this.props.data && this.props.data !== nextProps.data){
-
       this.props.changeEditorSchemaAction(JSON.parse(nextProps.data));
     }
   }
@@ -222,6 +227,7 @@ class jsonSchema extends React.Component {
           title="导入JSON"
           onOk={this.handleOk}
           onCancel={this.handleCancel}
+          className="json-schema-react-editor-import-modal"
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               Return
@@ -231,7 +237,18 @@ class jsonSchema extends React.Component {
             </Button>
           ]}
         >
-          <AceEditor data="" mode="json" onChange={this.handleImportJson} />
+          <Tabs defaultActiveKey="json" onChange={(key)=>{
+            this.importJsonType = key;
+          }}>
+            <TabPane tab="JSON" key="json">
+              <AceEditor data="" mode="json" onChange={this.handleImportJson} />
+            </TabPane>
+            <TabPane tab="JSON-SCHEMA" key="schema">
+              <AceEditor data="" mode="json" onChange={this.handleImportJson} />
+            </TabPane>
+          </Tabs>
+          
+          
         </Modal>
         <Modal
           title="备注"
@@ -253,20 +270,20 @@ class jsonSchema extends React.Component {
           visible={advVisible}
           onOk={this.handleAdvOk}
           onCancel={this.handleAdvCancel}
-          className="adv-modal"
+          className="json-schema-react-editor-adv-modal"
         >
           
           <CustomItem data={JSON.stringify(this.state.curItemCustomValue, null, 2)}/>
         </Modal>
         <Row>
-          {/* <Col span={8}>
+          {this.props.showEditor &&  <Col span={8}>
             <AceEditor
               className="pretty-editor"
               mode="json"
               data={JSON.stringify(this.props.schema, null, 2)}
               onChange={this.handleParams}
             />
-          </Col> */}
+          </Col>}
           <Col span={16} className="wrapper object-style">
             <Row type="flex"  align="middle">
               <Col span={12} className="col-item name-item col-item-name">
