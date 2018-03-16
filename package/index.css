@@ -39,3 +39,7 @@
   border-radius: 4px;
   height: 800px;
 }
+
+.json-schema-react-editor .import-json-button{
+  margin: 5px;
+}

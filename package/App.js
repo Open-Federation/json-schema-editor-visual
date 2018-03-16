@@ -45,6 +45,9 @@ class jsonSchema extends React.Component {
       itemKey: [],
       curItemCustomValue: null
     };
+
+    this.jsonSchemaData = null;
+    this.jsonData = null;
   }
 
   static propTypes = {
@@ -61,10 +64,15 @@ class jsonSchema extends React.Component {
   handleOk = () => {
     this.setState({ visible: false });
     if(this.importJsonType !== 'schema'){
-      this.jsonData = GenerateSchema(this.jsonData);
+      if(!this.jsonData)return;
+      let jsonData = GenerateSchema(this.jsonData);
+      this.props.changeEditorSchemaAction(jsonData);
+    }else{
+      if(!this.jsonSchemaData)return;
+      this.props.changeEditorSchemaAction(this.jsonSchemaData);
     }
     
-    this.props.changeEditorSchemaAction(this.jsonData);
+    
   };
   handleCancel = () => {
     this.setState({ visible: false });
@@ -138,8 +146,17 @@ class jsonSchema extends React.Component {
   };
 
   handleImportJson = e => {
-    if (!e.text) return;
+    if (!e.text) {
+      return this.jsonData = null;
+    };
     this.jsonData = e.jsonData;
+  };
+
+  handleImportJsonSchema = e => {
+    if (!e.text) {
+      return this.jsonSchemaData = null;
+    };
+    this.jsonSchemaData = e.jsonData;
   };
 
   addChildField = key => {
@@ -228,7 +245,7 @@ class jsonSchema extends React.Component {
     
     return (
       <div className="json-schema-react-editor">
-        <Button onClick={this.showModal}>{LocalProvider("import_json")}</Button>
+        <Button className="import-json-button" type="primary" onClick={this.showModal}>{LocalProvider("import_json")}</Button>
         <Modal
           maskClosable={false}
           visible={visible}
@@ -254,8 +271,9 @@ class jsonSchema extends React.Component {
               <AceEditor data="" mode="json" onChange={this.handleImportJson} />
             </TabPane>
             <TabPane tab="JSON-SCHEMA" key="schema">
-              <AceEditor data="" mode="json" onChange={this.handleImportJson} />
+              <AceEditor  data="" mode="json" onChange={this.handleImportJsonSchema} />
             </TabPane>
+            
           </Tabs>
           
           
