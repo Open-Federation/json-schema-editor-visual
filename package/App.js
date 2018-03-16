@@ -49,7 +49,8 @@ class jsonSchema extends React.Component {
 
   static propTypes = {
     data: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    showEditor: PropTypes.bool
   }
 
   showModal = () => {
@@ -275,14 +276,14 @@ class jsonSchema extends React.Component {
           <CustomItem data={JSON.stringify(this.state.curItemCustomValue, null, 2)}/>
         </Modal>
         <Row>
-          {/* <Col span={8}>
+          {this.props.showEditor &&  <Col span={8}>
             <AceEditor
               className="pretty-editor"
               mode="json"
               data={JSON.stringify(this.props.schema, null, 2)}
               onChange={this.handleParams}
             />
-          </Col> */}
+          </Col>}
           <Col span={16} className="wrapper object-style">
             <Row type="flex"  align="middle">
               <Col span={12} className="col-item name-item col-item-name">
