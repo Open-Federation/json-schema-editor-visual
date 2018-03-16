@@ -104,3 +104,11 @@
   border-left: 3px solid #2395f1;
   padding-left: 8px;
 }
+
+.adv-modal .ant-modal-body{
+  min-height: 400px;
+}
+
+.adv-modal .ant-modal-body .ace_editor {
+  min-height: 350px;
+}
