@@ -1,7 +1,7 @@
 {
-  "name": "json-schema-react-editor",
+  "name": "json-schema-editor-visual",
   "version": "1.0.0",
-  "description": "json-schema-react-editor",
+  "description": "json-schema-editor-visual",
   "main": "index.js",
   "scripts": {
     "start": "ykit server -p 8082",
