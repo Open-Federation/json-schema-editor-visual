@@ -1,7 +1,7 @@
 {
-  "name": "ykit-antd-starter",
+  "name": "json-schema-react-editor",
   "version": "1.0.0",
-  "description": "ykit ant-design 示例工程",
+  "description": "json-schema-react-editor",
   "main": "index.js",
   "scripts": {
     "start": "ykit server -p 8082",
