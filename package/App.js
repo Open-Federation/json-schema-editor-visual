@@ -364,7 +364,7 @@ class jsonSchema extends React.Component {
                       onClick={e => this.showEdit([], 'description', e.target.value)}
                     />
                   }
-                  placeholder={LocalProvider('default')}
+                  placeholder={LocalProvider('description')}
                   value={this.props.schema.description}
                   onChange={e => this.changeValue(['description'], e.target.value)}
                 />
