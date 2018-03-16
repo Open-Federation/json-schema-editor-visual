@@ -1,24 +1,36 @@
-# ykit-starter-antd
-YKit-Antd Design 示例工程
+# json-schema-editor-visual
+A json-schema editor of high efficient and easy-to-use, base on React.
 
-## Getting Started
-```
-$ git clone https://github.com/roscoe054/ykit-starter-antd.git
-$ cd ykit-starter-antd
-$ npm install 或者 yarn
-```
 
-## Run Dev
-```
-$ npm start
-```
-访问 http://127.0.0.1:3000/index.html
 
-## Build
+## Usage
 ```
-$ ykit pack -m
+npm install json-schema-editor-visual
 ```
 
-## 关于 ykit
-访问 https://ykit.ymfe.org 来获取更多文档
-# schema-editor
+```js
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import {combineReducers, createStore , applyMiddleware} from 'redux'
+import 'antd/dist/antd.css'
+import jEditor from 'json-schema-editor-visual'
+
+const store = jEditor.Model.getStore();
+const Component = jEditor.Component;
+
+render(
+  <Provider store={store} className="wrapper">
+    <Component />
+  </Provider>,
+  document.getElementById('root')
+)
+```
+
+## Run dev
+```
+git clone https://github.com/YMFE/json-schema-editor-visual.git
+npm install
+npm run start
+```
+
