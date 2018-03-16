@@ -82,7 +82,15 @@ class jsonSchema extends React.Component {
   }
 
   componentWillMount(){
-    this.props.changeEditorSchemaAction(JSON.parse(this.props.data));
+    let data = this.props.data;
+    if(!data){
+      data = `{
+        "type": "object",
+        "title": "empty object",
+        "properties":{}
+      }`
+    }
+    this.props.changeEditorSchemaAction(JSON.parse(data));
   }
 
   static childContextTypes = {
@@ -290,7 +298,7 @@ class jsonSchema extends React.Component {
               onChange={this.handleParams}
             />
           </Col>}
-          <Col span={16} className="wrapper object-style">
+          <Col span={ this.props.showEditor ? 16 : 24} className="wrapper object-style">
             <Row type="flex"  align="middle">
               <Col span={12} className="col-item name-item col-item-name">
                 <Row type="flex" justify="space-around" align="middle">
