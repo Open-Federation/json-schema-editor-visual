@@ -34,7 +34,7 @@ const langs = {
     'adv_setting': '高级设置',
     "add_child_node": "添加子节点",
     'add_sibling_node': '添加兄弟节点',
-    'add_node':'添加兄弟节点/子节点',
+    'add_node':'添加兄弟/子节点',
     'child_node': '子节点',
     'sibling_node':'兄弟节点',
     'ok':'确定',
