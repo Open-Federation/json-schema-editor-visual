@@ -21,7 +21,7 @@ class AceEditor extends React.PureComponent {
   }
 
   static propTypes = {
-    data: PropTypes.any,
+    data: PropTypes.string,
     onChange: PropTypes.func,
     className: PropTypes.string,
     mode: PropTypes.string, //enum[json, text, javascript], default is javascript

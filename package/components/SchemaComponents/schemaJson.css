@@ -21,12 +21,12 @@
 
 
 
-.json-schema-react-editor .col-item {
-  cursor: pointer
-}
-
 .json-schema-react-editor .col-item-type{
   text-align: center  
+}
+
+.json-schema-react-editor .down-style {
+  cursor: pointer;
 }
 
 
@@ -36,6 +36,7 @@
 
 .json-schema-react-editor .col-item-setting{
   padding-left: 16px;
+  cursor: pointer;
 }
 
 .json-schema-react-editor .plus {
@@ -90,4 +91,12 @@
 .adv-modal .other-label {
   text-align: right;
   padding-right: 8px;
+}
+
+.adv-modal .default-setting {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 16px;
+  border-left: 3px solid #2395f1;
+  padding-left: 8px;
 }

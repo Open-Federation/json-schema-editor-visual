@@ -102,7 +102,7 @@ const SchemaArray = (props, context) => {
             <Row type="flex" justify="space-around" align="middle">
               <Col span={2}>
                 {items.type === 'object' ? (
-                  <span onClick={() => clickIcon(prefixArray, context.setOpenValueAction)}>
+                  <span className="down-style" onClick={() => clickIcon(prefixArray, context.setOpenValueAction)}>
                     <Icon
                       style={{ display: showIcon ? 'none' : 'block' }}
                       className="icon-object"
@@ -214,7 +214,7 @@ const SchemaObject = (props, context) => {
                   <Row type="flex" justify="space-around" align="middle">
                     <Col span={2}>
                       {value.type === 'object' ? (
-                        <span onClick={() => clickIcon(prefixArray, context.setOpenValueAction)}>
+                        <span  className="down-style" onClick={() => clickIcon(prefixArray, context.setOpenValueAction)}>
                           <Icon
                             style={{ display: showIcon ? 'none' : 'block' }}
                             className="icon-object"
