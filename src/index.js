@@ -14,7 +14,7 @@ const schema = ''
 
 render(
   <Provider store={store} className="wrapper">
-    <Component showEditor={true} data={schema} onChange={(e)=>{
+    <Component showEditor={true}  data={schema} onChange={(e)=>{
       console.log('changeValue', e)
     }} />
   </Provider>,

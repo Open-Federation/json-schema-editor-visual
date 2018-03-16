@@ -240,10 +240,10 @@ class jsonSchema extends React.Component {
           cancelText={LocalProvider('cancel')}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
-              Return
+              {LocalProvider('cancel')}
             </Button>,
             <Button key="submit" type="primary" onClick={this.handleOk}>
-              Submit
+              {LocalProvider('ok')}
             </Button>
           ]}
         >
