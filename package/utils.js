@@ -1,6 +1,6 @@
 const JSONPATH_JOIN_CHAR = '.';
 exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR;
-exports.lang = 'en'
+exports.lang = 'en_US'
 
 exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
 exports.defaultSchema = {
@@ -28,12 +28,7 @@ exports.defaultSchema = {
   }
 };
 
-exports.LOCAL_PROVIDER = {
-  zh_CN: {
-    BaseSetting: '基础设置',
-    AllSetting: '全部设置'
-  }
-};
+
 
 function getData(state, keys) {
   let curState = state;

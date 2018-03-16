@@ -9,7 +9,7 @@ import {combineReducers, createStore , applyMiddleware} from 'redux'
 
 
 module.exports = (config = {})=>{
-  if(config.lang)utils.lang = config.lang;
+  if(config.lang) utils.lang = config.lang;
   return {    
     Model: Model,
     Component: Schema
