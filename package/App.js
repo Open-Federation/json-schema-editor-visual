@@ -214,6 +214,7 @@ class jsonSchema extends React.Component {
         </Modal>
         <Modal
           title="备注"
+          maskClosable={false}
           visible={editVisible}
           onOk={this.handleEditOk}
           onCancel={this.handleEditCancel}
@@ -227,6 +228,7 @@ class jsonSchema extends React.Component {
         </Modal>
         <Modal
           title="高级设置"
+          maskClosable={false}
           visible={advVisible}
           onOk={this.handleAdvOk}
           onCancel={this.handleAdvCancel}
