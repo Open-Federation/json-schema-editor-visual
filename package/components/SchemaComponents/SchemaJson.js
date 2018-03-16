@@ -132,7 +132,7 @@ const SchemaArray = (props, context) => {
                   onClick={() => showEdit(prefixArray, `description`, items.description)}
                 />
               }
-              placeholder={LocaleProvider('default')}
+              placeholder={LocaleProvider('description')}
               value={items.description}
               onChange={e =>
                 changeValue(prefixArray, `description`, e.target.value, context.changeValueAction)
@@ -268,7 +268,7 @@ const SchemaObject = (props, context) => {
                         onClick={() => showEdit(prefixArray, `description`, value.description)}
                       />
                     }
-                    placeholder={LocaleProvider('default')}
+                    placeholder={LocaleProvider('description')}
                     value={value.description}
                     onChange={e =>
                       changeValue(
