@@ -3,7 +3,9 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import {combineReducers, createStore , applyMiddleware} from 'redux'
 import 'antd/dist/antd.css'
-const jEditor = require('../package/index.js')()
+const jEditor = require('../package/index.js')({
+  lang: 'zh_CN'
+})
 
 const store = jEditor.Model.getStore(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 const Component = jEditor.Component;
