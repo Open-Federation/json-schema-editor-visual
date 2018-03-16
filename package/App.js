@@ -29,7 +29,7 @@ import handleSchema from './schema';
 const GenerateSchema = require('generate-schema/src/schemas/json.js');
 const utils = require('./utils');
 import CustomItem from './components/SchemaComponents/SchemaOther.js'
-
+import  LocalProvider from './components/LocalProvider/index.js'
 
 
 class jsonSchema extends React.Component {
@@ -228,14 +228,16 @@ class jsonSchema extends React.Component {
     
     return (
       <div className="json-schema-react-editor">
-        <Button onClick={this.showModal}>Import JSON</Button>
+        <Button onClick={this.showModal}>{LocalProvider("import_json")}</Button>
         <Modal
           maskClosable={false}
           visible={visible}
-          title="导入JSON"
+          title={LocalProvider("import_json")}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           className="json-schema-react-editor-import-modal"
+          okText={LocalProvider('ok')}
+          cancelText={LocalProvider('cancel')}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               Return
@@ -259,25 +261,29 @@ class jsonSchema extends React.Component {
           
         </Modal>
         <Modal
-          title="备注"
+          title={LocalProvider("default")}
           maskClosable={false}
           visible={editVisible}
           onOk={this.handleEditOk}
           onCancel={this.handleEditCancel}
+          okText={LocalProvider('ok')}
+          cancelText={LocalProvider('cancel')}
         >
           <TextArea
             value={description}
-            placeholder="备注"
+            placeholder={LocalProvider('default')}
             onChange={e => this.changeDesc(e.target.value)}
             autosize={{ minRows: 6, maxRows: 10 }}
           />
         </Modal>
         <Modal
-          title="高级设置"
+          title={LocalProvider("adv_setting")}
           maskClosable={false}
           visible={advVisible}
           onOk={this.handleAdvOk}
           onCancel={this.handleAdvCancel}
+          okText={LocalProvider('ok')}
+          cancelText={LocalProvider('cancel')}
           className="json-schema-react-editor-adv-modal"
         >
           
@@ -340,20 +346,20 @@ class jsonSchema extends React.Component {
                       onClick={e => this.showEdit([], 'description', e.target.value)}
                     />
                   }
-                  placeholder="备注"
+                  placeholder={LocalProvider('default')}
                   value={this.props.schema.description}
                   onChange={e => this.changeValue(['description'], e.target.value)}
                 />
               </Col>
               <Col span={3}  className="col-item col-item-setting">
                 <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
-                  <Tooltip placement="top" title="高级设置">
+                  <Tooltip placement="top" title={LocalProvider('adv_setting')}>
                     <Icon type="setting" />
                   </Tooltip>
                 </span>
                 {this.props.schema.type === 'object' ? (
                   <span onClick={() => this.addChildField('properties')}>
-                    <Tooltip placement="top" title="添加子节点">
+                    <Tooltip placement="top" title={LocalProvider('add_child_node')}>
                       <Icon type="plus" className="plus" />
                     </Tooltip>
                   </span>

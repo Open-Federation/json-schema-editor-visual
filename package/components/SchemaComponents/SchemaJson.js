@@ -1,19 +1,5 @@
 import React from 'react';
-import {
-  Dropdown,
-  Menu,
-  Input,
-  Row,
-  Col,
-  Form,
-  Select,
-  Checkbox,
-  Button,
-  Icon,
-  Modal,
-  message,
-  Tooltip
-} from 'antd';
+import { Dropdown, Menu, Input, Row, Col, Form, Select, Checkbox, Button, Icon, Modal, message, Tooltip } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -24,6 +10,7 @@ import Model from '../../model.js';
 import PropTypes from 'prop-types';
 import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 const InputGroup = Input.Group;
+import LocaleProvider from '../LocalProvider/index.js'
 
 const mapping = (name, data, showEdit, showAdv) => {
   switch (data.type) {
@@ -145,7 +132,7 @@ const SchemaArray = (props, context) => {
                   onClick={() => showEdit(prefixArray, `description`, items.description)}
                 />
               }
-              placeholder="备注"
+              placeholder={LocaleProvider('default')}
               value={items.description}
               onChange={e =>
                 changeValue(prefixArray, `description`, e.target.value, context.changeValueAction)
@@ -154,14 +141,14 @@ const SchemaArray = (props, context) => {
           </Col>
           <Col span={3} className="col-item col-item-setting">
             <span className="adv-set" onClick={() => showAdv(prefixArray, items)}>
-              <Tooltip placement="top" title="高级设置">
+              <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
                 <Icon type="setting" />
               </Tooltip>
             </span>
 
             {items.type === 'object' ? (
               <span onClick={() => addChildField(prefix, 'items', context)}>
-                <Tooltip placement="top" title="添加子节点">
+                <Tooltip placement="top" title={LocaleProvider('add_child_node')}>
                   <Icon type="plus" className="plus" />
                 </Tooltip>
               </span>
@@ -281,7 +268,7 @@ const SchemaObject = (props, context) => {
                         onClick={() => showEdit(prefixArray, `description`, value.description)}
                       />
                     }
-                    placeholder="备注"
+                    placeholder={LocaleProvider('default')}
                     value={value.description}
                     onChange={e =>
                       changeValue(
@@ -295,7 +282,7 @@ const SchemaObject = (props, context) => {
                 </Col>
                 <Col span={3} className="col-item col-item-setting">
                   <span className="adv-set" onClick={() => showAdv(prefixArray, value)}>
-                    <Tooltip placement="top" title="高级设置">
+                    <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
                       <Icon type="setting" />
                     </Tooltip>
                   </span>
@@ -306,7 +293,7 @@ const SchemaObject = (props, context) => {
                     <DropPlus prefix={prefix} name={name} add={context} />
                   ) : (
                     <span onClick={() => addField(prefix, name, context.addFieldAction)}>
-                      <Tooltip placement="top" title="添加兄弟节点">
+                      <Tooltip placement="top" title={LocaleProvider('add_sibling_node')}>
                         <Icon type="plus" className="plus" />
                       </Tooltip>
                     </span>
@@ -339,16 +326,16 @@ const DropPlus = props => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <span onClick={() => addField(prefix, name, add.addFieldAction)}>兄弟节点</span>
+        <span onClick={() => addField(prefix, name, add.addFieldAction)}>{LocaleProvider('sibling_node')}</span>
       </Menu.Item>
       <Menu.Item>
-        <span onClick={() => addChildField(prefix, name, add)}>子节点</span>
+        <span onClick={() => addChildField(prefix, name, add)}>{LocaleProvider('child_node')}</span>
       </Menu.Item>
     </Menu>
   );
 
   return (
-    <Tooltip placement="top" title="添加兄弟节点/子节点">
+    <Tooltip placement="top" title={LocaleProvider('add_node')}>
     <Dropdown overlay={menu}>
       <Icon type="plus" className="plus" />
     </Dropdown>

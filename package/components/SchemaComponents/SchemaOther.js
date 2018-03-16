@@ -25,6 +25,7 @@ import PropTypes from 'prop-types';
 import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 const Option = Select.Option;
 import AceEditor from '../AceEditor/AceEditor.js';
+import LocalProvider from '../LocalProvider/index.js';
 
 const changeOtherValue = (value, name, data, change) => {
   data[name] = value;
@@ -36,15 +37,15 @@ const SchemaString = (props, context) => {
 
   return (
     <div>
-      <div className="default-setting">基础设置</div>
+      <div className="default-setting">{LocalProvider('base_setting')}</div>
       <Row className="other-row" type="flex" align="middle">
         <Col span={4} className="other-label">
-          默认值：
+          {LocalProvider('default')}：
         </Col>
         <Col span={20}>
           <Input
             value={data.default}
-            placeholder="默认值"
+            placeholder={LocalProvider('default')}
             onChange={e =>
               changeOtherValue(e.target.value, 'default', data, context.changeCustomValue)
             }
@@ -55,7 +56,7 @@ const SchemaString = (props, context) => {
         <Col span={12}>
           <Row type="flex" align="middle">
             <Col span={8} className="other-label">
-              最小长度：
+              {LocalProvider('minLength')}：
             </Col>
             <Col span={16}>
               <InputNumber
@@ -69,7 +70,7 @@ const SchemaString = (props, context) => {
         <Col span={12}>
           <Row type="flex" align="middle">
             <Col span={8} className="other-label">
-              最大长度：
+              {LocalProvider('maxLength')}：
             </Col>
             <Col span={16}>
               <InputNumber
@@ -85,7 +86,7 @@ const SchemaString = (props, context) => {
         <Col span={4} className="other-label">
           <span>
             Pattern&nbsp;
-            <Tooltip title={'用正则表达式约束字符串'}>
+            <Tooltip title={LocalProvider('pattern')}>
               <Icon type="question-circle-o" style={{ width: '10px' }} />
             </Tooltip>
             &nbsp; :
@@ -114,15 +115,15 @@ const SchemaNumber = (props, context) => {
 
   return (
     <div>
-      <div className="default-setting">基础设置</div>
+      <div className="default-setting">{LocalProvider('base_setting')}</div>
       <Row className="other-row" type="flex" align="middle">
         <Col span={4} className="other-label">
-          默认值：
+          {LocalProvider('default')}：
         </Col>
         <Col span={20}>
           <Input
             value={data.default}
-            placeholder="默认值"
+            placeholder={LocalProvider('default')}
             onChange={e =>
               changeOtherValue(e.target.value, 'default', data, context.changeCustomValue)
             }
@@ -135,7 +136,7 @@ const SchemaNumber = (props, context) => {
             <Col span={16} className="other-label">
               <span>
                 exclusiveMinimum&nbsp;
-                <Tooltip title={'开启后，数据必须大于最小值'}>
+                <Tooltip title={LocalProvider('exclusiveMinimum')}>
                   <Icon type="question-circle-o" style={{ width: '10px' }} />
                 </Tooltip>
                 &nbsp; :
@@ -157,7 +158,7 @@ const SchemaNumber = (props, context) => {
             <Col span={16} className="other-label">
               <span>
                 exclusiveMaximum&nbsp;
-                <Tooltip title={'开启后，数据必须大于最大值'}>
+                <Tooltip title={LocalProvider('exclusiveMaximum')}>
                   <Icon type="question-circle-o" style={{ width: '10px' }} />
                 </Tooltip>
                 &nbsp; :
@@ -179,12 +180,12 @@ const SchemaNumber = (props, context) => {
         <Col span={12}>
           <Row type="flex" align="middle">
             <Col span={8} className="other-label">
-              最小值：
+              {LocalProvider('minimum')}：
             </Col>
             <Col span={16}>
               <InputNumber
                 value={data.minimum}
-                placeholder="minimum"
+                placeholder={LocalProvider('minimum')}
                 onChange={e => changeOtherValue(e, 'minimum', data, context.changeCustomValue)}
               />
             </Col>
@@ -193,12 +194,12 @@ const SchemaNumber = (props, context) => {
         <Col span={12}>
           <Row type="flex" align="middle">
             <Col span={8} className="other-label">
-              最大值：
+              {LocalProvider('maximum')}：
             </Col>
             <Col span={16}>
               <InputNumber
                 value={data.maximum}
-                placeholder="maximum"
+                placeholder={LocalProvider('maximum')}
                 onChange={e => changeOtherValue(e, 'maximum', data, context.changeCustomValue)}
               />
             </Col>
@@ -218,10 +219,10 @@ const SchemaBoolean = (props, context) => {
   let value = _.isUndefined(data.default) ? '' : data.default ? 'true' : 'false';
   return (
     <div>
-      <div className="default-setting">基础设置</div>
+      <div className="default-setting">{LocalProvider('base_setting')}</div>
       <Row className="other-row" type="flex" align="middle">
         <Col span={4} className="other-label">
-          默认值：
+          {LocalProvider('default')}：
         </Col>
         <Col span={20}>
           <Select
@@ -253,12 +254,12 @@ const SchemaArray = (props, context) => {
   const { data } = props;
   return (
     <div>
-      <div className="default-setting">基础设置</div>
+      <div className="default-setting">{LocalProvider('base_setting')}</div>
       <Row className="other-row" type="flex" align="middle">
         <Col span={6} className="other-label">
           <span>
-          uniqueItems&nbsp;
-            <Tooltip title={'开启后，每个元素都不相同'}>
+            uniqueItems&nbsp;
+            <Tooltip title={LocalProvider('unique_items')}>
               <Icon type="question-circle-o" style={{ width: '10px' }} />
             </Tooltip>
             &nbsp; :
@@ -276,7 +277,7 @@ const SchemaArray = (props, context) => {
         <Col span={12}>
           <Row type="flex" align="middle">
             <Col span={12} className="other-label">
-              最小元素个数：
+              {LocalProvider('min_items')}：
             </Col>
             <Col span={12}>
               <InputNumber
@@ -290,7 +291,7 @@ const SchemaArray = (props, context) => {
         <Col span={12}>
           <Row type="flex" align="middle">
             <Col span={12} className="other-label">
-              最大元素个数：
+              {LocalProvider('max_items')}：
             </Col>
             <Col span={12}>
               <InputNumber
@@ -332,7 +333,7 @@ const CustomItem = (props, context) => {
   return (
     <div>
       <div>{optionForm}</div>
-      <div className="default-setting">全部设置</div>
+      <div className="default-setting">{LocalProvider('all_setting')}</div>
       <AceEditor
         data={data}
         mode="json"
