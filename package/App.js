@@ -45,6 +45,11 @@ class jsonSchema extends React.Component {
     };
   }
 
+  static propTypes = {
+    data: PropTypes.string,
+    onChange: PropTypes.func
+  }
+
   showModal = () => {
     this.setState({
       visible: true
@@ -58,6 +63,22 @@ class jsonSchema extends React.Component {
   handleCancel = () => {
     this.setState({ visible: false });
   };
+
+  componentWillReceiveProps(nextProps){
+    if(typeof this.props.onChange === 'function' && this.props.schema !== nextProps.schema){
+      let oldData = JSON.stringify(this.props.schema || '');
+      let newData = JSON.stringify(nextProps.schema || '');
+      if(oldData !== newData)return this.props.onChange(newData)
+    }
+    if(this.props.data && this.props.data !== nextProps.data){
+
+      this.props.changeEditorSchemaAction(JSON.parse(nextProps.data));
+    }
+  }
+
+  componentWillMount(){
+    this.props.changeEditorSchemaAction(JSON.parse(this.props.data));
+  }
 
   static childContextTypes = {
     changeNameAction: PropTypes.func,
@@ -238,14 +259,14 @@ class jsonSchema extends React.Component {
           <CustomItem data={JSON.stringify(this.state.curItemCustomValue, null, 2)}/>
         </Modal>
         <Row>
-          <Col span={8}>
+          {/* <Col span={8}>
             <AceEditor
               className="pretty-editor"
               mode="json"
               data={JSON.stringify(this.props.schema, null, 2)}
               onChange={this.handleParams}
             />
-          </Col>
+          </Col> */}
           <Col span={16} className="wrapper object-style">
             <Row type="flex"  align="middle">
               <Col span={12} className="col-item name-item col-item-name">

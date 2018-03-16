@@ -2,87 +2,16 @@ const _ = require("underscore");
 import utils from "../utils";
 let fieldNum = 1;
 
-const schema = {
-  "title": "Product",
-  "type": "object",
-  "properties": {
-    "id": {
-      "description": "The unique identifier for a product",
-      "type": "number"
-    },
-    "name": {
-      "type": "string"
-    },
-    "price": {
-      "type": "number",
-      "minimum": 0,
-      "exclusiveMinimum": true
-    },
-    "tags": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "minItems": 1,
-      "uniqueItems": true
-    },
-    "array": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "length": {
-            "type": "number"
-          },
-          "width": {
-            "type": "number"
-          },
-          "height": {
-            "type": "number"
-          }
-        }
-      },
-      "minItems": 1,
-      "uniqueItems": true
-    },
-    "dimensions": {
-      "type": "object",
-      "properties": {
-        "length": {
-          "type": "number"
-        },
-        "width": {
-          "type": "number"
-        },
-        "height": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "length",
-        "width",
-        "height"
-      ]
-    }
-  },
-  "required": [
-    "id",
-    "name",
-    "price"
-  ]
-}
-
 
 export default {
   state: {
     message: null,
-    // data: {
-    //   title: "",
-    //   type: "object",
-    //   properties: {},
-    //   required: []
-    // }
-    data: schema,
+    data: {
+      title: "",
+      type: "object",
+      properties: {},
+      required: []
+    },
     open: {
       properties: true
     }
