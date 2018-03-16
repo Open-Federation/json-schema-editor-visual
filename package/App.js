@@ -40,7 +40,8 @@ class jsonSchema extends React.Component {
       description: '',
       descriptionKey: null,
       advVisible: false,
-      itemKey: []
+      itemKey: [],
+      curItemCustomValue: null
     };
   }
 
@@ -152,13 +153,15 @@ class jsonSchema extends React.Component {
   // 高级设置
   handleAdvOk = () => {
     if (this.state.itemKey.length === 0) {
-      this.props.changeEditorSchemaAction(this.curItemCustomValue);
+      this.props.changeEditorSchemaAction(this.state.curItemCustomValue);
     } else {
-      this.props.changeValueAction(this.state.itemKey, this.curItemCustomValue);
+      this.props.changeValueAction(this.state.itemKey, this.state.curItemCustomValue);
     }
     this.setState({
       advVisible: false
     });
+
+
   };
   handleAdvCancel = () => {
     this.setState({
@@ -169,24 +172,26 @@ class jsonSchema extends React.Component {
 
     this.setState({
       advVisible: true,
-      itemKey: key
+      itemKey: key,
+      curItemCustomValue: value
     });
-    this.curItemCustomValue = value;
+    // this.curItemCustomValue = value;
   };
 
-  handleImportAdv = e => {
-    if (!e.text) return;
-    this.curItemCustomValue = e.jsonData;
-  };
+  
 
-  changeCustomValue =(value, name) =>{
-    console.log(value, name)
+  changeCustomValue =(newValue) =>{
+    
+    this.setState({
+      curItemCustomValue: newValue
+    })
 
   }
     
 
   render() {
     const { visible, editVisible, description, advVisible, type } = this.state;
+    
     return (
       <div className="json-schema-react-editor">
         <Button onClick={this.showModal}>Import JSON</Button>
@@ -228,7 +233,7 @@ class jsonSchema extends React.Component {
           className="adv-modal"
         >
           
-          <CustomItem data={this.curItemCustomValue} changeCustomValue={this.changeCustomValue} changeEditor={this.handleImportAdv}/>
+          <CustomItem data={JSON.stringify(this.state.curItemCustomValue, null, 2)}/>
         </Modal>
         <Row>
           <Col span={8}>
@@ -245,7 +250,7 @@ class jsonSchema extends React.Component {
                 <Row type="flex" justify="space-around" align="middle">
                   <Col span={2}>
                     {this.props.schema.type === 'object' ? (
-                      <span onClick={this.clickIcon}>
+                      <span  className="down-style" onClick={this.clickIcon}>
                         <Icon
                           style={{ display: this.state.show ? 'none' : 'block' }}
                           className="icon-object"
