@@ -27,6 +27,13 @@ exports.defaultSchema = {
   }
 };
 
+exports.LOCAL_PROVIDER = {
+  zh_CN: {
+    BaseSetting: '基础设置',
+    AllSetting: '全部设置'
+  }
+};
+
 function getData(state, keys) {
   let curState = state;
   for (let i = 0; i < keys.length; i++) {

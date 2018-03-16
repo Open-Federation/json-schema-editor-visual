@@ -22,7 +22,7 @@ import _ from 'underscore';
 import { connect } from 'react-redux';
 import Model from '../../model.js';
 import PropTypes from 'prop-types';
-import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
+import { LOCAL_PROVIDER } from '../../utils.js';
 const Option = Select.Option;
 import AceEditor from '../AceEditor/AceEditor.js';
 
@@ -36,7 +36,7 @@ const SchemaString = (props, context) => {
 
   return (
     <div>
-      <div className="default-setting">基础设置</div>
+      <div className="default-setting">{LOCAL_PROVIDER['zh_CN']['BaseSetting']}</div>
       <Row className="other-row" type="flex" align="middle">
         <Col span={4} className="other-label">
           默认值：
