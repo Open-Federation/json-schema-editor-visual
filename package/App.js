@@ -21,7 +21,6 @@ import './index.css'
 import AceEditor from './components/AceEditor/AceEditor.js';
 import _ from 'underscore';
 import { connect } from 'react-redux';
-import Model from './model.js';
 import SchemaJson from './components/SchemaComponents/SchemaJson.js';
 import PropTypes from 'prop-types';
 import { SCHEMA_TYPE } from './utils.js';
@@ -398,7 +397,7 @@ class jsonSchema extends React.Component {
   }
 }
 
-export default connect(
+export default (Model)=> connect(
   state => ({
     schema: state.schema.data,
     open: state.schema.open
