@@ -1,6 +1,5 @@
 {
   "name": "json-schema-editor-visual",
-  "version": "1.0.0",
   "description": "json-schema-editor-visual",
   "main": "index.js",
   "scripts": {
@@ -12,16 +11,17 @@
   "dependencies": {
     "antd": "^3.1.6",
     "generate-schema": "^2.6.0",
-    "moox": "^1.0.0-beta5",    
+    "moox": "^1.0.0-beta5",
     "react-redux": "^5.0.6",
     "underscore": "^1.8.3",
     "brace": "^0.10.0"
   },
-  "devDependencies": {    
+  "devDependencies": {
     "autoprefixer": "^7.2.1",
     "babel-cli": "^6.26.0",
-    "babel-preset-react-app": "^3.1.0",    
+    "babel-preset-react-app": "^3.1.0",
     "cross-env": "^5.1.1",
+    "react-addons-perf": "^15.4.2",
     "ykit-config-antd": "^1.2.0"
   }
 }

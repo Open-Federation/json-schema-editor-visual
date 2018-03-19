@@ -1,8 +1,11 @@
 import React from "react";
+import Perf from 'react-addons-perf'; // ES6
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import "antd/dist/antd.css";
+
+window.Perf = Perf;
 const jeditor = require("../package/index.js");
 
 // const JEditor1 = jeditor()
