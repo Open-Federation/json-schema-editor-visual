@@ -1,5 +1,4 @@
-var ace = require('brace'),
-  Mock = require('mockjs');
+var ace = require('brace');
 require('brace/mode/javascript');
 require('brace/mode/json');
 require('brace/mode/xml');
