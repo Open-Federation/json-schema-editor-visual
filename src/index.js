@@ -8,6 +8,8 @@ const jEditor = require("../package/index.js")();
 const store = jEditor.Model.getStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+
+
 const Component = jEditor.Component;
 
 const schema = "";
