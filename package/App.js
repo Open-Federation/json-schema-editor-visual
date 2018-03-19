@@ -17,20 +17,18 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
 const TabPane = Tabs.TabPane;
-import './index.css'
+import './index.css';
 import AceEditor from './components/AceEditor/AceEditor.js';
 import _ from 'underscore';
 import { connect } from 'react-redux';
-import Model from './model.js';
 import SchemaJson from './components/SchemaComponents/SchemaJson.js';
 import PropTypes from 'prop-types';
 import { SCHEMA_TYPE } from './utils.js';
 import handleSchema from './schema';
 const GenerateSchema = require('generate-schema/src/schemas/json.js');
 const utils = require('./utils');
-import CustomItem from './components/SchemaComponents/SchemaOther.js'
-import  LocalProvider from './components/LocalProvider/index.js'
-
+import CustomItem from './components/SchemaComponents/SchemaOther.js';
+import LocalProvider from './components/LocalProvider/index.js';
 
 class jsonSchema extends React.Component {
   constructor(props) {
@@ -54,7 +52,7 @@ class jsonSchema extends React.Component {
     data: PropTypes.string,
     onChange: PropTypes.func,
     showEditor: PropTypes.bool
-  }
+  };
 
   showModal = () => {
     this.setState({
@@ -63,40 +61,38 @@ class jsonSchema extends React.Component {
   };
   handleOk = () => {
     this.setState({ visible: false });
-    if(this.importJsonType !== 'schema'){
-      if(!this.jsonData)return;
+    if (this.importJsonType !== 'schema') {
+      if (!this.jsonData) return;
       let jsonData = GenerateSchema(this.jsonData);
       this.props.changeEditorSchemaAction(jsonData);
-    }else{
-      if(!this.jsonSchemaData)return;
+    } else {
+      if (!this.jsonSchemaData) return;
       this.props.changeEditorSchemaAction(this.jsonSchemaData);
     }
-    
-    
   };
   handleCancel = () => {
     this.setState({ visible: false });
   };
 
-  componentWillReceiveProps(nextProps){
-    if(typeof this.props.onChange === 'function' && this.props.schema !== nextProps.schema){
+  componentWillReceiveProps(nextProps) {
+    if (typeof this.props.onChange === 'function' && this.props.schema !== nextProps.schema) {
       let oldData = JSON.stringify(this.props.schema || '');
       let newData = JSON.stringify(nextProps.schema || '');
-      if(oldData !== newData)return this.props.onChange(newData)
+      if (oldData !== newData) return this.props.onChange(newData);
     }
-    if(this.props.data && this.props.data !== nextProps.data){
+    if (this.props.data && this.props.data !== nextProps.data) {
       this.props.changeEditorSchemaAction(JSON.parse(nextProps.data));
     }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     let data = this.props.data;
-    if(!data){
+    if (!data) {
       data = `{
         "type": "object",
         "title": "empty object",
         "properties":{}
-      }`
+      }`;
     }
     this.props.changeEditorSchemaAction(JSON.parse(data));
   }
@@ -147,15 +143,15 @@ class jsonSchema extends React.Component {
 
   handleImportJson = e => {
     if (!e.text) {
-      return this.jsonData = null;
-    };
+      return (this.jsonData = null);
+    }
     this.jsonData = e.jsonData;
   };
 
   handleImportJsonSchema = e => {
     if (!e.text) {
-      return this.jsonSchemaData = null;
-    };
+      return (this.jsonSchemaData = null);
+    }
     this.jsonSchemaData = e.jsonData;
   };
 
@@ -211,8 +207,6 @@ class jsonSchema extends React.Component {
     this.setState({
       advVisible: false
     });
-
-
   };
   handleAdvCancel = () => {
     this.setState({
@@ -220,7 +214,6 @@ class jsonSchema extends React.Component {
     });
   };
   showAdv = (key, value) => {
-
     this.setState({
       advVisible: true,
       itemKey: key,
@@ -229,27 +222,32 @@ class jsonSchema extends React.Component {
     // this.curItemCustomValue = value;
   };
 
-  
-
-  changeCustomValue =(newValue) =>{
-    
+  changeCustomValue = newValue => {
     this.setState({
       curItemCustomValue: newValue
-    })
+    });
+  };
 
-  }
-    
+  changeCheckBox = e => {
+    console.log(e);
+    this.props.requireAllAction(e);
+  };
 
   render() {
     const { visible, editVisible, description, advVisible, type } = this.state;
-    
+
+    let checked =
+      this.props.schema.type === 'object' || this.props.schema.type === 'array' ? false : true;
+
     return (
       <div className="json-schema-react-editor">
-        <Button className="import-json-button" type="primary" onClick={this.showModal}>{LocalProvider("import_json")}</Button>
+        <Button className="import-json-button" type="primary" onClick={this.showModal}>
+          {LocalProvider('import_json')}
+        </Button>
         <Modal
           maskClosable={false}
           visible={visible}
-          title={LocalProvider("import_json")}
+          title={LocalProvider('import_json')}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           className="json-schema-react-editor-import-modal"
@@ -264,22 +262,22 @@ class jsonSchema extends React.Component {
             </Button>
           ]}
         >
-          <Tabs defaultActiveKey="json" onChange={(key)=>{
-            this.importJsonType = key;
-          }}>
+          <Tabs
+            defaultActiveKey="json"
+            onChange={key => {
+              this.importJsonType = key;
+            }}
+          >
             <TabPane tab="JSON" key="json">
               <AceEditor data="" mode="json" onChange={this.handleImportJson} />
             </TabPane>
             <TabPane tab="JSON-SCHEMA" key="schema">
-              <AceEditor  data="" mode="json" onChange={this.handleImportJsonSchema} />
+              <AceEditor data="" mode="json" onChange={this.handleImportJsonSchema} />
             </TabPane>
-            
           </Tabs>
-          
-          
         </Modal>
         <Modal
-          title={LocalProvider("default")}
+          title={LocalProvider('default')}
           maskClosable={false}
           visible={editVisible}
           onOk={this.handleEditOk}
@@ -295,7 +293,7 @@ class jsonSchema extends React.Component {
           />
         </Modal>
         <Modal
-          title={LocalProvider("adv_setting")}
+          title={LocalProvider('adv_setting')}
           maskClosable={false}
           visible={advVisible}
           onOk={this.handleAdvOk}
@@ -304,44 +302,55 @@ class jsonSchema extends React.Component {
           cancelText={LocalProvider('cancel')}
           className="json-schema-react-editor-adv-modal"
         >
-          
-          <CustomItem data={JSON.stringify(this.state.curItemCustomValue, null, 2)}/>
+          <CustomItem data={JSON.stringify(this.state.curItemCustomValue, null, 2)} />
         </Modal>
         <Row>
-          {this.props.showEditor &&  <Col span={8}>
-            <AceEditor
-              className="pretty-editor"
-              mode="json"
-              data={JSON.stringify(this.props.schema, null, 2)}
-              onChange={this.handleParams}
-            />
-          </Col>}
-          <Col span={ this.props.showEditor ? 16 : 24} className="wrapper object-style">
-            <Row type="flex"  align="middle">
+          {this.props.showEditor && (
+            <Col span={8}>
+              <AceEditor
+                className="pretty-editor"
+                mode="json"
+                data={JSON.stringify(this.props.schema, null, 2)}
+                onChange={this.handleParams}
+              />
+            </Col>
+          )}
+          <Col span={this.props.showEditor ? 16 : 24} className="wrapper object-style">
+            <Row type="flex" align="middle">
               <Col span={12} className="col-item name-item col-item-name">
                 <Row type="flex" justify="space-around" align="middle">
                   <Col span={2}>
                     {this.props.schema.type === 'object' ? (
-                      <span  className="down-style" onClick={this.clickIcon}>
-                        <Icon
-                          style={{ display: this.state.show ? 'none' : 'block' }}
-                          className="icon-object"
-                          type="caret-right"
-                        />
-                        <Icon
-                          style={{ display: this.state.show ? 'block' : 'none' }}
-                          className="icon-object"
-                          type="caret-down"
-                        />
+                      <span className="down-style" onClick={this.clickIcon}>
+                        {this.state.show ? (
+                          <Icon
+                            className="icon-object"
+                            type="caret-down"
+                          />
+                        ) : (
+                          <Icon
+                            className="icon-object"
+                            type="caret-right"
+                          />
+                        )}
                       </span>
                     ) : null}
                   </Col>
                   <Col span={22}>
-                    <Input addonAfter={<Checkbox disabled />} disabled value="root" />
+                    <Input
+                      addonAfter={
+                        <Checkbox
+                          disabled={checked}
+                          onChange={e => this.changeCheckBox(e.target.checked)}
+                        />
+                      }
+                      disabled
+                      value="root"
+                    />
                   </Col>
                 </Row>
               </Col>
-              <Col span={4}  className="col-item col-item-type">
+              <Col span={4} className="col-item col-item-type">
                 <Select
                   className="type-select-style"
                   onChange={e => this.changeType(`type`, e)}
@@ -356,7 +365,7 @@ class jsonSchema extends React.Component {
                   })}
                 </Select>
               </Col>
-              <Col span={5}    className="col-item col-item-desc">
+              <Col span={5} className="col-item col-item-desc">
                 <Input
                   addonAfter={
                     <Icon
@@ -369,7 +378,7 @@ class jsonSchema extends React.Component {
                   onChange={e => this.changeValue(['description'], e.target.value)}
                 />
               </Col>
-              <Col span={3}  className="col-item col-item-setting">
+              <Col span={3} className="col-item col-item-setting">
                 <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
                   <Tooltip placement="top" title={LocalProvider('adv_setting')}>
                     <Icon type="setting" />
@@ -398,20 +407,22 @@ class jsonSchema extends React.Component {
   }
 }
 
-export default connect(
-  state => ({
-    schema: state.schema.data,
-    open: state.schema.open
-  }),
-  {
-    changeEditorSchemaAction: Model.schema.changeEditorSchemaAction,
-    changeNameAction: Model.schema.changeNameAction,
-    changeValueAction: Model.schema.changeValueAction,
-    enableRequireAction: Model.schema.enableRequireAction,
-    addFieldAction: Model.schema.addFieldAction,
-    deleteItemAction: Model.schema.deleteItemAction,
-    changeTypeAction: Model.schema.changeTypeAction,
-    addChildFieldAction: Model.schema.addChildFieldAction,
-    setOpenValueAction: Model.schema.setOpenValueAction
-  }
-)(jsonSchema);
+export default Model =>
+  connect(
+    state => ({
+      schema: state.schema.data,
+      open: state.schema.open
+    }),
+    {
+      changeEditorSchemaAction: Model.schema.changeEditorSchemaAction,
+      changeNameAction: Model.schema.changeNameAction,
+      changeValueAction: Model.schema.changeValueAction,
+      enableRequireAction: Model.schema.enableRequireAction,
+      addFieldAction: Model.schema.addFieldAction,
+      deleteItemAction: Model.schema.deleteItemAction,
+      changeTypeAction: Model.schema.changeTypeAction,
+      addChildFieldAction: Model.schema.addChildFieldAction,
+      setOpenValueAction: Model.schema.setOpenValueAction,
+      requireAllAction: Model.schema.requireAllAction
+    }
+  )(jsonSchema);

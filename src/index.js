@@ -3,19 +3,91 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import "antd/dist/antd.css";
-const jEditor = require("../package/index.js")();
+const jeditor = require("../package/index.js");
 
-const store = jEditor.Model.getStore(
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+// const JEditor1 = jeditor()
+const JEditor2 = jeditor({
+  lang: 'zh_CN'
+})
 
+// const store = jEditor.Model.getStore(
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// );
+// const Component = jEditor.Component;
 
-const Component = jEditor.Component;
+let schema = {
+  "title": "Product",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for a product",
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMinimum": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "array": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "length": {
+            "type": "number"
+          },
+          "width": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          }
+        }
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "length": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "length",
+        "width",
+        "height"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "price"
+  ]
+};
 
-const schema = "";
+schema = JSON.stringify(schema, null, '  ')
 
 render(
-  <Provider store={store} className="wrapper">
     <div>
       <a  target="_blank" href="https://github.com/YMFE/json-schema-editor-visual"><h1>JSON-Schema-Editor</h1></a>
       <p style={{fontSize: '16px'}}>
@@ -33,14 +105,22 @@ render(
       
 
       
-      <Component
+      {/* <JEditor1
         showEditor={true}
         data={schema}
         onChange={e => {
           console.log("changeValue", e);
         }}
+      /> */}
+
+      <JEditor2
+        showEditor={true}
+        data={schema}
+        onChange={e => {
+          // console.log("changeValue", e);
+        }}
+
       />
-    </div>
-  </Provider>,
+    </div>,
   document.getElementById("root")
 );
