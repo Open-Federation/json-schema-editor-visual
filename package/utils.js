@@ -63,3 +63,42 @@ exports.clearSomeFields = function(keys, data) {
   });
   return newData;
 };
+
+exports.getFieldsName = function(data) {
+  const requiredName = [];
+  Object.keys(data).map(name => {
+    requiredName.push(name)
+  })
+
+  return requiredName;
+}
+
+exports.handleKeys = function(data, prefix) {
+  switch(data.type) {
+    case 'object':
+    return prefix;
+    case 'array':
+    prefix.push('items')
+    return prefix;
+    default:
+    return null
+  }
+}
+
+function handleData (data, prefix) {
+
+  
+  switch(data.type) {
+    case 'object':
+    prefix.push('properties')
+    return {data, prefix};
+    case 'array':
+    prefix.push('items')
+    data = handleData(data.items, prefix)
+    return {data, prefix};
+    default:
+    return null
+  }
+}
+
+exports.handleData = handleData

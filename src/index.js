@@ -10,7 +10,7 @@ if(process.process.env.NODE_ENV === 'production'){
 
 const jeditor = require("../package/index.js");
 
-const JEditor1 = jeditor()
+// const JEditor1 = jeditor()
 const JEditor2 = jeditor({
   lang: 'zh_CN'
 })
@@ -20,7 +20,77 @@ const JEditor2 = jeditor({
 // );
 // const Component = jEditor.Component;
 
-const schema = "";
+let schema = {
+  "title": "Product",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for a product",
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMinimum": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "array": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "length": {
+            "type": "number"
+          },
+          "width": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          }
+        }
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "length": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "length",
+        "width",
+        "height"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "price"
+  ]
+};
+
+schema = JSON.stringify(schema, null, '  ')
 
 render(
     <div>
@@ -40,12 +110,21 @@ render(
       
 
       
-      <JEditor1
+      {/* <JEditor1
         showEditor={true}
         data={schema}
         onChange={e => {
           console.log("changeValue", e);
         }}
+      /> */}
+
+      <JEditor2
+        showEditor={true}
+        data={schema}
+        onChange={e => {
+          // console.log("changeValue", e);
+        }}
+
       />
     </div>,
   document.getElementById("root")
