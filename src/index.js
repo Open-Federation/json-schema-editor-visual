@@ -21,72 +21,678 @@ const JEditor2 = jeditor({
 // const Component = jEditor.Component;
 
 let schema = {
-  "title": "Product",
+  "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "id": {
-      "description": "The unique identifier for a product",
+    "status": {
       "type": "number"
     },
-    "name": {
-      "type": "string"
-    },
-    "price": {
-      "type": "number",
-      "minimum": 0,
-      "exclusiveMinimum": true
-    },
-    "tags": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "minItems": 1,
-      "uniqueItems": true
-    },
-    "array": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "length": {
-            "type": "number"
-          },
-          "width": {
-            "type": "number"
-          },
-          "height": {
-            "type": "number"
-          }
-        }
-      },
-      "minItems": 1,
-      "uniqueItems": true
-    },
-    "dimensions": {
+    "newMindmap": {
       "type": "object",
       "properties": {
-        "length": {
+        "create_date": {
           "type": "number"
         },
-        "width": {
+        "dffdfdfdfdfdfdfdfdfdfdfd": {
           "type": "number"
         },
-        "height": {
+        "editor_id": {
+          "type": "string"
+        },
+        "idfgfgfgfgdfgffgfgfgfggfgdflfgkl": {
+          "type": "number"
+        },
+        "ispublic": {
+          "type": "number"
+        },
+        "json": {
+          "type": "object",
+          "properties": {
+            "root": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "expandState": {
+                      "type": "string"
+                    },
+                    "checklistDataOffsetBean": {
+                      "type": "null"
+                    },
+                    "color": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "children": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "textfgfgfgfgfgff": {
+                            "type": "string"
+                          },
+                          "expandState": {
+                            "type": "string"
+                          },
+                          "checklistDataOffsetBean": {
+                            "type": "null"
+                          },
+                          "color": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "textfgfgfgfgfgff"
+                        ]
+                      },
+                      "children": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "properties": {
+                                "text": {
+                                  "type": "string"
+                                },
+                                "expandState": {
+                                  "type": "string"
+                                },
+                                "checklistDataOffsetBean": {
+                                  "type": "null"
+                                },
+                                "color": {
+                                  "type": "string"
+                                },
+                                "priority": {
+                                  "type": "number"
+                                },
+                                "id": {
+                                  "type": "string"
+                                },
+                                "created": {
+                                  "type": "number"
+                                }
+                              }
+                            },
+                            "children": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "data": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "created": {
+                                        "type": "number"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      },
+                                      "progress": {
+                                        "type": "number"
+                                      },
+                                      "caseExtendField": {
+                                        "type": "object",
+                                        "properties": {
+                                          "assigneeAccount": {
+                                            "type": "string"
+                                          },
+                                          "assigneeName": {
+                                            "type": "string"
+                                          },
+                                          "caseDesc": {
+                                            "type": "string"
+                                          },
+                                          "caseToBugList": {
+                                            "type": "array",
+                                            "items": {}
+                                          },
+                                          "checklistId": {
+                                            "type": "number"
+                                          },
+                                          "createTime": {
+                                            "type": "object",
+                                            "properties": {
+                                              "date": {
+                                                "type": "number"
+                                              },
+                                              "day": {
+                                                "type": "number"
+                                              },
+                                              "hours": {
+                                                "type": "number"
+                                              },
+                                              "minutes": {
+                                                "type": "number"
+                                              },
+                                              "month": {
+                                                "type": "number"
+                                              },
+                                              "seconds": {
+                                                "type": "number"
+                                              },
+                                              "time": {
+                                                "type": "number"
+                                              },
+                                              "timezoneOffset": {
+                                                "type": "number"
+                                              },
+                                              "year": {
+                                                "type": "number"
+                                              }
+                                            }
+                                          },
+                                          "executeAccount": {
+                                            "type": "string"
+                                          },
+                                          "executeNames": {
+                                            "type": "string"
+                                          },
+                                          "id": {
+                                            "type": "number"
+                                          },
+                                          "imgUrls": {
+                                            "type": "string"
+                                          },
+                                          "isClose": {
+                                            "type": "number"
+                                          },
+                                          "isDel": {
+                                            "type": "number"
+                                          },
+                                          "leafId": {
+                                            "type": "string"
+                                          },
+                                          "pmoId": {
+                                            "type": "string"
+                                          },
+                                          "priority": {
+                                            "type": "string"
+                                          },
+                                          "relatedBugs": {
+                                            "type": "string"
+                                          },
+                                          "status": {
+                                            "type": "number"
+                                          },
+                                          "suggestion": {
+                                            "type": "string"
+                                          },
+                                          "title": {
+                                            "type": "string"
+                                          },
+                                          "updateTime": {
+                                            "type": "object",
+                                            "properties": {
+                                              "date": {
+                                                "type": "number"
+                                              },
+                                              "day": {
+                                                "type": "number"
+                                              },
+                                              "hours": {
+                                                "type": "number"
+                                              },
+                                              "minutes": {
+                                                "type": "number"
+                                              },
+                                              "month": {
+                                                "type": "number"
+                                              },
+                                              "seconds": {
+                                                "type": "number"
+                                              },
+                                              "time": {
+                                                "type": "number"
+                                              },
+                                              "timezoneOffset": {
+                                                "type": "number"
+                                              },
+                                              "year": {
+                                                "type": "number"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "children": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "data": {
+                                          "type": "object",
+                                          "properties": {
+                                            "id": {
+                                              "type": "string"
+                                            },
+                                            "created": {
+                                              "type": "number"
+                                            },
+                                            "text": {
+                                              "type": "string"
+                                            },
+                                            "caseExtendField": {
+                                              "type": "object",
+                                              "properties": {
+                                                "assigneeAccount": {
+                                                  "type": "string"
+                                                },
+                                                "assigneeName": {
+                                                  "type": "string"
+                                                },
+                                                "caseDesc": {
+                                                  "type": "string"
+                                                },
+                                                "caseToBugList": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "bugId": {
+                                                        "type": "number"
+                                                      },
+                                                      "status": {
+                                                        "type": "boolean"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "bugId",
+                                                      "status"
+                                                    ]
+                                                  }
+                                                },
+                                                "checklistId": {
+                                                  "type": "number"
+                                                },
+                                                "createTime": {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "date": {
+                                                      "type": "number"
+                                                    },
+                                                    "day": {
+                                                      "type": "number"
+                                                    },
+                                                    "hours": {
+                                                      "type": "number"
+                                                    },
+                                                    "minutes": {
+                                                      "type": "number"
+                                                    },
+                                                    "month": {
+                                                      "type": "number"
+                                                    },
+                                                    "seconds": {
+                                                      "type": "number"
+                                                    },
+                                                    "time": {
+                                                      "type": "number"
+                                                    },
+                                                    "timezoneOffset": {
+                                                      "type": "number"
+                                                    },
+                                                    "year": {
+                                                      "type": "number"
+                                                    }
+                                                  }
+                                                },
+                                                "executeAccount": {
+                                                  "type": "string"
+                                                },
+                                                "executeNames": {
+                                                  "type": "string"
+                                                },
+                                                "id": {
+                                                  "type": "number"
+                                                },
+                                                "imgUrls": {
+                                                  "type": "string"
+                                                },
+                                                "isClose": {
+                                                  "type": "number"
+                                                },
+                                                "isDel": {
+                                                  "type": "number"
+                                                },
+                                                "leafId": {
+                                                  "type": "string"
+                                                },
+                                                "pmoId": {
+                                                  "type": "string"
+                                                },
+                                                "priority": {
+                                                  "type": "string"
+                                                },
+                                                "relatedBugs": {
+                                                  "type": "string"
+                                                },
+                                                "status": {
+                                                  "type": "number"
+                                                },
+                                                "suggestion": {
+                                                  "type": "string"
+                                                },
+                                                "title": {
+                                                  "type": "string"
+                                                },
+                                                "updateTime": {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "date": {
+                                                      "type": "number"
+                                                    },
+                                                    "day": {
+                                                      "type": "number"
+                                                    },
+                                                    "hours": {
+                                                      "type": "number"
+                                                    },
+                                                    "minutes": {
+                                                      "type": "number"
+                                                    },
+                                                    "month": {
+                                                      "type": "number"
+                                                    },
+                                                    "seconds": {
+                                                      "type": "number"
+                                                    },
+                                                    "time": {
+                                                      "type": "number"
+                                                    },
+                                                    "timezoneOffset": {
+                                                      "type": "number"
+                                                    },
+                                                    "year": {
+                                                      "type": "number"
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            "image": {
+                                              "type": "string"
+                                            },
+                                            "imageTitle": {
+                                              "type": "string"
+                                            },
+                                            "imageSize": {
+                                              "type": "object",
+                                              "properties": {
+                                                "width": {
+                                                  "type": "number"
+                                                },
+                                                "height": {
+                                                  "type": "number"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "children": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "data": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "id": {
+                                                    "type": "string"
+                                                  },
+                                                  "created": {
+                                                    "type": "number"
+                                                  },
+                                                  "text": {
+                                                    "type": "string"
+                                                  },
+                                                  "caseExtendField": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "assigneeAccount": {
+                                                        "type": "string"
+                                                      },
+                                                      "assigneeName": {
+                                                        "type": "string"
+                                                      },
+                                                      "caseDesc": {
+                                                        "type": "string"
+                                                      },
+                                                      "caseToBugList": {
+                                                        "type": "array",
+                                                        "items": {
+                                                          "type": "object",
+                                                          "properties": {
+                                                            "bugId": {
+                                                              "type": "number"
+                                                            },
+                                                            "status": {
+                                                              "type": "boolean"
+                                                            }
+                                                          }
+                                                        }
+                                                      },
+                                                      "checklistId": {
+                                                        "type": "number"
+                                                      },
+                                                      "createTime": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "date": {
+                                                            "type": "number"
+                                                          },
+                                                          "day": {
+                                                            "type": "number"
+                                                          },
+                                                          "hours": {
+                                                            "type": "number"
+                                                          },
+                                                          "minutes": {
+                                                            "type": "number"
+                                                          },
+                                                          "month": {
+                                                            "type": "number"
+                                                          },
+                                                          "seconds": {
+                                                            "type": "number"
+                                                          },
+                                                          "time": {
+                                                            "type": "number"
+                                                          },
+                                                          "timezoneOffset": {
+                                                            "type": "number"
+                                                          },
+                                                          "year": {
+                                                            "type": "number"
+                                                          }
+                                                        }
+                                                      },
+                                                      "executeAccount": {
+                                                        "type": "string"
+                                                      },
+                                                      "executeNames": {
+                                                        "type": "string"
+                                                      },
+                                                      "id": {
+                                                        "type": "number"
+                                                      },
+                                                      "imgUrls": {
+                                                        "type": "string"
+                                                      },
+                                                      "isClose": {
+                                                        "type": "number"
+                                                      },
+                                                      "isDel": {
+                                                        "type": "number"
+                                                      },
+                                                      "leafId": {
+                                                        "type": "string"
+                                                      },
+                                                      "pmoId": {
+                                                        "type": "string"
+                                                      },
+                                                      "priority": {
+                                                        "type": "string"
+                                                      },
+                                                      "relatedBugs": {
+                                                        "type": "string"
+                                                      },
+                                                      "status": {
+                                                        "type": "number"
+                                                      },
+                                                      "suggestion": {
+                                                        "type": "string"
+                                                      },
+                                                      "title": {
+                                                        "type": "string"
+                                                      },
+                                                      "updateTime": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "date": {
+                                                            "type": "number"
+                                                          },
+                                                          "day": {
+                                                            "type": "number"
+                                                          },
+                                                          "hours": {
+                                                            "type": "number"
+                                                          },
+                                                          "minutes": {
+                                                            "type": "number"
+                                                          },
+                                                          "month": {
+                                                            "type": "number"
+                                                          },
+                                                          "seconds": {
+                                                            "type": "number"
+                                                          },
+                                                          "time": {
+                                                            "type": "number"
+                                                          },
+                                                          "timezoneOffset": {
+                                                            "type": "number"
+                                                          },
+                                                          "year": {
+                                                            "type": "number"
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "image": {
+                                                    "type": "string"
+                                                  },
+                                                  "imageTitle": {
+                                                    "type": "string"
+                                                  },
+                                                  "imageSize": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "width": {
+                                                        "type": "number"
+                                                      },
+                                                      "height": {
+                                                        "type": "number"
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "children": {
+                                                "type": "array",
+                                                "items": {}
+                                              }
+                                            },
+                                            "required": [
+                                              "data",
+                                              "children"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      "required": [
+                                        "data",
+                                        "children"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "data",
+                                  "children"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "data",
+                            "children"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "children"
+                    ]
+                  }
+                }
+              }
+            },
+            "template": {
+              "type": "string"
+            },
+            "theme": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          }
+        },
+        "last_editor_id": {
+          "type": "string"
+        },
+        "mubanId": {
+          "type": "number"
+        },
+        "pmo_id": {
+          "type": "string"
+        },
+        "suiteid": {
+          "type": "number"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
           "type": "number"
         }
       },
       "required": [
-        "length",
-        "width",
-        "height"
+        "idfgfgfgfgdfgffgfgfgfggfgdflfgkl",
+        "create_date"
       ]
     }
   },
   "required": [
-    "id",
-    "name",
-    "price"
+    "status"
   ]
 };
 

@@ -47,7 +47,7 @@ class SchemaArray extends PureComponent {
     this._tagPaddingLeftStyle = {};
   }
 
-  componentWillMount(){
+  componentWillMount() {
     const { prefix } = this.props;
     let length = prefix.filter(name => name != 'properties').length;
     this.__tagPaddingLeftStyle = {
@@ -212,10 +212,10 @@ class SchemaItem extends PureComponent {
   constructor(props) {
     super(props);
     this._tagPaddingLeftStyle = {};
-    this.num =0
+    this.num = 0
   }
 
-  componentWillMount(){
+  componentWillMount() {
     const { prefix } = this.props;
     let length = prefix.filter(name => name != 'properties').length;
     this.__tagPaddingLeftStyle = {
@@ -242,8 +242,8 @@ class SchemaItem extends PureComponent {
     this.context.changeValueAction(key, value);
   };
 
-  handleChangeDesc = (e)=>{
-    const {data, name} = this.props
+  handleChangeDesc = (e) => {
+    const { data, name } = this.props
     this.changeValue(this.getPrefix(), `description`, e.target.value)
   }
 
@@ -252,7 +252,7 @@ class SchemaItem extends PureComponent {
     this.context.changeTypeAction(key, value);
   };
 
-  handleChangeType = (e)=>{
+  handleChangeType = (e) => {
     this.changeType(this.getPrefix(), e)
   }
 
@@ -262,23 +262,23 @@ class SchemaItem extends PureComponent {
     this.context.enableRequireAction(prefix, name, false);
   };
 
-  handleDeleteItem = ()=>{
-    const {prefix, name} = this.props;
+  handleDeleteItem = () => {
+    const { prefix, name } = this.props;
     this.deleteItem(prefix, name)
   }
 
-  handleShowEdit = ()=>{
-    const {data, name, showEdit} = this.props
+  handleShowEdit = () => {
+    const { data, name, showEdit } = this.props
     showEdit(this.getPrefix(), `description`, data.properties[name].description)
   }
 
-  handleShowAdv = ()=>{
-    const {data, name, showAdv} = this.props
+  handleShowAdv = () => {
+    const { data, name, showAdv } = this.props
     showAdv(this.getPrefix(), data.properties[name])
   }
 
-  handleAddField = ()=>{
-    const {prefix, name} = this.props;
+  handleAddField = () => {
+    const { prefix, name } = this.props;
     this.addField(prefix, name)
   }
 
@@ -286,20 +286,20 @@ class SchemaItem extends PureComponent {
     this.context.addFieldAction(prefix, name);
   };
 
-  getPrefix(){
+  getPrefix() {
     return [].concat(this.props.prefix, this.props.name)
   }
 
-  handleClickIcon = ()=>{
+  handleClickIcon = () => {
     this.clickIcon(this.getPrefix())
   }
 
-  handleEnableRequire = (e)=>{
+  handleEnableRequire = (e) => {
     this.enableRequire(this.props.prefix, this.props.name, e.target.checked)
   }
 
-  handleChangeName =(e)=>{
-    const {data, prefix, name} = this.props
+  handleChangeName = (e) => {
+    const { data, prefix, name } = this.props
     if (
       data.properties[e.target.value] &&
       typeof data.properties[e.target.value] === 'object'
@@ -410,7 +410,7 @@ class SchemaItem extends PureComponent {
           </Row>
           <div className="option-formStyle">{mapping(prefixArray, value, showEdit, showAdv)}</div>
         </div>
-      ): null
+      ) : null
     );
   }
 
@@ -428,35 +428,40 @@ SchemaItem.contextTypes = {
   getOpenValue: PropTypes.func
 };
 
-const SchemaObject = (props) => {
-  const { data, prefix, showEdit, showAdv } = props;
-  return (
-    <div className="object-style">
-      {Object.keys(data.properties).map((name, index) =>
-        <SchemaItem
-          key={index}
-          data={props.data}
-          name={name}
-          prefix={prefix}
-          showEdit={showEdit}
-          showAdv={showAdv} />
-      )}
-    </div>
-  );
+class SchemaObjectComponent extends PureComponent {
+  shouldComponentUpdate(nextProps) {
+    if (_.isEqual(nextProps.data, this.props.data)
+      && _.isEqual(nextProps.prefix, this.props.prefix)
+      && _.isEqual(nextProps.open, this.props.open)
+    ) {
+      return false;
+    }
+    return true;
+  }
 
+  render() {
+    const { data, prefix, showEdit, showAdv } = this.props;
+    return (
+      <div className="object-style">
+        {Object.keys(data.properties).map((name, index) =>
+          <SchemaItem
+            key={index}
+            data={this.props.data}
+            name={name}
+            prefix={prefix}
+            showEdit={showEdit}
+            showAdv={showAdv} />
+        )}
+      </div>
+    );
+  }
 }
 
-// SchemaObject.contextTypes = {
-//   changeNameAction: PropTypes.func,
-//   changeValueAction: PropTypes.func,
-//   enableRequireAction: PropTypes.func,
-//   addFieldAction: PropTypes.func,
-//   deleteItemAction: PropTypes.func,
-//   changeTypeAction: PropTypes.func,
-//   addChildFieldAction: PropTypes.func,
-//   setOpenValueAction: PropTypes.func,
-//   getOpenValue: PropTypes.func
-// };
+const SchemaObject = connect(state => ({
+  open: state.schema.open
+}))(SchemaObjectComponent)
+
+
 
 const DropPlus = props => {
   const { prefix, name, add } = props;
