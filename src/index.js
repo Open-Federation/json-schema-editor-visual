@@ -33,13 +33,13 @@ let schema = {
         "create_date": {
           "type": "number"
         },
-        "dffdfdfdfdfdfdfdfdfdfdfd": {
+        "xxx": {
           "type": "number"
         },
         "editor_id": {
           "type": "string"
         },
-        "idfgfgfgfgdfgffgfgfgfggfgdflfgkl": {
+        "yyy": {
           "type": "number"
         },
         "ispublic": {

@@ -380,7 +380,7 @@ class SchemaItem extends PureComponent {
                 addonAfter={
                   <Icon
                     type="edit"
-                    onClick={this.hanldeShowEdit}
+                    onClick={this.handleShowEdit}
                   />
                 }
                 placeholder={LocaleProvider('description')}
