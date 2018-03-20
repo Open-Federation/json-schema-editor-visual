@@ -81,8 +81,8 @@ class SchemaArray extends PureComponent {
     this.changeValue(prefix, `description`, e.target.value);
   };
 
-  addChildField = (prefix, name, change) => {
-    let keyArr = [].concat(prefix, name, 'properties');
+  addChildField = (prefix) => {
+    let keyArr = [].concat(prefix, 'properties');
     this.Model.addChildFieldAction({key:keyArr});
     this.Model.setOpenValueAction({key: keyArr, value: true});
   };
@@ -112,7 +112,7 @@ class SchemaArray extends PureComponent {
   };
 
   handleAddChildField = () => {
-    this.addChildField(this.getPrefix(), 'items');
+    this.addChildField(this.getPrefix());
   };
 
   render() {
