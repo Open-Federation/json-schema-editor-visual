@@ -249,7 +249,6 @@ class SchemaItem extends PureComponent {
 
   changeType = (prefix, value) => {
     let key = [].concat(prefix, 'type');
-    console.log(key, value)
     this.context.changeTypeAction(key, value);
   };
 
