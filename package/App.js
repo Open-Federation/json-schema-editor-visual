@@ -126,7 +126,7 @@ class jsonSchema extends React.Component {
   };
 
   changeType = (key, value) => {
-    this.props.changeTypeAction([key], value);
+    utils.userModel.changeTypeAction({key: [key], value});
   };
 
   handleImportJson = e => {
@@ -153,7 +153,7 @@ class jsonSchema extends React.Component {
   };
 
   changeValue = (key, value) => {
-    this.props.changeValueAction(key, value);
+    utils.userModel.changeValueAction({key, value});
   };
 
   // 备注弹窗
@@ -161,8 +161,9 @@ class jsonSchema extends React.Component {
     this.setState({
       editVisible: false
     });
-    this.props.changeValueAction(this.state.descriptionKey, this.state.description);
+    utils.userModel.changeValueAction({key: this.state.descriptionKey, value: this.state.description});
   };
+
   handleEditCancel = () => {
     this.setState({
       editVisible: false
@@ -192,7 +193,7 @@ class jsonSchema extends React.Component {
         value: this.state.curItemCustomValue
       });
     } else {
-      this.props.changeValueAction(this.state.itemKey, this.state.curItemCustomValue);
+      utils.userModel.changeValueAction({key: this.state.itemKey, value: this.state.curItemCustomValue});
     }
     this.setState({
       advVisible: false
