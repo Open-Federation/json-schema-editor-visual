@@ -25,6 +25,7 @@ import PropTypes from 'prop-types';
 import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 const InputGroup = Input.Group;
 import LocaleProvider from '../LocalProvider/index.js';
+import utils from '../../utils'
 
 const mapping = (name, data, showEdit, showAdv) => {
   switch (data.type) {
@@ -42,6 +43,11 @@ const mapping = (name, data, showEdit, showAdv) => {
 
 
 class SchemaArray extends PureComponent {
+  static contextTypes={
+    setOpenValueAction: PropTypes.func,
+    getOpenValue: PropTypes.func
+  }
+
   constructor(props) {
     super(props);
     this._tagPaddingLeftStyle = {};
@@ -57,7 +63,7 @@ class SchemaArray extends PureComponent {
 
   changeType = (prefix, value) => {
     let key = [].concat(prefix, 'type');
-    this.context.changeTypeAction(key, value);
+    utils.userModel.changeTypeAction({key, value});
   };
 
   handleChangeType = (value) => {
@@ -67,7 +73,7 @@ class SchemaArray extends PureComponent {
 
   changeValue = (prefix, type, value, change) => {
     let key = [].concat(prefix, type);
-    this.context.changeValueAction(key, value);
+    utils.userModel.changeValueAction({key, value});
   };
 
   handleChangeValue = (e) => {
@@ -77,8 +83,8 @@ class SchemaArray extends PureComponent {
 
   addChildField = (prefix, name, change) => {
     let keyArr = [].concat(prefix, name, 'properties');
-    this.context.addChildFieldAction(keyArr);
-    this.context.setOpenValueAction(keyArr, true);
+    utils.userModel.addChildFieldAction({key:keyArr});
+    utils.userModel.setOpenValueAction({key: keyArr, value: true});
   };
 
   getPrefix() {
@@ -89,7 +95,7 @@ class SchemaArray extends PureComponent {
   clickIcon = prefix => {
     // 数据存储在 properties.name.properties下
     let keyArr = [].concat(prefix, 'properties');
-    this.context.setOpenValueAction(keyArr);
+    utils.userModel.setOpenValueAction({key: keyArr});
   };
 
   handleClickIcon = () => {
@@ -196,19 +202,12 @@ class SchemaArray extends PureComponent {
   }
 }
 
-// const SchemaArray = (props, context) => {
-
-// };
-
-SchemaArray.contextTypes = {
-  changeTypeAction: PropTypes.func,
-  changeValueAction: PropTypes.func,
-  addChildFieldAction: PropTypes.func,
-  setOpenValueAction: PropTypes.func,
-  getOpenValue: PropTypes.func
-};
 
 class SchemaItem extends PureComponent {
+  static contextTypes={
+    setOpenValueAction: PropTypes.func,
+    getOpenValue: PropTypes.func
+  }
   constructor(props) {
     super(props);
     this._tagPaddingLeftStyle = {};
@@ -226,20 +225,20 @@ class SchemaItem extends PureComponent {
   clickIcon = prefix => {
     // 数据存储在 properties.name.properties下
     let keyArr = [].concat(prefix, 'properties');
-    this.context.setOpenValueAction(keyArr);
+    utils.userModel.setOpenValueAction({key: keyArr});
   };
 
   enableRequire = (prefix, name, required) => {
-    this.context.enableRequireAction(prefix, name, required);
+    utils.userModel.enableRequireAction({prefix, name, required});
   };
 
   changeName = (value, prefix, name) => {
-    this.context.changeNameAction(value, prefix, name);
+    utils.userModel.changeNameAction({value, prefix, name});
   };
 
   changeValue = (prefix, type, value) => {
     let key = [].concat(prefix, type);
-    this.context.changeValueAction(key, value);
+    utils.userModel.changeValueAction({key, value});
   };
 
   handleChangeDesc = (e) => {
@@ -249,7 +248,7 @@ class SchemaItem extends PureComponent {
 
   changeType = (prefix, value) => {
     let key = [].concat(prefix, 'type');
-    this.context.changeTypeAction(key, value);
+    utils.userModel.changeTypeAction({key, value});
   };
 
   handleChangeType = (e) => {
@@ -258,8 +257,8 @@ class SchemaItem extends PureComponent {
 
   deleteItem = (prefix, name, change) => {
     let nameArray = [].concat(prefix, name);
-    this.context.deleteItemAction(nameArray);
-    this.context.enableRequireAction(prefix, name, false);
+    utils.userModel.deleteItemAction({key: nameArray});
+    utils.userModel.enableRequireAction({prefix, name, required: false});
   };
 
   handleDeleteItem = () => {
@@ -283,7 +282,7 @@ class SchemaItem extends PureComponent {
   }
 
   addField = (prefix, name) => {
-    this.context.addFieldAction(prefix, name);
+    utils.userModel.addFieldAction({prefix, name});
   };
 
   getPrefix() {
@@ -398,7 +397,7 @@ class SchemaItem extends PureComponent {
                 <Icon type="close" className="close" />
               </span>
               {value.type === 'object' ? (
-                <DropPlus prefix={prefix} name={name} add={this.context} />
+                <DropPlus prefix={prefix} name={name} />
               ) : (
                   <span onClick={this.handleAddField}>
                     <Tooltip placement="top" title={LocaleProvider('add_sibling_node')}>
@@ -415,18 +414,6 @@ class SchemaItem extends PureComponent {
   }
 
 }
-
-SchemaItem.contextTypes = {
-  changeNameAction: PropTypes.func,
-  changeValueAction: PropTypes.func,
-  enableRequireAction: PropTypes.func,
-  addFieldAction: PropTypes.func,
-  deleteItemAction: PropTypes.func,
-  changeTypeAction: PropTypes.func,
-  addChildFieldAction: PropTypes.func,
-  setOpenValueAction: PropTypes.func,
-  getOpenValue: PropTypes.func
-};
 
 class SchemaObjectComponent extends PureComponent {
   shouldComponentUpdate(nextProps) {
@@ -468,12 +455,12 @@ const DropPlus = props => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <span onClick={() => addField(prefix, name, add.addFieldAction)}>
+        <span onClick={() => utils.userModel.addFieldAction({prefix, name})}>
           {LocaleProvider('sibling_node')}
         </span>
       </Menu.Item>
       <Menu.Item>
-        <span onClick={() => addChildField(prefix, name, add)}>{LocaleProvider('child_node')}</span>
+        <span onClick={() => utils.userModel.addChildFieldAction({key: [].concat(prefix, name, 'properties')})}>{LocaleProvider('child_node')}</span>
       </Menu.Item>
     </Menu>
   );

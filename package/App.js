@@ -17,6 +17,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
 const TabPane = Tabs.TabPane;
+
 import './index.css';
 import AceEditor from './components/AceEditor/AceEditor.js';
 import _ from 'underscore';
@@ -64,10 +65,10 @@ class jsonSchema extends React.Component {
     if (this.importJsonType !== 'schema') {
       if (!this.jsonData) return;
       let jsonData = GenerateSchema(this.jsonData);
-      this.props.changeEditorSchemaAction(jsonData);
+      utils.userModel.changeEditorSchemaAction({value: jsonData});
     } else {
       if (!this.jsonSchemaData) return;
-      this.props.changeEditorSchemaAction(this.jsonSchemaData);
+      utils.userModel.changeEditorSchemaAction({value: this.jsonSchemaData});
     }
   };
   handleCancel = () => {
@@ -81,7 +82,7 @@ class jsonSchema extends React.Component {
       if (oldData !== newData) return this.props.onChange(newData);
     }
     if (this.props.data && this.props.data !== nextProps.data) {
-      this.props.changeEditorSchemaAction(JSON.parse(nextProps.data));
+      utils.userModel.changeEditorSchemaAction({value: JSON.parse(nextProps.data)});
     }
   }
 
@@ -94,32 +95,16 @@ class jsonSchema extends React.Component {
         "properties":{}
       }`;
     }
-    this.props.changeEditorSchemaAction(JSON.parse(data));
+    utils.userModel.changeEditorSchemaAction({value: JSON.parse(data)});
   }
 
   static childContextTypes = {
-    changeNameAction: PropTypes.func,
-    changeValueAction: PropTypes.func,
-    enableRequireAction: PropTypes.func,
-    addFieldAction: PropTypes.func,
-    deleteItemAction: PropTypes.func,
-    changeTypeAction: PropTypes.func,
-    addChildFieldAction: PropTypes.func,
-    setOpenValueAction: PropTypes.func,
     getOpenValue: PropTypes.func,
     changeCustomValue: PropTypes.func
   };
 
   getChildContext() {
     return {
-      changeNameAction: this.props.changeNameAction,
-      changeValueAction: this.props.changeValueAction,
-      enableRequireAction: this.props.enableRequireAction,
-      addFieldAction: this.props.addFieldAction,
-      deleteItemAction: this.props.deleteItemAction,
-      changeTypeAction: this.props.changeTypeAction,
-      addChildFieldAction: this.props.addChildFieldAction,
-      setOpenValueAction: this.props.setOpenValueAction,
       getOpenValue: keys => {
         return utils.getData(this.props.open, keys);
       },
@@ -134,7 +119,9 @@ class jsonSchema extends React.Component {
       return message.error('不是合法的 json 字符串');
     }
     handleSchema(e.jsonData);
-    this.props.changeEditorSchemaAction(e.jsonData);
+    utils.userModel.changeEditorSchemaAction({
+      value: e.jsonData
+    });
   };
 
   changeType = (key, value) => {
@@ -156,7 +143,7 @@ class jsonSchema extends React.Component {
   };
 
   addChildField = key => {
-    this.props.addChildFieldAction([key]);
+    utils.userModel.addChildFieldAction({key: [key]});
     this.setState({ show: true });
   };
 
@@ -200,7 +187,9 @@ class jsonSchema extends React.Component {
   // 高级设置
   handleAdvOk = () => {
     if (this.state.itemKey.length === 0) {
-      this.props.changeEditorSchemaAction(this.state.curItemCustomValue);
+      utils.userModel.changeEditorSchemaAction({
+        value: this.state.curItemCustomValue
+      });
     } else {
       this.props.changeValueAction(this.state.itemKey, this.state.curItemCustomValue);
     }
@@ -229,8 +218,7 @@ class jsonSchema extends React.Component {
   };
 
   changeCheckBox = e => {
-    console.log(e);
-    this.props.requireAllAction(e, this.props.schema);
+    utils.userModel.requireAllAction({required: e, value: this.props.schema});
   };
 
   render() {
@@ -410,22 +398,9 @@ class jsonSchema extends React.Component {
   }
 }
 
-export default Model =>
-  connect(
+export default connect(
     state => ({
       schema: state.schema.data,
       open: state.schema.open
-    }),
-    {
-      changeEditorSchemaAction: Model.schema.changeEditorSchemaAction,
-      changeNameAction: Model.schema.changeNameAction,
-      changeValueAction: Model.schema.changeValueAction,
-      enableRequireAction: Model.schema.enableRequireAction,
-      addFieldAction: Model.schema.addFieldAction,
-      deleteItemAction: Model.schema.deleteItemAction,
-      changeTypeAction: Model.schema.changeTypeAction,
-      addChildFieldAction: Model.schema.addChildFieldAction,
-      setOpenValueAction: Model.schema.setOpenValueAction,
-      requireAllAction: Model.schema.requireAllAction
-    }
+    })
   )(jsonSchema);

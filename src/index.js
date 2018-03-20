@@ -11,14 +11,7 @@ if(process.env.NODE_ENV !== 'production'){
 const jeditor = require("../package/index.js");
 
 // const JEditor1 = jeditor()
-const JEditor2 = jeditor({
-  lang: 'zh_CN'
-})
-
-// const store = jEditor.Model.getStore(
-//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-// );
-// const Component = jEditor.Component;
+const JEditor2 = jeditor()
 
 let schema = {
   "$schema": "http://json-schema.org/draft-04/schema#",

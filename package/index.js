@@ -8,7 +8,6 @@ import schema from './models/schema'
 import PropTypes from 'prop-types'
 
 
-import {combineReducers, createStore , applyMiddleware} from 'redux'
 
 
 module.exports = (config = {})=>{
@@ -17,13 +16,12 @@ module.exports = (config = {})=>{
     schema
   })
 
+  utils.userModel = Model.schema;
   const store = Model.getStore();
-
-  const Schema= App(Model)
 
   const Component = (props)=>{
     return <Provider store={store} className="wrapper">
-      <Schema {...props} />
+      <App {...props} />
     </Provider>
   }
 
