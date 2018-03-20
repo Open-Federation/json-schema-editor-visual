@@ -47,10 +47,13 @@ class SchemaArray extends PureComponent {
     this._tagPaddingLeftStyle = {};
   }
 
-  handleTagPaddingLeft = length => {
-    this._tagPaddingLeftStyle.paddingLeft = `${20 * (length + 1)}px`;
-    return this._tagPaddingLeftStyle;
-  };
+  componentWillMount(){
+    const { prefix } = this.props;
+    let length = prefix.filter(name => name != 'properties').length;
+    this.__tagPaddingLeftStyle = {
+      paddingLeft: `${20 * (length + 1)}px`
+    }
+  }
 
   changeType = (prefix, value) => {
     let key = [].concat(prefix, 'type');
@@ -122,7 +125,7 @@ class SchemaArray extends PureComponent {
             <Col
               span={12}
               className="col-item name-item col-item-name"
-              style={this.handleTagPaddingLeft(length)}
+              style={this.__tagPaddingLeftStyle}
             >
               <Row type="flex" justify="space-around" align="middle">
                 <Col span={2}>
@@ -212,10 +215,13 @@ class SchemaItem extends PureComponent {
     this.num =0
   }
 
-  handleTagPaddingLeft = length => {
-    this._tagPaddingLeftStyle.paddingLeft = `${20 * (length + 1)}px`;
-    return this._tagPaddingLeftStyle
-  };
+  componentWillMount(){
+    const { prefix } = this.props;
+    let length = prefix.filter(name => name != 'properties').length;
+    this.__tagPaddingLeftStyle = {
+      paddingLeft: `${20 * (length + 1)}px`
+    }
+  }
 
   clickIcon = prefix => {
     // 数据存储在 properties.name.properties下
@@ -247,7 +253,7 @@ class SchemaItem extends PureComponent {
   };
 
   handleChangeType = (e)=>{
-    this.changeType(this.getPrefix(), 'type', e)
+    this.changeType(this.getPrefix(), e)
   }
 
   deleteItem = (prefix, name, change) => {
@@ -322,7 +328,7 @@ class SchemaItem extends PureComponent {
             <Col
               span={12}
               className="col-item name-item col-item-name"
-              style={this.handleTagPaddingLeft(length)}
+              style={this.__tagPaddingLeftStyle}
             >
               <Row type="flex" justify="space-around" align="middle">
                 <Col span={2}>
