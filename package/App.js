@@ -230,7 +230,7 @@ class jsonSchema extends React.Component {
 
   changeCheckBox = e => {
     console.log(e);
-    this.props.requireAllAction(e);
+    this.props.requireAllAction(e, this.props.schema);
   };
 
   render() {
@@ -339,10 +339,13 @@ class jsonSchema extends React.Component {
                   <Col span={22}>
                     <Input
                       addonAfter={
-                        <Checkbox
+                        <Tooltip placement="top" title={LocalProvider('checked_all')}>
+                          <Checkbox
                           disabled={checked}
                           onChange={e => this.changeCheckBox(e.target.checked)}
                         />
+                        </Tooltip>
+                        
                       }
                       disabled
                       value="root"

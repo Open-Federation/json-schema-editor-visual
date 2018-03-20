@@ -1,7 +1,7 @@
 const JSONPATH_JOIN_CHAR = '.';
 exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR;
 exports.lang = 'en_US'
-
+const _ = require('underscore');
 exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
 exports.defaultSchema = {
   string: {
@@ -64,7 +64,7 @@ exports.clearSomeFields = function(keys, data) {
   return newData;
 };
 
-exports.getFieldsName = function(data) {
+function getFieldsName (data) {
   const requiredName = [];
   Object.keys(data).map(name => {
     requiredName.push(name)
@@ -73,32 +73,55 @@ exports.getFieldsName = function(data) {
   return requiredName;
 }
 
-exports.handleKeys = function(data, prefix) {
-  switch(data.type) {
-    case 'object':
-    return prefix;
-    case 'array':
-    prefix.push('items')
-    return prefix;
-    default:
-    return null
-  }
-}
 
-function handleData (data, prefix) {
+
+function handleSchemaRequired(schema, checked) {
 
   
-  switch(data.type) {
-    case 'object':
-    prefix.push('properties')
-    return {data, prefix};
-    case 'array':
-    prefix.push('items')
-    data = handleData(data.items, prefix)
-    return {data, prefix};
-    default:
-    return null
+  // console.log(schema)
+  if (schema.type === "object") {
+    let requiredName = getFieldsName(schema.properties);
+    
+    schema.required = checked ? [].concat(requiredName) : []
+    
+    // schema.required = 
+    // schema = Object.assign({},schema, {required})
+    handleObject(schema.properties, checked);
+  }else if (schema.type === "array") {
+    
+    handleSchemaRequired(schema.items, checked);
+  }else{
+    return schema
   }
 }
 
-exports.handleData = handleData
+function handleObject(properties, checked) {
+  for (var key in properties) {
+    if(properties[key].type === 'array' || properties[key].type === 'object')
+    handleSchemaRequired(properties[key], checked);
+  }
+}
+
+exports.handleSchemaRequired = handleSchemaRequired;
+
+function cloneObject (obj) {
+  if(typeof obj === "object") {
+      if(_.isArray(obj)) {
+          var newArr = [];
+          newArr =[].concat(obj);
+          return newArr;
+      } else {
+          var newObj = {};
+          for(var key in obj) {
+              newObj[key] = cloneObject(obj[key]);
+          }
+          return newObj;
+      }
+  } else {
+      return obj;
+  }
+};
+
+exports.cloneObject = cloneObject;
+
+
