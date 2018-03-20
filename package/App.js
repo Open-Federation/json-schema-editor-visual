@@ -41,7 +41,8 @@ class jsonSchema extends React.Component {
       descriptionKey: null,
       advVisible: false,
       itemKey: [],
-      curItemCustomValue: null
+      curItemCustomValue: null,
+      checked: false
     };
 
     this.jsonSchemaData = null;
@@ -230,13 +231,14 @@ class jsonSchema extends React.Component {
 
   changeCheckBox = e => {
     console.log(e);
+    this.setState({checked: e})
     this.props.requireAllAction(e, this.props.schema);
   };
 
   render() {
-    const { visible, editVisible, description, advVisible, type } = this.state;
+    const { visible, editVisible, description, advVisible, type, checked } = this.state;
 
-    let checked =
+    let disabled =
       this.props.schema.type === 'object' || this.props.schema.type === 'array' ? false : true;
 
     return (
@@ -341,7 +343,8 @@ class jsonSchema extends React.Component {
                       addonAfter={
                         <Tooltip placement="top" title={LocalProvider('checked_all')}>
                           <Checkbox
-                          disabled={checked}
+                          checked={checked}
+                          disabled={disabled}
                           onChange={e => this.changeCheckBox(e.target.checked)}
                         />
                         </Tooltip>
