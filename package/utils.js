@@ -1,7 +1,7 @@
 const JSONPATH_JOIN_CHAR = '.';
 exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR;
 exports.lang = 'en_US'
-
+const _ = require('underscore');
 exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
 exports.defaultSchema = {
   string: {
@@ -75,31 +75,53 @@ function getFieldsName (data) {
 
 
 
-function handleSchemaRequired(schema) {
+function handleSchemaRequired(schema, checked) {
+
   
+  // console.log(schema)
   if (schema.type === "object") {
     let requiredName = getFieldsName(schema.properties);
-    console.log(requiredName)
-    if(!schema.required)schema.required = [].concat(requiredName)
-    console.log(schema.required)
+    
+    schema.required = checked ? [].concat(requiredName) : []
+    
     // schema.required = 
     // schema = Object.assign({},schema, {required})
-    handleObject(schema.properties);
+    handleObject(schema.properties, checked);
   }else if (schema.type === "array") {
     
-    handleSchemaRequired(schema.items);
+    handleSchemaRequired(schema.items, checked);
   }else{
     return schema
   }
 }
 
-function handleObject(properties) {
+function handleObject(properties, checked) {
   for (var key in properties) {
     if(properties[key].type === 'array' || properties[key].type === 'object')
-    handleSchemaRequired(properties[key]);
+    handleSchemaRequired(properties[key], checked);
   }
 }
 
 exports.handleSchemaRequired = handleSchemaRequired;
+
+function cloneObject (obj) {
+  if(typeof obj === "object") {
+      if(_.isArray(obj)) {
+          var newArr = [];
+          newArr =[].concat(obj);
+          return newArr;
+      } else {
+          var newObj = {};
+          for(var key in obj) {
+              newObj[key] = cloneObject(obj[key]);
+          }
+          return newObj;
+      }
+  } else {
+      return obj;
+  }
+};
+
+exports.cloneObject = cloneObject;
 
 

@@ -70,7 +70,7 @@ export default {
   },
 
   enableRequireAction: (prefix, name, required = true) => {
-    console.log('prefix', prefix);
+    
     return {
       prefix,
       name,
@@ -166,8 +166,10 @@ export default {
 
     requireAllAction: function(state, action, oldState) {
       // let oldData = oldState.data;
-      utils.handleSchemaRequired(action.value)
-      // console.log(oldData)
+      let data = utils.cloneObject(action.value)
+      utils.handleSchemaRequired(data, action.required)
+      
+      state.data = data;
       
     },
 
