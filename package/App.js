@@ -230,7 +230,7 @@ class jsonSchema extends React.Component {
 
   changeCheckBox = e => {
     console.log(e);
-    this.props.requireAllAction(e);
+    this.props.requireAllAction(e, this.props.schema);
   };
 
   render() {

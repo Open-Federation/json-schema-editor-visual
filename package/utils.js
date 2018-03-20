@@ -64,7 +64,7 @@ exports.clearSomeFields = function(keys, data) {
   return newData;
 };
 
-exports.getFieldsName = function(data) {
+function getFieldsName (data) {
   const requiredName = [];
   Object.keys(data).map(name => {
     requiredName.push(name)
@@ -73,32 +73,33 @@ exports.getFieldsName = function(data) {
   return requiredName;
 }
 
-exports.handleKeys = function(data, prefix) {
-  switch(data.type) {
-    case 'object':
-    return prefix;
-    case 'array':
-    prefix.push('items')
-    return prefix;
-    default:
-    return null
-  }
-}
 
-function handleData (data, prefix) {
 
+function handleSchemaRequired(schema) {
   
-  switch(data.type) {
-    case 'object':
-    prefix.push('properties')
-    return {data, prefix};
-    case 'array':
-    prefix.push('items')
-    data = handleData(data.items, prefix)
-    return {data, prefix};
-    default:
-    return null
+  if (schema.type === "object") {
+    let requiredName = getFieldsName(schema.properties);
+    console.log(requiredName)
+    if(!schema.required)schema.required = [].concat(requiredName)
+    console.log(schema.required)
+    // schema.required = 
+    // schema = Object.assign({},schema, {required})
+    handleObject(schema.properties);
+  }else if (schema.type === "array") {
+    
+    handleSchemaRequired(schema.items);
+  }else{
+    return schema
   }
 }
 
-exports.handleData = handleData
+function handleObject(properties) {
+  for (var key in properties) {
+    if(properties[key].type === 'array' || properties[key].type === 'object')
+    handleSchemaRequired(properties[key]);
+  }
+}
+
+exports.handleSchemaRequired = handleSchemaRequired;
+
+

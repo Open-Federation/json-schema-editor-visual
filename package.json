@@ -10,11 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "antd": "^3.1.6",
+    "brace": "^0.10.0",
     "generate-schema": "^2.6.0",
     "moox": "^1.0.0-beta5",
+    "react-addons-perf": "^15.4.2",
     "react-redux": "^5.0.6",
-    "underscore": "^1.8.3",
-    "brace": "^0.10.0"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.1",

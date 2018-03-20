@@ -1,6 +1,7 @@
 const _ = require('underscore');
 import utils from '../utils';
 let fieldNum = 1;
+import handleSchema from '../schema.js'
 
 export default {
   state: {
@@ -77,16 +78,18 @@ export default {
     };
   },
 
-  requireAllAction: required => {
-    console.log('requireAllAction', required);
+  requireAllAction: (required, value) => {
+    console.log('requireAllAction', required, value);
 
     return {
-      required
+      required,
+      value
     };
   },
 
   reducers: {
     changeEditorSchemaAction: function(state, action) {
+      handleSchema(action.value)
       state.data = action.value;
     },
 
@@ -161,36 +164,12 @@ export default {
       }
     },
 
-    // requireAllAction: function(state, action, oldState) {
-    //   let oldData = oldState.data;
-    //   let data = utils.handleData(oldData, []);
-    //   console.log('data', data);
-    //   Object.keys(data.data.properties).map(name => {
-    //     let value = data.data.properties[name];
-    //     let childData = utils.handleData(value, ['properties', name]);
-    //     // let childKets = utils.handleKeys(, [])
-    //     console.log(childData);
-    //     if (childData && childData.data) {
-    //       let parentKeys = childData.prefix ;
-    //       let L =  childData.data;
-    //       console.log("Ldata",L)
-    //       let parentData = utils.getData(L, parentKeys);
-    //       // console.log(parentData)
-    //       let requiredData = [].concat(parentData.required || []);
-
-    //       if (action.required) {
-    //         let requiredName = utils.getFieldsName(parentData.properties);
-    //         console.log(requiredName);
-    //         requiredData = _.union(requiredName, requiredData);
-    //       } else {
-    //         requiredData = [];
-    //       }
-    //       console.log(requiredData);
-    //       parentKeys.push('required');
-    //       utils.setData(state.data, parentKeys, requiredData);
-    //     }
-    //   });
-    // },
+    requireAllAction: function(state, action, oldState) {
+      // let oldData = oldState.data;
+      utils.handleSchemaRequired(action.value)
+      // console.log(oldData)
+      
+    },
 
     deleteItemAction: function(state, action, oldState) {
       const keys = action.key;
