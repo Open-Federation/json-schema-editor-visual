@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import {
   Dropdown,
   Menu,
@@ -41,7 +41,7 @@ const mapping = (name, data, showEdit, showAdv) => {
   }
 };
 
-class SchemaArray extends PureComponent {
+class SchemaArray extends Component {
   static contextTypes = {
     setOpenValueAction: PropTypes.func,
     getOpenValue: PropTypes.func
@@ -195,7 +195,7 @@ class SchemaArray extends PureComponent {
   }
 }
 
-class SchemaItem extends PureComponent {
+class SchemaItem extends Component {
   static contextTypes = {
     setOpenValueAction: PropTypes.func,
     getOpenValue: PropTypes.func
@@ -393,7 +393,7 @@ class SchemaItem extends PureComponent {
   }
 }
 
-class SchemaObjectComponent extends PureComponent {
+class SchemaObjectComponent extends Component {
   shouldComponentUpdate(nextProps) {
     if (
       _.isEqual(nextProps.data, this.props.data) &&

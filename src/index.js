@@ -10,7 +10,7 @@ if(process.env.NODE_ENV !== 'production'){
 
 const jeditor = require("../package/index.js");
 
-// const JEditor1 = jeditor()
+const JEditor1 = jeditor()
 const JEditor2 = jeditor()
 
 let schema = {
@@ -712,13 +712,13 @@ render(
       
 
       
-      {/* <JEditor1
+      <JEditor1
         showEditor={true}
-        data={schema}
+        data={''}
         onChange={e => {
           console.log("changeValue", e);
         }}
-      /> */}
+      />
 
       <JEditor2
         showEditor={true}
