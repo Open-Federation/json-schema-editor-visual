@@ -26,7 +26,8 @@ const langs = {
     'unique_items': 'unique items',
     'min_items':'minItems',
     'max_items': 'maxItems',
-    'checked_all': 'Checked All'
+    'checked_all': 'Checked All',
+    'valid_json': 'not valid json'
   },
   zh_CN: {
     'import_json': '导入 json',
@@ -52,7 +53,8 @@ const langs = {
     'unique_items': '开启后，每个元素都不相同',
     'min_items':'最小元素个数',
     'max_items': '最大元素个数',
-    'checked_all': '全选'
+    'checked_all': '全选',
+    'valid_json': '不是合法的json字符串'
   }
 }
 

@@ -120,7 +120,7 @@ class jsonSchema extends React.Component {
     if (!e.text) return;
     // 将数据map 到store中
     if (e.format !== true) {
-      return message.error('不是合法的 json 字符串');
+      return message.error(LocalProvider('valid_json'));
     }
     handleSchema(e.jsonData);
     this.Model.changeEditorSchemaAction({
@@ -216,6 +216,7 @@ class jsonSchema extends React.Component {
     // this.curItemCustomValue = value;
   };
 
+  //  修改弹窗中的json-schema 值
   changeCustomValue = newValue => {
     this.setState({
       curItemCustomValue: newValue

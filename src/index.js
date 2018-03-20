@@ -10,7 +10,7 @@ if(process.env.NODE_ENV !== 'production'){
 
 const jeditor = require("../package/index.js");
 
-const JEditor1 = jeditor()
+const JEditor1 = jeditor({lang: 'zh_CN'})
 const JEditor2 = jeditor()
 
 let schema = {
