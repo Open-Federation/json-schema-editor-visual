@@ -45,7 +45,7 @@ class jsonSchema extends React.Component {
       curItemCustomValue: null,
       checked: false
     };
-
+    this.Model = this.props.Model.schema;
     this.jsonSchemaData = null;
     this.jsonData = null;
   }
@@ -53,7 +53,8 @@ class jsonSchema extends React.Component {
   static propTypes = {
     data: PropTypes.string,
     onChange: PropTypes.func,
-    showEditor: PropTypes.bool
+    showEditor: PropTypes.bool,
+    Model: PropTypes.object
   };
 
   showModal = () => {
@@ -66,10 +67,10 @@ class jsonSchema extends React.Component {
     if (this.importJsonType !== 'schema') {
       if (!this.jsonData) return;
       let jsonData = GenerateSchema(this.jsonData);
-      utils.userModel.changeEditorSchemaAction({value: jsonData});
+      this.Model.changeEditorSchemaAction({value: jsonData});
     } else {
       if (!this.jsonSchemaData) return;
-      utils.userModel.changeEditorSchemaAction({value: this.jsonSchemaData});
+      this.Model.changeEditorSchemaAction({value: this.jsonSchemaData});
     }
   };
   handleCancel = () => {
@@ -83,7 +84,7 @@ class jsonSchema extends React.Component {
       if (oldData !== newData) return this.props.onChange(newData);
     }
     if (this.props.data && this.props.data !== nextProps.data) {
-      utils.userModel.changeEditorSchemaAction({value: JSON.parse(nextProps.data)});
+      this.Model.changeEditorSchemaAction({value: JSON.parse(nextProps.data)});
     }
   }
 
@@ -96,12 +97,13 @@ class jsonSchema extends React.Component {
         "properties":{}
       }`;
     }
-    utils.userModel.changeEditorSchemaAction({value: JSON.parse(data)});
+    this.Model.changeEditorSchemaAction({value: JSON.parse(data)});
   }
 
   static childContextTypes = {
     getOpenValue: PropTypes.func,
-    changeCustomValue: PropTypes.func
+    changeCustomValue: PropTypes.func,
+    Model: PropTypes.object
   };
 
   getChildContext() {
@@ -109,7 +111,8 @@ class jsonSchema extends React.Component {
       getOpenValue: keys => {
         return utils.getData(this.props.open, keys);
       },
-      changeCustomValue: this.changeCustomValue
+      changeCustomValue: this.changeCustomValue,
+      Model: this.props.Model
     };
   }
 
@@ -120,13 +123,13 @@ class jsonSchema extends React.Component {
       return message.error('不是合法的 json 字符串');
     }
     handleSchema(e.jsonData);
-    utils.userModel.changeEditorSchemaAction({
+    this.Model.changeEditorSchemaAction({
       value: e.jsonData
     });
   };
 
   changeType = (key, value) => {
-    utils.userModel.changeTypeAction({key: [key], value});
+    this.Model.changeTypeAction({key: [key], value});
   };
 
   handleImportJson = e => {
@@ -144,7 +147,7 @@ class jsonSchema extends React.Component {
   };
 
   addChildField = key => {
-    utils.userModel.addChildFieldAction({key: [key]});
+    this.Model.addChildFieldAction({key: [key]});
     this.setState({ show: true });
   };
 
@@ -153,7 +156,7 @@ class jsonSchema extends React.Component {
   };
 
   changeValue = (key, value) => {
-    utils.userModel.changeValueAction({key, value});
+    this.Model.changeValueAction({key, value});
   };
 
   // 备注弹窗
@@ -161,7 +164,7 @@ class jsonSchema extends React.Component {
     this.setState({
       editVisible: false
     });
-    utils.userModel.changeValueAction({key: this.state.descriptionKey, value: this.state.description});
+    this.Model.changeValueAction({key: this.state.descriptionKey, value: this.state.description});
   };
 
   handleEditCancel = () => {
@@ -189,11 +192,11 @@ class jsonSchema extends React.Component {
   // 高级设置
   handleAdvOk = () => {
     if (this.state.itemKey.length === 0) {
-      utils.userModel.changeEditorSchemaAction({
+      this.Model.changeEditorSchemaAction({
         value: this.state.curItemCustomValue
       });
     } else {
-      utils.userModel.changeValueAction({key: this.state.itemKey, value: this.state.curItemCustomValue});
+      this.Model.changeValueAction({key: this.state.itemKey, value: this.state.curItemCustomValue});
     }
     this.setState({
       advVisible: false
@@ -221,7 +224,7 @@ class jsonSchema extends React.Component {
 
   changeCheckBox = e => {
     this.setState({checked: e})
-    utils.userModel.requireAllAction({required: e, value: this.props.schema});
+    this.Model.requireAllAction({required: e, value: this.props.schema});
   };
 
   render() {

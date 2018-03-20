@@ -7,21 +7,17 @@ import moox from 'moox'
 import schema from './models/schema'
 import PropTypes from 'prop-types'
 
-
-
-
 module.exports = (config = {})=>{
   if(config.lang) utils.lang = config.lang;
   const Model = moox({
     schema
   })
 
-  utils.userModel = Model.schema;
   const store = Model.getStore();
 
   const Component = (props)=>{
     return <Provider store={store} className="wrapper">
-      <App {...props} />
+      <App Model={Model} {...props} />
     </Provider>
   }
 

@@ -20,7 +20,6 @@ import {
 import './schemaJson.css';
 import _ from 'underscore';
 import { connect } from 'react-redux';
-import Model from '../../model.js';
 import PropTypes from 'prop-types';
 import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 const Option = Select.Option;
