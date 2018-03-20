@@ -71,6 +71,18 @@
   font-size: 10px;
 }
 
+.json-schema-react-editor .down-style-col{
+  width: 10px;
+}
+
+.json-schema-react-editor {
+  padding-left: 8px;
+}
+
+.json-schema-react-editor .wrapper{
+  padding-left: 8px;
+}
+
 /* .schema-content {
   margin-left: 20px;
 } */

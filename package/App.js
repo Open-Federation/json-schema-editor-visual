@@ -310,7 +310,7 @@ class jsonSchema extends React.Component {
             <Row type="flex" align="middle">
               <Col span={12} className="col-item name-item col-item-name">
                 <Row type="flex" justify="space-around" align="middle">
-                  <Col span={2}>
+                  <Col span={2} className="down-style-col">
                     {this.props.schema.type === 'object' ? (
                       <span className="down-style" onClick={this.clickIcon}>
                         {this.state.show ? (

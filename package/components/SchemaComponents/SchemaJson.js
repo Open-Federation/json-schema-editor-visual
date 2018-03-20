@@ -132,7 +132,7 @@ class SchemaArray extends PureComponent {
               style={this.__tagPaddingLeftStyle}
             >
               <Row type="flex" justify="space-around" align="middle">
-                <Col span={2}>
+                <Col span={2} className="down-style-col">
                   {items.type === 'object' ? (
                     <span className="down-style" onClick={this.handleClickIcon}>
                       {showIcon ? (
@@ -317,7 +317,7 @@ class SchemaItem extends PureComponent {
             style={this.__tagPaddingLeftStyle}
           >
             <Row type="flex" justify="space-around" align="middle">
-              <Col span={2}>
+              <Col span={2} className="down-style-col">
                 {value.type === 'object' ? (
                   <span className="down-style" onClick={this.handleClickIcon}>
                     {showIcon ? (
