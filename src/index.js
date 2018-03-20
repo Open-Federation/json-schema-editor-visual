@@ -714,7 +714,7 @@ render(
       
       <JEditor1
         showEditor={true}
-        data={schema}
+        data={''}
         onChange={e => {
           console.log("changeValue", e);
         }}
