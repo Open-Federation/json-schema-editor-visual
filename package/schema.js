@@ -1,8 +1,11 @@
 module.exports = handleSchema;
 
+function handleType(schema) {
+  if(!schema.type && schema.properties && typeof schema.properties === 'object') schema.type = 'object'
+}
 
 function handleSchema(schema) {
-  if(!schema.type && schema.properties && typeof schema.properties === 'object') schema.type = 'object'
+  handleType(schema)
   if (schema.type === "object") {
     if(!schema.properties)schema.properties = {}
     handleObject(schema.properties, schema);
@@ -16,6 +19,7 @@ function handleSchema(schema) {
 
 function handleObject(properties) {
   for (var key in properties) {
+    handleType(properties[key])
     if(properties[key].type === 'array' || properties[key].type === 'object')
     handleSchema(properties[key]);
   }

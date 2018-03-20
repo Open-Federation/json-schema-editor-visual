@@ -90,6 +90,7 @@ export default {
   reducers: {
     changeEditorSchemaAction: function(state, action) {
       handleSchema(action.value)
+      console.log(action.value)
       state.data = action.value;
     },
 
