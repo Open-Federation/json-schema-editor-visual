@@ -32,7 +32,7 @@ export default {
     let requiredData = [].concat(parentData.required || []);
     let propertiesData = utils.getData(oldData, keys);
     let newPropertiesData = {};
-
+   
     if (propertiesData[value] && typeof propertiesData[value] === 'object') {
       return;
     }

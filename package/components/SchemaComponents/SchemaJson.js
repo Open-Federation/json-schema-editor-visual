@@ -61,45 +61,40 @@ class SchemaArray extends PureComponent {
     };
   }
 
-  changeType = (prefix, value) => {
+  getPrefix() {
+    return [].concat(this.props.prefix, 'items');
+  }
+
+  // 修改数据类型
+  handleChangeType = value => {
+    let prefix = this.getPrefix();
     let key = [].concat(prefix, 'type');
     this.Model.changeTypeAction({key, value});
   };
 
-  handleChangeType = value => {
+  // 修改备注信息
+  handleChangeValue = e => {
     let prefix = this.getPrefix();
-    this.changeType(prefix, value);
-  };
-
-  changeValue = (prefix, type, value, change) => {
-    let key = [].concat(prefix, type);
+    let key = [].concat(prefix, `description`)
+    let value = e.target.value
     this.Model.changeValueAction({key, value});
   };
 
-  handleChangeValue = e => {
+  // 增加子节点
+  handleAddChildField = () => {
+    
     let prefix = this.getPrefix();
-    this.changeValue(prefix, `description`, e.target.value);
-  };
-
-  addChildField = (prefix) => {
     let keyArr = [].concat(prefix, 'properties');
     this.Model.addChildFieldAction({key:keyArr});
     this.Model.setOpenValueAction({key: keyArr, value: true});
   };
 
-  getPrefix() {
-    return [].concat(this.props.prefix, 'items');
-  }
-
-  clickIcon = prefix => {
-    // 数据存储在 properties.name.properties下
-    let keyArr = [].concat(prefix, 'properties');
-    this.Model.setOpenValueAction({key: keyArr});
-  };
 
   handleClickIcon = () => {
     let prefix = this.getPrefix();
-    this.clickIcon(prefix);
+    // 数据存储在 properties.name.properties下
+    let keyArr = [].concat(prefix, 'properties');
+    this.Model.setOpenValueAction({key: keyArr});
   };
 
   handleShowEdit = () => {
@@ -111,15 +106,12 @@ class SchemaArray extends PureComponent {
     this.props.showAdv(this.getPrefix(), this.props.data.items);
   };
 
-  handleAddChildField = () => {
-    this.addChildField(this.getPrefix());
-  };
+  
 
   render() {
     const { data, prefix, showEdit, showAdv } = this.props;
     const items = data.items;
     let prefixArray = [].concat(prefix, 'items');
-    let length = prefix.filter(name => name != 'properties').length;
 
     let prefixArrayStr = [].concat(prefixArray, 'properties').join(JSONPATH_JOIN_CHAR);
     let showIcon = this.context.getOpenValue([prefixArrayStr]);
@@ -206,7 +198,7 @@ class SchemaItem extends PureComponent {
   constructor(props, context) {
     super(props);
     this._tagPaddingLeftStyle = {};
-    this.num = 0
+    // this.num = 0
     this.Model = context.Model.schema;
   }
 
@@ -218,95 +210,92 @@ class SchemaItem extends PureComponent {
     };
   }
 
-  clickIcon = prefix => {
-    // 数据存储在 properties.name.properties下
-    let keyArr = [].concat(prefix, 'properties');
-    this.Model.setOpenValueAction({key: keyArr});
-  };
+  getPrefix() {
+    return [].concat(this.props.prefix, this.props.name);
+  }
 
-  enableRequire = (prefix, name, required) => {
-    this.Model.enableRequireAction({prefix, name, required});
-  };
 
-  changeName = (value, prefix, name) => {
+  // 修改节点字段名
+  handleChangeName = e => {
+    const { data, prefix, name } = this.props;
+    let value = e.target.value;
+    
+    if (data.properties[value] && typeof data.properties[value] === 'object') {
+      return message.error(`The field "${value}" already exists.`);
+    }
+
     this.Model.changeNameAction({value, prefix, name});
+    
   };
 
-  changeValue = (prefix, type, value) => {
-    let key = [].concat(prefix, type);
-    this.Model.changeValueAction({key, value});
-  };
-
+ // 修改备注信息
   handleChangeDesc = e => {
-    const { data, name } = this.props;
-    this.changeValue(this.getPrefix(), `description`, e.target.value);
+    
+    let prefix = this.getPrefix();
+    let key = [].concat(prefix, 'description');
+    let value = e.target.value;
+    this.Model.changeValueAction({key, value});
+    
   };
 
-  changeType = (prefix, value) => {
-    let key = [].concat(prefix, 'type');
-    this.Model.changeTypeAction({key, value});
-  };
-
+  
+  // 修改数据类型 
   handleChangeType = e => {
-    this.changeType(this.getPrefix(), e);
+    let prefix = this.getPrefix();
+    let key = [].concat(prefix, 'type');
+    this.Model.changeTypeAction({key, value: e});
+   
   };
 
-  deleteItem = (prefix, name, change) => {
-    let nameArray = [].concat(prefix, name);
-    this.Model.deleteItemAction({key: nameArray});
-    this.Model.enableRequireAction({prefix, name, required: false});
-  };
-
+ 
+  // 删除节点
   handleDeleteItem = () => {
     const { prefix, name } = this.props;
-    this.deleteItem(prefix, name);
+    let nameArray = this.getPrefix();
+    this.Model.deleteItemAction({key: nameArray});
+    this.Model.enableRequireAction({prefix, name, required: false});
+   
   };
-
+  // 展示备注编辑弹窗
   handleShowEdit = () => {
     const { data, name, showEdit } = this.props;
     showEdit(this.getPrefix(), `description`, data.properties[name].description);
   };
 
+  // 展示高级设置弹窗
   handleShowAdv = () => {
     const { data, name, showAdv } = this.props;
     showAdv(this.getPrefix(), data.properties[name]);
   };
 
+  //  增加子节点 
   handleAddField = () => {
     const { prefix, name } = this.props;
-    this.addField(prefix, name);
-  };
-
-  addField = (prefix, name) => {
     this.Model.addFieldAction({prefix, name});
   };
 
-  getPrefix() {
-    return [].concat(this.props.prefix, this.props.name);
-  }
-
+   // 控制三角形按钮
   handleClickIcon = () => {
-    this.clickIcon(this.getPrefix());
+    
+    let prefix = this.getPrefix();
+    // 数据存储在 properties.xxx.properties 下
+    let keyArr = [].concat(prefix, 'properties');
+    this.Model.setOpenValueAction({key: keyArr});
   };
 
+   // 修改是否必须
   handleEnableRequire = e => {
-    this.enableRequire(this.props.prefix, this.props.name, e.target.checked);
+    const { prefix, name } = this.props;
+    let required = e.target.checked
+    // this.enableRequire(this.props.prefix, this.props.name, e.target.checked);
+    this.Model.enableRequireAction({prefix, name, required});
   };
 
-  handleChangeName = e => {
-    const { data, prefix, name } = this.props;
-    if (data.properties[e.target.value] && typeof data.properties[e.target.value] === 'object') {
-      return message.error(`The field "${e.target.value}" already exists.`);
-    }
-    this.changeName(e.target.value, prefix, name);
-  };
 
   render() {
     let { name, data, prefix, showEdit, showAdv } = this.props;
     let value = data.properties[name];
     let prefixArray = [].concat(prefix, name);
-
-    let length = prefix.filter(name => name != 'properties').length;
 
     let prefixStr = prefix.join(JSONPATH_JOIN_CHAR);
     let prefixArrayStr = [].concat(prefixArray, 'properties').join(JSONPATH_JOIN_CHAR);

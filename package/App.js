@@ -56,7 +56,7 @@ class jsonSchema extends React.Component {
     showEditor: PropTypes.bool,
     Model: PropTypes.object
   };
-
+  // json 导入弹窗
   showModal = () => {
     this.setState({
       visible: true
@@ -116,6 +116,7 @@ class jsonSchema extends React.Component {
     };
   }
 
+  // AceEditor 中的数据
   handleParams = e => {
     if (!e.text) return;
     // 将数据map 到store中
@@ -128,6 +129,7 @@ class jsonSchema extends React.Component {
     });
   };
 
+  // 修改数据类型
   changeType = (key, value) => {
     this.Model.changeTypeAction({key: [key], value});
   };
@@ -145,16 +147,17 @@ class jsonSchema extends React.Component {
     }
     this.jsonSchemaData = e.jsonData;
   };
-
+  // 增加子节点
   addChildField = key => {
     this.Model.addChildFieldAction({key: [key]});
     this.setState({ show: true });
   };
-
+ 
   clickIcon = () => {
     this.setState({ show: !this.state.show });
   };
 
+ // 修改备注信息
   changeValue = (key, value) => {
     this.Model.changeValueAction({key, value});
   };
@@ -174,10 +177,11 @@ class jsonSchema extends React.Component {
   };
   showEdit = (prefix, name, value) => {
     let descriptionKey = [].concat(prefix, name);
+    
     let description = value;
     this.setState({
       editVisible: true,
-      description: value,
+      description,
       descriptionKey
     });
   };
@@ -211,9 +215,8 @@ class jsonSchema extends React.Component {
     this.setState({
       advVisible: true,
       itemKey: key,
-      curItemCustomValue: value
+      curItemCustomValue: value  // 当前节点的数据信息
     });
-    // this.curItemCustomValue = value;
   };
 
   //  修改弹窗中的json-schema 值
@@ -369,7 +372,7 @@ class jsonSchema extends React.Component {
                   addonAfter={
                     <Icon
                       type="edit"
-                      onClick={e => this.showEdit([], 'description', e.target.value)}
+                      onClick={() => this.showEdit([], 'description', this.props.schema.description)}
                     />
                   }
                   placeholder={LocalProvider('description')}
