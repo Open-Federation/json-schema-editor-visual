@@ -1,10 +1,19 @@
+
+
 module.exports = handleSchema;
 
 function handleType(schema) {
-  if(!schema.type && schema.properties && typeof schema.properties === 'object') schema.type = 'object'
+  if(!schema.type && schema.properties && typeof schema.properties === 'object') {
+    
+    schema.type = 'object'
+  }
 }
 
 function handleSchema(schema) {
+  if(schema && !schema.type && !schema.properties){
+    schema.type = 'object';
+    schema.properties = {};
+  }
   handleType(schema)
   if (schema.type === "object") {
     if(!schema.properties)schema.properties = {}
