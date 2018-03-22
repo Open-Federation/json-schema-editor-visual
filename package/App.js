@@ -24,7 +24,7 @@ import _ from 'underscore';
 import { connect } from 'react-redux';
 import SchemaJson from './components/SchemaComponents/SchemaJson.js';
 import PropTypes from 'prop-types';
-import { SCHEMA_TYPE } from './utils.js';
+import { SCHEMA_TYPE, debounce } from './utils.js';
 import handleSchema from './schema';
 const GenerateSchema = require('generate-schema/src/schemas/json.js');
 const utils = require('./utils');
@@ -34,6 +34,7 @@ import LocalProvider from './components/LocalProvider/index.js';
 class jsonSchema extends React.Component {
   constructor(props) {
     super(props);
+    this.alterMsg = debounce(this.alterMsg, 500)
     this.state = {
       visible: false,
       show: true,
@@ -116,12 +117,18 @@ class jsonSchema extends React.Component {
     };
   }
 
+  alterMsg =() => {
+    
+      return message.error(LocalProvider('valid_json'));
+   
+  }
+
   // AceEditor 中的数据
   handleParams = e => {
     if (!e.text) return;
     // 将数据map 到store中
     if (e.format !== true) {
-      return message.error(LocalProvider('valid_json'));
+      return this.alterMsg()
     }
     handleSchema(e.jsonData);
     this.Model.changeEditorSchemaAction({

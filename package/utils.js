@@ -28,6 +28,17 @@ exports.defaultSchema = {
   }
 };
 
+// 防抖函数，减少高频触发的函数执行的频率
+// 请在 constructor 里使用:
+
+// this.func = debounce(this.func, 400);
+exports.debounce = (func, wait) => {
+  let timeout;
+  return function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(func, wait);
+  };
+};
 
 
 function getData(state, keys) {
