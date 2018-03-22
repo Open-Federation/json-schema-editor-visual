@@ -304,6 +304,7 @@ class jsonSchema extends React.Component {
           onOk={this.handleAdvOk}
           onCancel={this.handleAdvCancel}
           okText={LocalProvider('ok')}
+          width={780}
           cancelText={LocalProvider('cancel')}
           className="json-schema-react-editor-adv-modal"
         >

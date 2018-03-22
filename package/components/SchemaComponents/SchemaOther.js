@@ -132,7 +132,7 @@ const SchemaNumber = (props, context) => {
       <Row className="other-row" type="flex" align="middle">
         <Col span={12}>
           <Row type="flex" align="middle">
-            <Col span={16} className="other-label">
+            <Col span={13} className="other-label">
               <span>
                 exclusiveMinimum&nbsp;
                 <Tooltip title={LocalProvider('exclusiveMinimum')}>
@@ -141,7 +141,7 @@ const SchemaNumber = (props, context) => {
                 &nbsp; :
               </span>
             </Col>
-            <Col span={8}>
+            <Col span={11}>
               <Switch
                 checked={data.exclusiveMinimum}
                 placeholder="exclusiveMinimum"
@@ -154,7 +154,7 @@ const SchemaNumber = (props, context) => {
         </Col>
         <Col span={12}>
           <Row type="flex" align="middle">
-            <Col span={16} className="other-label">
+            <Col span={13} className="other-label">
               <span>
                 exclusiveMaximum&nbsp;
                 <Tooltip title={LocalProvider('exclusiveMaximum')}>
@@ -163,7 +163,7 @@ const SchemaNumber = (props, context) => {
                 &nbsp; :
               </span>
             </Col>
-            <Col span={8}>
+            <Col span={11}>
               <Switch
                 checked={data.exclusiveMaximum}
                 placeholder="exclusiveMaximum"
