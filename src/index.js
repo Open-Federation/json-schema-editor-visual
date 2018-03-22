@@ -10,9 +10,7 @@ if(process.env.NODE_ENV !== 'production'){
 
 const jeditor = require("../package/index.js");
 
-const JEditor1 = jeditor({lang: 'zh_CN'})
-const JEditor2 = jeditor()
-
+const JEditor1 = jeditor()
 let schema = {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
@@ -718,15 +716,6 @@ render(
         onChange={e => {
           console.log("changeValue", e);
         }}
-      />
-
-      <JEditor2
-        showEditor={true}
-        data={null}
-        onChange={e => {
-          // console.log("changeValue", e);
-        }}
-
       />
     </div>,
   document.getElementById("root")
