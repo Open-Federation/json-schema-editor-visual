@@ -5,7 +5,7 @@ const langs = {
   en_US: {
     'import_json': 'Import JSON',
     'base_setting': 'Base Setting',
-    'all_setting': 'All Setting',
+    'all_setting': 'Sourec Code',
     'default': 'default',
     'description':'description',
     "adv_setting": "Advanced Settings",
@@ -32,7 +32,7 @@ const langs = {
   zh_CN: {
     'import_json': '导入 json',
     'base_setting': '基础设置',
-    'all_setting': '全部设置',
+    'all_setting': '编辑源码',
     'default': '默认值',
     'description':'备注',
     'adv_setting': '高级设置',
