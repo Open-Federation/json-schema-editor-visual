@@ -1,261 +1,282 @@
-import React from "react";
-import { render } from "react-dom";
-import { Provider } from "react-redux";
-import { combineReducers, createStore, applyMiddleware } from "redux";
-import "antd/dist/antd.css";
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import 'antd/dist/antd.css';
 
-if(process.env.NODE_ENV !== 'production'){
+if (process.env.NODE_ENV !== 'production') {
   window.Perf = require('react-addons-perf');
 }
 
-const jeditor = require("../package/index.js");
-
-const JEditor1 = jeditor({lang: 'zh_CN'})
-const JEditor2 = jeditor()
+const jeditor = require('../package/index.js');
+let MOCK_SOURCE = [
+  'url',
+  'domain',
+  'ip',
+  'id',
+  'guid',
+  'now',
+  'timestamp',
+  'date',
+  'time',
+  'datetime',
+  'image',
+  'imageData',
+  'email',
+  'paragraph',
+  'sentence',
+  'word',
+  'title',
+  'name',
+  'region',
+  'province',
+  'city',
+  'county'
+]
+const JEditor1 = jeditor({ lang: 'zh_CN', format: MOCK_SOURCE  });
+const JEditor2 = jeditor();
 
 let schema = {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "type": "object",
-  "properties": {
-    "status": {
-      "type": "number"
+  $schema: 'http://json-schema.org/draft-04/schema#',
+  type: 'object',
+  properties: {
+    status: {
+      type: 'number'
     },
-    "newMindmap": {
-      "type": "object",
-      "properties": {
-        "create_date": {
-          "type": "number"
+    newMindmap: {
+      type: 'object',
+      properties: {
+        create_date: {
+          type: 'number'
         },
-        "xxx": {
-          "type": "number"
+        xxx: {
+          type: 'number'
         },
-        "editor_id": {
-          "type": "string"
+        editor_id: {
+          type: 'string'
         },
-        "yyy": {
-          "type": "number"
+        yyy: {
+          type: 'number'
         },
-        "ispublic": {
-          "type": "number"
+        ispublic: {
+          type: 'number'
         },
-        "json": {
-          "type": "object",
-          "properties": {
-            "root": {
-              "type": "object",
-              "properties": {
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "text": {
-                      "type": "string"
+        json: {
+          type: 'object',
+          properties: {
+            root: {
+              type: 'object',
+              properties: {
+                data: {
+                  type: 'object',
+                  properties: {
+                    text: {
+                      type: 'string'
                     },
-                    "expandState": {
-                      "type": "string"
+                    expandState: {
+                      type: 'string'
                     },
-                    "checklistDataOffsetBean": {
-                      "type": "null"
+                    checklistDataOffsetBean: {
+                      type: 'null'
                     },
-                    "color": {
-                      "type": "string"
+                    color: {
+                      type: 'string'
                     }
                   }
                 },
-                "children": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "textfgfgfgfgfgff": {
-                            "type": "string"
+                children: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      data: {
+                        type: 'object',
+                        properties: {
+                          textfgfgfgfgfgff: {
+                            type: 'string'
                           },
-                          "expandState": {
-                            "type": "string"
+                          expandState: {
+                            type: 'string'
                           },
-                          "checklistDataOffsetBean": {
-                            "type": "null"
+                          checklistDataOffsetBean: {
+                            type: 'null'
                           },
-                          "color": {
-                            "type": "string"
+                          color: {
+                            type: 'string'
                           }
                         },
-                        "required": [
-                          "textfgfgfgfgfgff"
-                        ]
+                        required: ['textfgfgfgfgfgff']
                       },
-                      "children": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "data": {
-                              "type": "object",
-                              "properties": {
-                                "text": {
-                                  "type": "string"
+                      children: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            data: {
+                              type: 'object',
+                              properties: {
+                                text: {
+                                  type: 'string'
                                 },
-                                "expandState": {
-                                  "type": "string"
+                                expandState: {
+                                  type: 'string'
                                 },
-                                "checklistDataOffsetBean": {
-                                  "type": "null"
+                                checklistDataOffsetBean: {
+                                  type: 'null'
                                 },
-                                "color": {
-                                  "type": "string"
+                                color: {
+                                  type: 'string'
                                 },
-                                "priority": {
-                                  "type": "number"
+                                priority: {
+                                  type: 'number'
                                 },
-                                "id": {
-                                  "type": "string"
+                                id: {
+                                  type: 'string'
                                 },
-                                "created": {
-                                  "type": "number"
+                                created: {
+                                  type: 'number'
                                 }
                               }
                             },
-                            "children": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "data": {
-                                    "type": "object",
-                                    "properties": {
-                                      "id": {
-                                        "type": "string"
+                            children: {
+                              type: 'array',
+                              items: {
+                                type: 'object',
+                                properties: {
+                                  data: {
+                                    type: 'object',
+                                    properties: {
+                                      id: {
+                                        type: 'string'
                                       },
-                                      "created": {
-                                        "type": "number"
+                                      created: {
+                                        type: 'number'
                                       },
-                                      "text": {
-                                        "type": "string"
+                                      text: {
+                                        type: 'string'
                                       },
-                                      "progress": {
-                                        "type": "number"
+                                      progress: {
+                                        type: 'number'
                                       },
-                                      "caseExtendField": {
-                                        "type": "object",
-                                        "properties": {
-                                          "assigneeAccount": {
-                                            "type": "string"
+                                      caseExtendField: {
+                                        type: 'object',
+                                        properties: {
+                                          assigneeAccount: {
+                                            type: 'string'
                                           },
-                                          "assigneeName": {
-                                            "type": "string"
+                                          assigneeName: {
+                                            type: 'string'
                                           },
-                                          "caseDesc": {
-                                            "type": "string"
+                                          caseDesc: {
+                                            type: 'string'
                                           },
-                                          "caseToBugList": {
-                                            "type": "array",
-                                            "items": {}
+                                          caseToBugList: {
+                                            type: 'array',
+                                            items: {}
                                           },
-                                          "checklistId": {
-                                            "type": "number"
+                                          checklistId: {
+                                            type: 'number'
                                           },
-                                          "createTime": {
-                                            "type": "object",
-                                            "properties": {
-                                              "date": {
-                                                "type": "number"
+                                          createTime: {
+                                            type: 'object',
+                                            properties: {
+                                              date: {
+                                                type: 'number'
                                               },
-                                              "day": {
-                                                "type": "number"
+                                              day: {
+                                                type: 'number'
                                               },
-                                              "hours": {
-                                                "type": "number"
+                                              hours: {
+                                                type: 'number'
                                               },
-                                              "minutes": {
-                                                "type": "number"
+                                              minutes: {
+                                                type: 'number'
                                               },
-                                              "month": {
-                                                "type": "number"
+                                              month: {
+                                                type: 'number'
                                               },
-                                              "seconds": {
-                                                "type": "number"
+                                              seconds: {
+                                                type: 'number'
                                               },
-                                              "time": {
-                                                "type": "number"
+                                              time: {
+                                                type: 'number'
                                               },
-                                              "timezoneOffset": {
-                                                "type": "number"
+                                              timezoneOffset: {
+                                                type: 'number'
                                               },
-                                              "year": {
-                                                "type": "number"
+                                              year: {
+                                                type: 'number'
                                               }
                                             }
                                           },
-                                          "executeAccount": {
-                                            "type": "string"
+                                          executeAccount: {
+                                            type: 'string'
                                           },
-                                          "executeNames": {
-                                            "type": "string"
+                                          executeNames: {
+                                            type: 'string'
                                           },
-                                          "id": {
-                                            "type": "number"
+                                          id: {
+                                            type: 'number'
                                           },
-                                          "imgUrls": {
-                                            "type": "string"
+                                          imgUrls: {
+                                            type: 'string'
                                           },
-                                          "isClose": {
-                                            "type": "number"
+                                          isClose: {
+                                            type: 'number'
                                           },
-                                          "isDel": {
-                                            "type": "number"
+                                          isDel: {
+                                            type: 'number'
                                           },
-                                          "leafId": {
-                                            "type": "string"
+                                          leafId: {
+                                            type: 'string'
                                           },
-                                          "pmoId": {
-                                            "type": "string"
+                                          pmoId: {
+                                            type: 'string'
                                           },
-                                          "priority": {
-                                            "type": "string"
+                                          priority: {
+                                            type: 'string'
                                           },
-                                          "relatedBugs": {
-                                            "type": "string"
+                                          relatedBugs: {
+                                            type: 'string'
                                           },
-                                          "status": {
-                                            "type": "number"
+                                          status: {
+                                            type: 'number'
                                           },
-                                          "suggestion": {
-                                            "type": "string"
+                                          suggestion: {
+                                            type: 'string'
                                           },
-                                          "title": {
-                                            "type": "string"
+                                          title: {
+                                            type: 'string'
                                           },
-                                          "updateTime": {
-                                            "type": "object",
-                                            "properties": {
-                                              "date": {
-                                                "type": "number"
+                                          updateTime: {
+                                            type: 'object',
+                                            properties: {
+                                              date: {
+                                                type: 'number'
                                               },
-                                              "day": {
-                                                "type": "number"
+                                              day: {
+                                                type: 'number'
                                               },
-                                              "hours": {
-                                                "type": "number"
+                                              hours: {
+                                                type: 'number'
                                               },
-                                              "minutes": {
-                                                "type": "number"
+                                              minutes: {
+                                                type: 'number'
                                               },
-                                              "month": {
-                                                "type": "number"
+                                              month: {
+                                                type: 'number'
                                               },
-                                              "seconds": {
-                                                "type": "number"
+                                              seconds: {
+                                                type: 'number'
                                               },
-                                              "time": {
-                                                "type": "number"
+                                              time: {
+                                                type: 'number'
                                               },
-                                              "timezoneOffset": {
-                                                "type": "number"
+                                              timezoneOffset: {
+                                                type: 'number'
                                               },
-                                              "year": {
-                                                "type": "number"
+                                              year: {
+                                                type: 'number'
                                               }
                                             }
                                           }
@@ -263,471 +284,450 @@ let schema = {
                                       }
                                     }
                                   },
-                                  "children": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "data": {
-                                          "type": "object",
-                                          "properties": {
-                                            "id": {
-                                              "type": "string"
+                                  children: {
+                                    type: 'array',
+                                    items: {
+                                      type: 'object',
+                                      properties: {
+                                        data: {
+                                          type: 'object',
+                                          properties: {
+                                            id: {
+                                              type: 'string'
                                             },
-                                            "created": {
-                                              "type": "number"
+                                            created: {
+                                              type: 'number'
                                             },
-                                            "text": {
-                                              "type": "string"
+                                            text: {
+                                              type: 'string'
                                             },
-                                            "caseExtendField": {
-                                              "type": "object",
-                                              "properties": {
-                                                "assigneeAccount": {
-                                                  "type": "string"
+                                            caseExtendField: {
+                                              type: 'object',
+                                              properties: {
+                                                assigneeAccount: {
+                                                  type: 'string'
                                                 },
-                                                "assigneeName": {
-                                                  "type": "string"
+                                                assigneeName: {
+                                                  type: 'string'
                                                 },
-                                                "caseDesc": {
-                                                  "type": "string"
+                                                caseDesc: {
+                                                  type: 'string'
                                                 },
-                                                "caseToBugList": {
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "bugId": {
-                                                        "type": "number"
+                                                caseToBugList: {
+                                                  type: 'array',
+                                                  items: {
+                                                    type: 'object',
+                                                    properties: {
+                                                      bugId: {
+                                                        type: 'number'
                                                       },
-                                                      "status": {
-                                                        "type": "boolean"
+                                                      status: {
+                                                        type: 'boolean'
                                                       }
                                                     },
-                                                    "required": [
-                                                      "bugId",
-                                                      "status"
-                                                    ]
+                                                    required: ['bugId', 'status']
                                                   }
                                                 },
-                                                "checklistId": {
-                                                  "type": "number"
+                                                checklistId: {
+                                                  type: 'number'
                                                 },
-                                                "createTime": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "date": {
-                                                      "type": "number"
+                                                createTime: {
+                                                  type: 'object',
+                                                  properties: {
+                                                    date: {
+                                                      type: 'number'
                                                     },
-                                                    "day": {
-                                                      "type": "number"
+                                                    day: {
+                                                      type: 'number'
                                                     },
-                                                    "hours": {
-                                                      "type": "number"
+                                                    hours: {
+                                                      type: 'number'
                                                     },
-                                                    "minutes": {
-                                                      "type": "number"
+                                                    minutes: {
+                                                      type: 'number'
                                                     },
-                                                    "month": {
-                                                      "type": "number"
+                                                    month: {
+                                                      type: 'number'
                                                     },
-                                                    "seconds": {
-                                                      "type": "number"
+                                                    seconds: {
+                                                      type: 'number'
                                                     },
-                                                    "time": {
-                                                      "type": "number"
+                                                    time: {
+                                                      type: 'number'
                                                     },
-                                                    "timezoneOffset": {
-                                                      "type": "number"
+                                                    timezoneOffset: {
+                                                      type: 'number'
                                                     },
-                                                    "year": {
-                                                      "type": "number"
+                                                    year: {
+                                                      type: 'number'
                                                     }
                                                   }
                                                 },
-                                                "executeAccount": {
-                                                  "type": "string"
+                                                executeAccount: {
+                                                  type: 'string'
                                                 },
-                                                "executeNames": {
-                                                  "type": "string"
+                                                executeNames: {
+                                                  type: 'string'
                                                 },
-                                                "id": {
-                                                  "type": "number"
+                                                id: {
+                                                  type: 'number'
                                                 },
-                                                "imgUrls": {
-                                                  "type": "string"
+                                                imgUrls: {
+                                                  type: 'string'
                                                 },
-                                                "isClose": {
-                                                  "type": "number"
+                                                isClose: {
+                                                  type: 'number'
                                                 },
-                                                "isDel": {
-                                                  "type": "number"
+                                                isDel: {
+                                                  type: 'number'
                                                 },
-                                                "leafId": {
-                                                  "type": "string"
+                                                leafId: {
+                                                  type: 'string'
                                                 },
-                                                "pmoId": {
-                                                  "type": "string"
+                                                pmoId: {
+                                                  type: 'string'
                                                 },
-                                                "priority": {
-                                                  "type": "string"
+                                                priority: {
+                                                  type: 'string'
                                                 },
-                                                "relatedBugs": {
-                                                  "type": "string"
+                                                relatedBugs: {
+                                                  type: 'string'
                                                 },
-                                                "status": {
-                                                  "type": "number"
+                                                status: {
+                                                  type: 'number'
                                                 },
-                                                "suggestion": {
-                                                  "type": "string"
+                                                suggestion: {
+                                                  type: 'string'
                                                 },
-                                                "title": {
-                                                  "type": "string"
+                                                title: {
+                                                  type: 'string'
                                                 },
-                                                "updateTime": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "date": {
-                                                      "type": "number"
+                                                updateTime: {
+                                                  type: 'object',
+                                                  properties: {
+                                                    date: {
+                                                      type: 'number'
                                                     },
-                                                    "day": {
-                                                      "type": "number"
+                                                    day: {
+                                                      type: 'number'
                                                     },
-                                                    "hours": {
-                                                      "type": "number"
+                                                    hours: {
+                                                      type: 'number'
                                                     },
-                                                    "minutes": {
-                                                      "type": "number"
+                                                    minutes: {
+                                                      type: 'number'
                                                     },
-                                                    "month": {
-                                                      "type": "number"
+                                                    month: {
+                                                      type: 'number'
                                                     },
-                                                    "seconds": {
-                                                      "type": "number"
+                                                    seconds: {
+                                                      type: 'number'
                                                     },
-                                                    "time": {
-                                                      "type": "number"
+                                                    time: {
+                                                      type: 'number'
                                                     },
-                                                    "timezoneOffset": {
-                                                      "type": "number"
+                                                    timezoneOffset: {
+                                                      type: 'number'
                                                     },
-                                                    "year": {
-                                                      "type": "number"
+                                                    year: {
+                                                      type: 'number'
                                                     }
                                                   }
                                                 }
                                               }
                                             },
-                                            "image": {
-                                              "type": "string"
+                                            image: {
+                                              type: 'string'
                                             },
-                                            "imageTitle": {
-                                              "type": "string"
+                                            imageTitle: {
+                                              type: 'string'
                                             },
-                                            "imageSize": {
-                                              "type": "object",
-                                              "properties": {
-                                                "width": {
-                                                  "type": "number"
+                                            imageSize: {
+                                              type: 'object',
+                                              properties: {
+                                                width: {
+                                                  type: 'number'
                                                 },
-                                                "height": {
-                                                  "type": "number"
+                                                height: {
+                                                  type: 'number'
                                                 }
                                               }
                                             }
                                           }
                                         },
-                                        "children": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "data": {
-                                                "type": "object",
-                                                "properties": {
-                                                  "id": {
-                                                    "type": "string"
+                                        children: {
+                                          type: 'array',
+                                          items: {
+                                            type: 'object',
+                                            properties: {
+                                              data: {
+                                                type: 'object',
+                                                properties: {
+                                                  id: {
+                                                    type: 'string'
                                                   },
-                                                  "created": {
-                                                    "type": "number"
+                                                  created: {
+                                                    type: 'number'
                                                   },
-                                                  "text": {
-                                                    "type": "string"
+                                                  text: {
+                                                    type: 'string'
                                                   },
-                                                  "caseExtendField": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "assigneeAccount": {
-                                                        "type": "string"
+                                                  caseExtendField: {
+                                                    type: 'object',
+                                                    properties: {
+                                                      assigneeAccount: {
+                                                        type: 'string'
                                                       },
-                                                      "assigneeName": {
-                                                        "type": "string"
+                                                      assigneeName: {
+                                                        type: 'string'
                                                       },
-                                                      "caseDesc": {
-                                                        "type": "string"
+                                                      caseDesc: {
+                                                        type: 'string'
                                                       },
-                                                      "caseToBugList": {
-                                                        "type": "array",
-                                                        "items": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "bugId": {
-                                                              "type": "number"
+                                                      caseToBugList: {
+                                                        type: 'array',
+                                                        items: {
+                                                          type: 'object',
+                                                          properties: {
+                                                            bugId: {
+                                                              type: 'number'
                                                             },
-                                                            "status": {
-                                                              "type": "boolean"
+                                                            status: {
+                                                              type: 'boolean'
                                                             }
                                                           }
                                                         }
                                                       },
-                                                      "checklistId": {
-                                                        "type": "number"
+                                                      checklistId: {
+                                                        type: 'number'
                                                       },
-                                                      "createTime": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "date": {
-                                                            "type": "number"
+                                                      createTime: {
+                                                        type: 'object',
+                                                        properties: {
+                                                          date: {
+                                                            type: 'number'
                                                           },
-                                                          "day": {
-                                                            "type": "number"
+                                                          day: {
+                                                            type: 'number'
                                                           },
-                                                          "hours": {
-                                                            "type": "number"
+                                                          hours: {
+                                                            type: 'number'
                                                           },
-                                                          "minutes": {
-                                                            "type": "number"
+                                                          minutes: {
+                                                            type: 'number'
                                                           },
-                                                          "month": {
-                                                            "type": "number"
+                                                          month: {
+                                                            type: 'number'
                                                           },
-                                                          "seconds": {
-                                                            "type": "number"
+                                                          seconds: {
+                                                            type: 'number'
                                                           },
-                                                          "time": {
-                                                            "type": "number"
+                                                          time: {
+                                                            type: 'number'
                                                           },
-                                                          "timezoneOffset": {
-                                                            "type": "number"
+                                                          timezoneOffset: {
+                                                            type: 'number'
                                                           },
-                                                          "year": {
-                                                            "type": "number"
+                                                          year: {
+                                                            type: 'number'
                                                           }
                                                         }
                                                       },
-                                                      "executeAccount": {
-                                                        "type": "string"
+                                                      executeAccount: {
+                                                        type: 'string'
                                                       },
-                                                      "executeNames": {
-                                                        "type": "string"
+                                                      executeNames: {
+                                                        type: 'string'
                                                       },
-                                                      "id": {
-                                                        "type": "number"
+                                                      id: {
+                                                        type: 'number'
                                                       },
-                                                      "imgUrls": {
-                                                        "type": "string"
+                                                      imgUrls: {
+                                                        type: 'string'
                                                       },
-                                                      "isClose": {
-                                                        "type": "number"
+                                                      isClose: {
+                                                        type: 'number'
                                                       },
-                                                      "isDel": {
-                                                        "type": "number"
+                                                      isDel: {
+                                                        type: 'number'
                                                       },
-                                                      "leafId": {
-                                                        "type": "string"
+                                                      leafId: {
+                                                        type: 'string'
                                                       },
-                                                      "pmoId": {
-                                                        "type": "string"
+                                                      pmoId: {
+                                                        type: 'string'
                                                       },
-                                                      "priority": {
-                                                        "type": "string"
+                                                      priority: {
+                                                        type: 'string'
                                                       },
-                                                      "relatedBugs": {
-                                                        "type": "string"
+                                                      relatedBugs: {
+                                                        type: 'string'
                                                       },
-                                                      "status": {
-                                                        "type": "number"
+                                                      status: {
+                                                        type: 'number'
                                                       },
-                                                      "suggestion": {
-                                                        "type": "string"
+                                                      suggestion: {
+                                                        type: 'string'
                                                       },
-                                                      "title": {
-                                                        "type": "string"
+                                                      title: {
+                                                        type: 'string'
                                                       },
-                                                      "updateTime": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "date": {
-                                                            "type": "number"
+                                                      updateTime: {
+                                                        type: 'object',
+                                                        properties: {
+                                                          date: {
+                                                            type: 'number'
                                                           },
-                                                          "day": {
-                                                            "type": "number"
+                                                          day: {
+                                                            type: 'number'
                                                           },
-                                                          "hours": {
-                                                            "type": "number"
+                                                          hours: {
+                                                            type: 'number'
                                                           },
-                                                          "minutes": {
-                                                            "type": "number"
+                                                          minutes: {
+                                                            type: 'number'
                                                           },
-                                                          "month": {
-                                                            "type": "number"
+                                                          month: {
+                                                            type: 'number'
                                                           },
-                                                          "seconds": {
-                                                            "type": "number"
+                                                          seconds: {
+                                                            type: 'number'
                                                           },
-                                                          "time": {
-                                                            "type": "number"
+                                                          time: {
+                                                            type: 'number'
                                                           },
-                                                          "timezoneOffset": {
-                                                            "type": "number"
+                                                          timezoneOffset: {
+                                                            type: 'number'
                                                           },
-                                                          "year": {
-                                                            "type": "number"
+                                                          year: {
+                                                            type: 'number'
                                                           }
                                                         }
                                                       }
                                                     }
                                                   },
-                                                  "image": {
-                                                    "type": "string"
+                                                  image: {
+                                                    type: 'string'
                                                   },
-                                                  "imageTitle": {
-                                                    "type": "string"
+                                                  imageTitle: {
+                                                    type: 'string'
                                                   },
-                                                  "imageSize": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "width": {
-                                                        "type": "number"
+                                                  imageSize: {
+                                                    type: 'object',
+                                                    properties: {
+                                                      width: {
+                                                        type: 'number'
                                                       },
-                                                      "height": {
-                                                        "type": "number"
+                                                      height: {
+                                                        type: 'number'
                                                       }
                                                     }
                                                   }
                                                 }
                                               },
-                                              "children": {
-                                                "type": "array",
-                                                "items": {}
+                                              children: {
+                                                type: 'array',
+                                                items: {}
                                               }
                                             },
-                                            "required": [
-                                              "data",
-                                              "children"
-                                            ]
+                                            required: ['data', 'children']
                                           }
                                         }
                                       },
-                                      "required": [
-                                        "data",
-                                        "children"
-                                      ]
+                                      required: ['data', 'children']
                                     }
                                   }
                                 },
-                                "required": [
-                                  "data",
-                                  "children"
-                                ]
+                                required: ['data', 'children']
                               }
                             }
                           },
-                          "required": [
-                            "data",
-                            "children"
-                          ]
+                          required: ['data', 'children']
                         }
                       }
                     },
-                    "required": [
-                      "data",
-                      "children"
-                    ]
+                    required: ['data', 'children']
                   }
                 }
               }
             },
-            "template": {
-              "type": "string"
+            template: {
+              type: 'string'
             },
-            "theme": {
-              "type": "string"
+            theme: {
+              type: 'string'
             },
-            "version": {
-              "type": "string"
+            version: {
+              type: 'string'
             }
           }
         },
-        "last_editor_id": {
-          "type": "string"
+        last_editor_id: {
+          type: 'string'
         },
-        "mubanId": {
-          "type": "number"
+        mubanId: {
+          type: 'number'
         },
-        "pmo_id": {
-          "type": "string"
+        pmo_id: {
+          type: 'string'
         },
-        "suiteid": {
-          "type": "number"
+        suiteid: {
+          type: 'number'
         },
-        "title": {
-          "type": "string"
+        title: {
+          type: 'string'
         },
-        "version": {
-          "type": "number"
+        version: {
+          type: 'number'
         }
       },
-      "required": [
-        "idfgfgfgfgdfgffgfgfgfggfgdflfgkl",
-        "create_date"
-      ]
+      required: ['idfgfgfgfgdfgffgfgfgfggfgdflfgkl', 'create_date']
     }
   },
-  "required": [
-    "status"
-  ]
-}
+  required: ['status']
+};
 
 
-
-
-schema = JSON.stringify(schema, null, '  ')
+  schema = JSON.stringify(schema, null, '  ');
 
 render(
-    <div>
-      <a  target="_blank" href="https://github.com/YMFE/json-schema-editor-visual"><h1>JSON-Schema-Editor</h1></a>
-      <p style={{fontSize: '16px'}}>
-        A json-schema editor of high efficient and easy-to-use, base on React.{" "}
-        <a target="_blank" href="https://github.com/YMFE/json-schema-editor-visual">Github</a>        
-      </p>
-      <br/>
-      <h3>该工具已被用于开源接口管理平台： <a  target="_blank" href="https://github.com/ymfe/yapi">YApi</a></h3>
+  <div>
+    <a target="_blank" href="https://github.com/YMFE/json-schema-editor-visual">
+      <h1>JSON-Schema-Editor</h1>
+    </a>
+    <p style={{ fontSize: '16px' }}>
+      A json-schema editor of high efficient and easy-to-use, base on React.{' '}
+      <a target="_blank" href="https://github.com/YMFE/json-schema-editor-visual">
+        Github
+      </a>
+    </p>
+    <br />
+    <h3>
+      该工具已被用于开源接口管理平台：{' '}
+      <a target="_blank" href="https://github.com/ymfe/yapi">
+        YApi
+      </a>
+    </h3>
 
-      
+    <br />
+    <h2>Example:</h2>
+    <hr />
 
-      <br/>
-      <h2>Example:</h2>
-      <hr />
-      
+    <JEditor1
+      showEditor={true}
+      data={''}
+      onChange={e => {
+        console.log('changeValue', e);
+      }}
+    />
 
-      
-      <JEditor1
-        showEditor={true}
-        data={''}
-        onChange={e => {
-          console.log("changeValue", e);
-        }}
-      />
-
-      <JEditor2
-        showEditor={true}
-        data={null}
-        onChange={e => {
-          // console.log("changeValue", e);
-        }}
-
-      />
-    </div>,
-  document.getElementById("root")
+    <JEditor2
+      showEditor={true}
+      data={null}
+      onChange={e => {
+        // console.log("changeValue", e);
+      }}
+    />
+  </div>,
+  document.getElementById('root')
 );

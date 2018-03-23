@@ -115,10 +115,14 @@
   padding-left: 8px;
 }
 
-.adv-modal .ant-modal-body{
+.json-schema-react-editor-adv-modal .ant-modal-body{
   min-height: 400px;
 }
 
-.adv-modal .ant-modal-body .ace_editor {
+.json-schema-react-editor-adv-modal .ant-modal-body .ace_editor {
   min-height: 350px;
+}
+
+.json-schema-react-editor-adv-modal .mock-items {
+  color: #0d1b3ea6
 }

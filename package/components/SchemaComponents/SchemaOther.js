@@ -21,10 +21,11 @@ import './schemaJson.css';
 import _ from 'underscore';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
+import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE, format } from '../../utils.js';
 const Option = Select.Option;
 import AceEditor from '../AceEditor/AceEditor.js';
 import LocalProvider from '../LocalProvider/index.js';
+
 
 const changeOtherValue = (value, name, data, change) => {
   data[name] = value;
@@ -33,7 +34,7 @@ const changeOtherValue = (value, name, data, change) => {
 
 const SchemaString = (props, context) => {
   const { data } = props;
-
+  console.log()
   return (
     <div>
       <div className="default-setting">{LocalProvider('base_setting')}</div>
@@ -99,6 +100,34 @@ const SchemaString = (props, context) => {
               changeOtherValue(e.target.value, 'pattern', data, context.changeCustomValue)
             }
           />
+        </Col>
+      </Row>
+      <Row className="other-row" type="flex" align="middle">
+        <Col span={4} className="other-label">
+          <span>
+            format :
+          </span>
+        </Col>
+        <Col span={20}>
+          <Select
+            showSearch
+            style={{ width: 150 }}
+            value={data.format}
+            placeholder="Select a format"
+            optionFilterProp="children"
+            onChange={e => changeOtherValue(e, 'format', data, context.changeCustomValue)}
+            filterOption={(input, option) =>
+              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {format.map(item => {
+              return (
+                <Option value={item} key={item}>
+                  {item} 
+                </Option>
+              );
+            })}
+          </Select>
         </Col>
       </Row>
     </div>

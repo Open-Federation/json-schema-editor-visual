@@ -11,8 +11,7 @@ function handleType(schema) {
 
 function handleSchema(schema) {
   if(schema && !schema.type && !schema.properties){
-    schema.type = 'object';
-    schema.properties = {};
+    schema.type = 'string';
   }
   handleType(schema)
   if (schema.type === "object") {
