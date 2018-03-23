@@ -21,7 +21,7 @@ import './schemaJson.css';
 import _ from 'underscore';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE, format } from '../../utils.js';
+import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 const Option = Select.Option;
 import AceEditor from '../AceEditor/AceEditor.js';
 import LocalProvider from '../LocalProvider/index.js';
@@ -34,7 +34,7 @@ const changeOtherValue = (value, name, data, change) => {
 
 const SchemaString = (props, context) => {
   const { data } = props;
-  console.log()
+  const format = context.Model.__jsonSchemaFormat
   return (
     <div>
       <div className="default-setting">{LocalProvider('base_setting')}</div>
@@ -122,8 +122,8 @@ const SchemaString = (props, context) => {
           >
             {format.map(item => {
               return (
-                <Option value={item} key={item}>
-                  {item} 
+                <Option value={item.mock} key={item.mock}>
+                  {item.mock} 
                 </Option>
               );
             })}
@@ -135,7 +135,8 @@ const SchemaString = (props, context) => {
 };
 
 SchemaString.contextTypes = {
-  changeCustomValue: PropTypes.func
+  changeCustomValue: PropTypes.func,
+  Model: PropTypes.object
 };
 
 const SchemaNumber = (props, context) => {

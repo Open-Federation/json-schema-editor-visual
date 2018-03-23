@@ -9,32 +9,41 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const jeditor = require('../package/index.js');
-let MOCK_SOURCE = [
-  'url',
-  'domain',
-  'ip',
-  'id',
-  'guid',
-  'now',
-  'timestamp',
-  'date',
-  'time',
-  'datetime',
-  'image',
-  'imageData',
-  'email',
-  'paragraph',
-  'sentence',
-  'word',
-  'title',
-  'name',
-  'region',
-  'province',
-  'city',
-  'county'
+
+
+let MOCK_SOURCE= [
+
+  { name: 'url', mock: 'url' },
+  { name: '域名', mock: 'domain' },
+  { name: 'ip地址', mock: 'ip' },
+  { name: 'id', mock: 'id' },
+  { name: 'guid', mock: 'guid' },
+  { name: '当前时间', mock: 'now' },
+  { name: '时间戳', mock: 'timestamp'},
+  { name: '日期', mock: 'date' },
+  { name: '时间', mock: 'time' },
+  { name: '日期时间', mock: 'datetime' },
+  { name: '图片连接', mock: 'image' },
+  { name: '图片data', mock: "imageData" },
+  { name: '整数', mock: 'integer' },
+  { name: 'email', mock: 'email' },
+  { name: '大段文本', mock: 'paragraph' },
+  { name: '句子', mock: 'sentence' },
+  { name: '单词', mock: 'word' },
+  { name: '大段中文文本', mock: 'cparagraph' },
+  { name: '中文标题', mock: 'ctitle' },
+  { name: '标题', mock: 'title' },
+  { name: '姓名', mock: 'name' },
+  { name: '地址', mock: 'region' },
+  { name: '省份', mock: 'province' },
+  { name: '城市', mock: 'city' },
+  { name: '地区', mock: 'county' },
+  { name: '挑选（枚举）', mock: 'pick' },
+  { name: '打乱数组', mock: 'shuffle' },
+  { name: '协议', mock: 'protocol' }
 ]
 const JEditor1 = jeditor({ lang: 'zh_CN', format: MOCK_SOURCE  });
-// const JEditor2 = jeditor();
+const JEditor2 = jeditor();
 
 let schema = {
   $schema: 'http://json-schema.org/draft-04/schema#',
@@ -721,13 +730,13 @@ render(
       }}
     />
 
-    {/* <JEditor2
+    <JEditor2
       showEditor={true}
       data={null}
       onChange={e => {
         // console.log("changeValue", e);
       }}
-    /> */}
+    />
   </div>,
   document.getElementById('root')
 );

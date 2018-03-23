@@ -1,7 +1,15 @@
 const JSONPATH_JOIN_CHAR = '.';
 exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR;
 exports.lang = 'en_US';
-exports.format = ['date-time','date','email','hostname','ipv4','ipv6','uri']
+exports.format = [
+  { name: '', mock: 'date-time' },
+  { name: '', mock: 'date' },
+  { name: '', mock: 'email' },
+  { name: '', mock: 'hostname' },
+  { name: '', mock: 'ipv4' },
+  { name: '', mock: 'ipv6' },
+  { name: '', mock: 'uri' }
+];
 const _ = require('underscore');
 exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
 exports.defaultSchema = {
@@ -35,12 +43,11 @@ exports.defaultSchema = {
 // this.func = debounce(this.func, 400);
 exports.debounce = (func, wait) => {
   let timeout;
-  return function () {
+  return function() {
     clearTimeout(timeout);
     timeout = setTimeout(func, wait);
   };
 };
-
 
 function getData(state, keys) {
   let curState = state;
@@ -76,64 +83,57 @@ exports.clearSomeFields = function(keys, data) {
   return newData;
 };
 
-function getFieldsName (data) {
+function getFieldsName(data) {
   const requiredName = [];
   Object.keys(data).map(name => {
-    requiredName.push(name)
-  })
+    requiredName.push(name);
+  });
 
   return requiredName;
 }
 
-
-
 function handleSchemaRequired(schema, checked) {
-
-  
   // console.log(schema)
-  if (schema.type === "object") {
+  if (schema.type === 'object') {
     let requiredName = getFieldsName(schema.properties);
-    
-    schema.required = checked ? [].concat(requiredName) : []
-    
-    // schema.required = 
+
+    schema.required = checked ? [].concat(requiredName) : [];
+
+    // schema.required =
     // schema = Object.assign({},schema, {required})
     handleObject(schema.properties, checked);
-  }else if (schema.type === "array") {
-    
+  } else if (schema.type === 'array') {
     handleSchemaRequired(schema.items, checked);
-  }else{
-    return schema
+  } else {
+    return schema;
   }
 }
 
 function handleObject(properties, checked) {
   for (var key in properties) {
-    if(properties[key].type === 'array' || properties[key].type === 'object')
-    handleSchemaRequired(properties[key], checked);
+    if (properties[key].type === 'array' || properties[key].type === 'object')
+      handleSchemaRequired(properties[key], checked);
   }
 }
 
 exports.handleSchemaRequired = handleSchemaRequired;
 
-function cloneObject (obj) {
-  if(typeof obj === "object") {
-      if(_.isArray(obj)) {
-          var newArr = [];
-          newArr =[].concat(obj);
-          return newArr;
-      } else {
-          var newObj = {};
-          for(var key in obj) {
-              newObj[key] = cloneObject(obj[key]);
-          }
-          return newObj;
+function cloneObject(obj) {
+  if (typeof obj === 'object') {
+    if (_.isArray(obj)) {
+      var newArr = [];
+      newArr = [].concat(obj);
+      return newArr;
+    } else {
+      var newObj = {};
+      for (var key in obj) {
+        newObj[key] = cloneObject(obj[key]);
       }
+      return newObj;
+    }
   } else {
-      return obj;
+    return obj;
   }
-};
+}
 
 exports.cloneObject = cloneObject;
-
-
