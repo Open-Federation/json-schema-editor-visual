@@ -34,7 +34,7 @@ let MOCK_SOURCE = [
   'county'
 ]
 const JEditor1 = jeditor({ lang: 'zh_CN', format: MOCK_SOURCE  });
-const JEditor2 = jeditor();
+// const JEditor2 = jeditor();
 
 let schema = {
   $schema: 'http://json-schema.org/draft-04/schema#',
@@ -721,13 +721,13 @@ render(
       }}
     />
 
-    <JEditor2
+    {/* <JEditor2
       showEditor={true}
       data={null}
       onChange={e => {
         // console.log("changeValue", e);
       }}
-    />
+    /> */}
   </div>,
   document.getElementById('root')
 );
