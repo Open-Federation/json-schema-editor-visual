@@ -11,37 +11,39 @@ if (process.env.NODE_ENV !== 'production') {
 const jeditor = require('../package/index.js');
 
 
-let name_SOURCE= [
+// let name_SOURCE= [
 
-  {  name: 'url' },
-  { title: '域名', name: 'domain' },
-  { title: 'ip地址', name: 'ip' },
-  {  name: 'id' },
-  {  name: 'guid' },
-  { title: '当前时间', name: 'now' },
-  { title: '时间戳', name: 'timestamp'},
-  { title: '日期', name: 'date' },
-  { title: '时间', name: 'time' },
-  { title: '日期时间', name: 'datetime' },
-  { title: '图片连接', name: 'image' },
-  { title: '图片data', name: "imageData" },
-  { title: '整数', name: 'integer' },
-  {  name: 'email' },
-  { title: '大段文本', name: 'paragraph' },
-  { title: '句子', name: 'sentence' },
-  { title: '单词', name: 'word' },
-  { title: '标题', name: 'title' },
-  { title: '姓名', name: 'name' },
-  { title: '地址', name: 'region' },
-  { title: '省份', name: 'province' },
-  { title: '城市', name: 'city' },
-  { title: '地区', name: 'county' },
-  { title: '挑选（枚举）', name: 'pick' },
-  { title: '打乱数组', name: 'shuffle' },
-  { title: '协议', name: 'protocol' }
-]
-const JEditor1 = jeditor({ lang: 'zh_CN', format: name_SOURCE  });
-const JEditor2 = jeditor();
+//   {  name: 'url' },
+//   { title: '域名', name: 'domain' },
+//   { title: 'ip地址', name: 'ip' },
+//   {  name: 'id' },
+//   {  name: 'guid' },
+//   { title: '当前时间', name: 'now' },
+//   { title: '时间戳', name: 'timestamp'},
+//   { title: '日期', name: 'date' },
+//   { title: '时间', name: 'time' },
+//   { title: '日期时间', name: 'datetime' },
+//   { title: '图片连接', name: 'image' },
+//   { title: '图片data', name: "imageData" },
+//   { title: '整数', name: 'integer' },
+//   {  name: 'email' },
+//   { title: '大段文本', name: 'paragraph' },
+//   { title: '句子', name: 'sentence' },
+//   { title: '单词', name: 'word' },
+//   { title: '标题', name: 'title' },
+//   { title: '姓名', name: 'name' },
+//   { title: '地址', name: 'region' },
+//   { title: '省份', name: 'province' },
+//   { title: '城市', name: 'city' },
+//   { title: '地区', name: 'county' },
+//   { title: '挑选（枚举）', name: 'pick' },
+//   { title: '打乱数组', name: 'shuffle' },
+//   { title: '协议', name: 'protocol' }
+// ]
+const JEditor1 = jeditor({ lang: 'zh_CN' });
+// const JEditor2 = jeditor({
+//   format: name_SOURCE
+// });
 
 let schema = {
   $schema: 'http://json-schema.org/draft-04/schema#',
@@ -728,13 +730,13 @@ render(
       }}
     />
 
-    <JEditor2
+    {/* <JEditor2
       showEditor={true}
       data={null}
       onChange={e => {
         // console.log("changeValue", e);
       }}
-    />
+    /> */}
   </div>,
   document.getElementById('root')
 );
