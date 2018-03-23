@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import {
   Dropdown,
   Menu,
@@ -16,7 +16,7 @@ import {
   Tooltip,
   Switch
 } from 'antd';
-
+const { TextArea } = Input;
 import './schemaJson.css';
 import _ from 'underscore';
 import { connect } from 'react-redux';
@@ -26,118 +26,173 @@ const Option = Select.Option;
 import AceEditor from '../AceEditor/AceEditor.js';
 import LocalProvider from '../LocalProvider/index.js';
 
-
 const changeOtherValue = (value, name, data, change) => {
   data[name] = value;
   change(data);
 };
 
-const SchemaString = (props, context) => {
-  const { data } = props;
-  const format = context.Model.__jsonSchemaFormat
-  return (
-    <div>
-      <div className="default-setting">{LocalProvider('base_setting')}</div>
-      <Row className="other-row" type="flex" align="middle">
-        <Col span={4} className="other-label">
-          {LocalProvider('default')}：
-        </Col>
-        <Col span={20}>
-          <Input
-            value={data.default}
-            placeholder={LocalProvider('default')}
-            onChange={e =>
-              changeOtherValue(e.target.value, 'default', data, context.changeCustomValue)
-            }
-          />
-        </Col>
-      </Row>
-      <Row className="other-row" type="flex" align="middle">
-        <Col span={12}>
-          <Row type="flex" align="middle">
-            <Col span={8} className="other-label">
-              {LocalProvider('minLength')}：
-            </Col>
-            <Col span={16}>
-              <InputNumber
-                value={data.minLength}
-                placeholder="min.length"
-                onChange={e => changeOtherValue(e, 'minLength', data, context.changeCustomValue)}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={12}>
-          <Row type="flex" align="middle">
-            <Col span={8} className="other-label">
-              {LocalProvider('maxLength')}：
-            </Col>
-            <Col span={16}>
-              <InputNumber
-                value={data.maxLength}
-                placeholder="max.length"
-                onChange={e => changeOtherValue(e, 'maxLength', data, context.changeCustomValue)}
-              />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row className="other-row" type="flex" align="middle">
-        <Col span={4} className="other-label">
-          <span>
-            Pattern&nbsp;
-            <Tooltip title={LocalProvider('pattern')}>
-              <Icon type="question-circle-o" style={{ width: '10px' }} />
-            </Tooltip>
-            &nbsp; :
-          </span>
-        </Col>
-        <Col span={20}>
-          <Input
-            value={data.pattern}
-            placeholder="Pattern"
-            onChange={e =>
-              changeOtherValue(e.target.value, 'pattern', data, context.changeCustomValue)
-            }
-          />
-        </Col>
-      </Row>
-      <Row className="other-row" type="flex" align="middle">
-        <Col span={4} className="other-label">
-          <span>
-            format :
-          </span>
-        </Col>
-        <Col span={20}>
-          <Select
-            showSearch
-            style={{ width: 150 }}
-            value={data.format}
-            placeholder="Select a format"
-            optionFilterProp="children"
-            onChange={e => changeOtherValue(e, 'format', data, context.changeCustomValue)}
-            filterOption={(input, option) =>
-              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {format.map(item => {
-              return (
-                <Option value={item.mock} key={item.mock}>
-                  {item.mock} 
-                </Option>
-              );
-            })}
-          </Select>
-        </Col>
-      </Row>
-    </div>
-  );
-};
+class SchemaString extends PureComponent {
+  static contextTypes = {
+    changeCustomValue: PropTypes.func,
+    Model: PropTypes.object
+  };
 
-SchemaString.contextTypes = {
-  changeCustomValue: PropTypes.func,
-  Model: PropTypes.object
-};
+  constructor(props, context) {
+    super(props);
+    this.state = {
+      checked: _.isUndefined(props.data.enum) ? false : true
+    };
+    this.format = context.Model.__jsonSchemaFormat;
+  }
+
+  componentWillReceiveProps(nextprops){
+    if(this.props.data.enum !== nextprops.data.enum){
+      this.setState({
+        checked: _.isUndefined(nextprops.data.enum) ? false : true
+      })
+    } 
+  }
+
+
+  changeOtherValue = (value, name, data) => {
+    data[name] = value;
+    this.context.changeCustomValue(data);
+  };
+
+  changeEnumOtherValue = (value, data) => {
+    
+    var arr = value.split('\n');
+		if (arr.length === 0 || arr.length == 1 && !arr[0]) {
+			return;
+		}else{
+      data.enum = arr
+      this.context.changeCustomValue(data);
+    }
+		
+  }
+
+  onChangeCheckBox = e => {
+    console.log(e)
+    this.setState({
+      checked: e.target.checked
+    });
+  };
+
+  render() {
+    const { data } = this.props;
+    return (
+      <div>
+        <div className="default-setting">{LocalProvider('base_setting')}</div>
+        <Row className="other-row" type="flex" align="middle">
+          <Col span={4} className="other-label">
+            {LocalProvider('default')}：
+          </Col>
+          <Col span={20}>
+            <Input
+              value={data.default}
+              placeholder={LocalProvider('default')}
+              onChange={e => this.changeOtherValue(e.target.value, 'default', data)}
+            />
+          </Col>
+        </Row>
+        <Row className="other-row" type="flex" align="middle">
+          <Col span={12}>
+            <Row type="flex" align="middle">
+              <Col span={8} className="other-label">
+                {LocalProvider('minLength')}：
+              </Col>
+              <Col span={16}>
+                <InputNumber
+                  value={data.minLength}
+                  placeholder="min.length"
+                  onChange={e => this.changeOtherValue(e, 'minLength', data)}
+                />
+              </Col>
+            </Row>
+          </Col>
+          <Col span={12}>
+            <Row type="flex" align="middle">
+              <Col span={8} className="other-label">
+                {LocalProvider('maxLength')}：
+              </Col>
+              <Col span={16}>
+                <InputNumber
+                  value={data.maxLength}
+                  placeholder="max.length"
+                  onChange={e => this.changeOtherValue(e, 'maxLength', data)}
+                />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row className="other-row" type="flex" align="middle">
+          <Col span={4} className="other-label">
+            <span>
+              Pattern&nbsp;
+              <Tooltip title={LocalProvider('pattern')}>
+                <Icon type="question-circle-o" style={{ width: '10px' }} />
+              </Tooltip>
+              &nbsp; :
+            </span>
+          </Col>
+          <Col span={20}>
+            <Input
+              value={data.pattern}
+              placeholder="Pattern"
+              onChange={e => this.changeOtherValue(e.target.value, 'pattern', data)}
+            />
+          </Col>
+        </Row>
+        <Row className="other-row" type="flex" align="middle">
+          <Col span={4} className="other-label">
+            <span>
+              {LocalProvider('enum')}
+              <Checkbox checked={this.state.checked} onChange={this.onChangeCheckBox} /> :
+            </span>
+          </Col>
+          <Col span={20}>
+            <TextArea
+              value={data.enum&& data.enum.length && data.enum.join('\n')}
+              disabled={!this.state.checked}
+              placeholder={LocalProvider('enum_msg')}
+              autosize={{ minRows: 2, maxRows: 6 }}
+              onChange={e =>{this.changeEnumOtherValue(e.target.value, data)}}
+            />
+          </Col>
+        </Row>
+        <Row className="other-row" type="flex" align="middle">
+          <Col span={4} className="other-label">
+            <span>format :</span>
+          </Col>
+          <Col span={20}>
+            <Select
+              showSearch
+              style={{ width: 150 }}
+              value={data.format}
+              dropdownClassName="json-schema-react-editor-adv-modal-select"
+              placeholder="Select a format"
+              optionFilterProp="children"
+              optionLabelProp="value"
+              onChange={e => this.changeOtherValue(e, 'format', data)}
+              filterOption={(input, option) =>
+                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {this.format.map(item => {
+                return (
+                  <Option value={item.name} key={item.name}>
+                    {item.name} <span className="format-items-title">{item.title}</span>
+                  </Option>
+                );
+              })}
+            </Select>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+}
+
 
 const SchemaNumber = (props, context) => {
   const { data } = props;

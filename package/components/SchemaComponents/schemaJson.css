@@ -123,6 +123,8 @@
   min-height: 350px;
 }
 
-.json-schema-react-editor-adv-modal .mock-items {
-  color: #0d1b3ea6
+.json-schema-react-editor-adv-modal-select .format-items-title {
+  color: #999;
+  position: absolute;
+  right: 16px;
 }

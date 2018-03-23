@@ -2,13 +2,13 @@ const JSONPATH_JOIN_CHAR = '.';
 exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR;
 exports.lang = 'en_US';
 exports.format = [
-  { name: '', mock: 'date-time' },
-  { name: '', mock: 'date' },
-  { name: '', mock: 'email' },
-  { name: '', mock: 'hostname' },
-  { name: '', mock: 'ipv4' },
-  { name: '', mock: 'ipv6' },
-  { name: '', mock: 'uri' }
+  {  name: 'date-time' },
+  {  name: 'date' },
+  {  name: 'email' },
+  {  name: 'hosttitle' },
+  {  name: 'ipv4' },
+  {  name: 'ipv6' },
+  {  name: 'uri' }
 ];
 const _ = require('underscore');
 exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
@@ -83,21 +83,21 @@ exports.clearSomeFields = function(keys, data) {
   return newData;
 };
 
-function getFieldsName(data) {
-  const requiredName = [];
-  Object.keys(data).map(name => {
-    requiredName.push(name);
+function getFieldstitle(data) {
+  const requiredtitle = [];
+  Object.keys(data).map(title => {
+    requiredtitle.push(title);
   });
 
-  return requiredName;
+  return requiredtitle;
 }
 
 function handleSchemaRequired(schema, checked) {
   // console.log(schema)
   if (schema.type === 'object') {
-    let requiredName = getFieldsName(schema.properties);
+    let requiredtitle = getFieldstitle(schema.properties);
 
-    schema.required = checked ? [].concat(requiredName) : [];
+    schema.required = checked ? [].concat(requiredtitle) : [];
 
     // schema.required =
     // schema = Object.assign({},schema, {required})

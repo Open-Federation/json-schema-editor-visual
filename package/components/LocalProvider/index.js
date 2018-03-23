@@ -27,7 +27,9 @@ const langs = {
     'min_items':'MinItems',
     'max_items': 'MaxItems',
     'checked_all': 'Checked All',
-    'valid_json': 'Not valid json'
+    'valid_json': 'Not valid json',
+    'enum': 'Enum',
+    'enum_msg': 'One value per line'
   },
   zh_CN: {
     'import_json': '导入 json',
@@ -54,7 +56,9 @@ const langs = {
     'min_items':'最小元素个数',
     'max_items': '最大元素个数',
     'checked_all': '全选',
-    'valid_json': '不是合法的json字符串'
+    'valid_json': '不是合法的json字符串',
+    'enum': '枚举',
+    'enum_msg': '每行只能写一个值'
   }
 }
 

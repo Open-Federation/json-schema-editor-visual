@@ -11,38 +11,36 @@ if (process.env.NODE_ENV !== 'production') {
 const jeditor = require('../package/index.js');
 
 
-let MOCK_SOURCE= [
+let name_SOURCE= [
 
-  { name: 'url', mock: 'url' },
-  { name: '域名', mock: 'domain' },
-  { name: 'ip地址', mock: 'ip' },
-  { name: 'id', mock: 'id' },
-  { name: 'guid', mock: 'guid' },
-  { name: '当前时间', mock: 'now' },
-  { name: '时间戳', mock: 'timestamp'},
-  { name: '日期', mock: 'date' },
-  { name: '时间', mock: 'time' },
-  { name: '日期时间', mock: 'datetime' },
-  { name: '图片连接', mock: 'image' },
-  { name: '图片data', mock: "imageData" },
-  { name: '整数', mock: 'integer' },
-  { name: 'email', mock: 'email' },
-  { name: '大段文本', mock: 'paragraph' },
-  { name: '句子', mock: 'sentence' },
-  { name: '单词', mock: 'word' },
-  { name: '大段中文文本', mock: 'cparagraph' },
-  { name: '中文标题', mock: 'ctitle' },
-  { name: '标题', mock: 'title' },
-  { name: '姓名', mock: 'name' },
-  { name: '地址', mock: 'region' },
-  { name: '省份', mock: 'province' },
-  { name: '城市', mock: 'city' },
-  { name: '地区', mock: 'county' },
-  { name: '挑选（枚举）', mock: 'pick' },
-  { name: '打乱数组', mock: 'shuffle' },
-  { name: '协议', mock: 'protocol' }
+  {  name: 'url' },
+  { title: '域名', name: 'domain' },
+  { title: 'ip地址', name: 'ip' },
+  {  name: 'id' },
+  {  name: 'guid' },
+  { title: '当前时间', name: 'now' },
+  { title: '时间戳', name: 'timestamp'},
+  { title: '日期', name: 'date' },
+  { title: '时间', name: 'time' },
+  { title: '日期时间', name: 'datetime' },
+  { title: '图片连接', name: 'image' },
+  { title: '图片data', name: "imageData" },
+  { title: '整数', name: 'integer' },
+  {  name: 'email' },
+  { title: '大段文本', name: 'paragraph' },
+  { title: '句子', name: 'sentence' },
+  { title: '单词', name: 'word' },
+  { title: '标题', name: 'title' },
+  { title: '姓名', name: 'name' },
+  { title: '地址', name: 'region' },
+  { title: '省份', name: 'province' },
+  { title: '城市', name: 'city' },
+  { title: '地区', name: 'county' },
+  { title: '挑选（枚举）', name: 'pick' },
+  { title: '打乱数组', name: 'shuffle' },
+  { title: '协议', name: 'protocol' }
 ]
-const JEditor1 = jeditor({ lang: 'zh_CN', format: MOCK_SOURCE  });
+const JEditor1 = jeditor({ lang: 'zh_CN', format: name_SOURCE  });
 const JEditor2 = jeditor();
 
 let schema = {
@@ -173,7 +171,7 @@ let schema = {
                                           assigneeAccount: {
                                             type: 'string'
                                           },
-                                          assigneeName: {
+                                          assigneetitle: {
                                             type: 'string'
                                           },
                                           caseDesc: {
@@ -221,7 +219,7 @@ let schema = {
                                           executeAccount: {
                                             type: 'string'
                                           },
-                                          executeNames: {
+                                          executetitles: {
                                             type: 'string'
                                           },
                                           id: {
@@ -316,7 +314,7 @@ let schema = {
                                                 assigneeAccount: {
                                                   type: 'string'
                                                 },
-                                                assigneeName: {
+                                                assigneetitle: {
                                                   type: 'string'
                                                 },
                                                 caseDesc: {
@@ -375,7 +373,7 @@ let schema = {
                                                 executeAccount: {
                                                   type: 'string'
                                                 },
-                                                executeNames: {
+                                                executetitles: {
                                                   type: 'string'
                                                 },
                                                 id: {
@@ -487,7 +485,7 @@ let schema = {
                                                       assigneeAccount: {
                                                         type: 'string'
                                                       },
-                                                      assigneeName: {
+                                                      assigneetitle: {
                                                         type: 'string'
                                                       },
                                                       caseDesc: {
@@ -545,7 +543,7 @@ let schema = {
                                                       executeAccount: {
                                                         type: 'string'
                                                       },
-                                                      executeNames: {
+                                                      executetitles: {
                                                         type: 'string'
                                                       },
                                                       id: {
