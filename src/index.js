@@ -40,7 +40,7 @@ const jeditor = require('../package/index.js');
 //   { title: '打乱数组', name: 'shuffle' },
 //   { title: '协议', name: 'protocol' }
 // ]
-const JEditor1 = jeditor({ lang: 'zh_CN' });
+const JEditor1 = jeditor();
 // const JEditor2 = jeditor({
 //   format: name_SOURCE
 // });
