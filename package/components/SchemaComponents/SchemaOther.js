@@ -32,10 +32,7 @@ const changeOtherValue = (value, name, data, change) => {
 };
 
 class SchemaString extends PureComponent {
-  static contextTypes = {
-    changeCustomValue: PropTypes.func,
-    Model: PropTypes.object
-  };
+  
 
   constructor(props, context) {
     super(props);
@@ -192,7 +189,10 @@ class SchemaString extends PureComponent {
     );
   }
 }
-
+SchemaString.contextTypes = {
+  changeCustomValue: PropTypes.func,
+  Model: PropTypes.object
+};
 
 const SchemaNumber = (props, context) => {
   const { data } = props;

@@ -42,10 +42,7 @@ const mapping = (name, data, showEdit, showAdv) => {
 
 
 class SchemaArray extends PureComponent {
-  static contextTypes={
-    getOpenValue: PropTypes.func,
-    Model: PropTypes.object
-  }
+  
 
   constructor(props, context) {
     super(props);
@@ -188,12 +185,13 @@ class SchemaArray extends PureComponent {
   }
 }
 
+SchemaArray.contextTypes={
+  getOpenValue: PropTypes.func,
+  Model: PropTypes.object
+}
 
 class SchemaItem extends PureComponent {
-  static contextTypes={
-    getOpenValue: PropTypes.func,
-    Model: PropTypes.object
-  }
+  
 
   constructor(props, context) {
     super(props);
@@ -384,6 +382,11 @@ class SchemaItem extends PureComponent {
       </div>
     ) : null;
   }
+}
+
+SchemaItem.contextTypes={
+  getOpenValue: PropTypes.func,
+  Model: PropTypes.object
 }
 
 class SchemaObjectComponent extends Component {
