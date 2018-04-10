@@ -1,9 +1,6 @@
 var ace = require('brace');
-// require('brace/mode/javascript');
 require('brace/mode/json');
-// require('brace/mode/xml');
-// require('brace/mode/html')
-// require('brace/theme/xcode');
+
 
 function run(options) {
   var editor,
@@ -37,7 +34,6 @@ function run(options) {
     editor.setReadOnly(true);
     editor.renderer.$cursorLayer.element.style.display = "none";
   }
-  // editor.setTheme('ace/theme/xcode');
   editor.setOptions({
     useWorker: true
   });
@@ -90,19 +86,4 @@ function run(options) {
   return mockEditor;
 }
 
-
-
-
-
-/**
- * mockEditor({
-      container: 'req_body_json', //dom的id
-      data: that.state.req_body_json, //初始化数据
-      onChange: function (d) {
-        that.setState({
-          req_body_json: d.text
-        })
-      }
-    })
- */
 module.exports = run;

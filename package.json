@@ -1,23 +1,20 @@
 {
   "name": "json-schema-editor-visual",
-  "description": "json-schema-editor-visual",
-  "main": "index.js",
-  "scripts": {
-    "start": "ykit server -p 8082",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "watch": "webpack --watch"
+  "version": "1.0.8",
+  "description": "jsonschema editor",
+  "main": "dist/main.js",
+  "license": "MIC",
+  "scripts":{
+    "start": "ykit s -p 8082",
+    "build": "webpack"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "antd": "^3.1.6",
-    "brace": "^0.10.0",
     "generate-schema": "^2.6.0",
-    "moox": "^1.0.2",
-    "react-addons-perf": "^15.4.2",
+    "moox": "^1.0.2",    
     "react-redux": "^5.0.6",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "brace": "^0.10.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.1",
