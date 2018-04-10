@@ -2,7 +2,7 @@
   "name": "json-schema-editor-visual",
   "version": "1.0.8",
   "description": "jsonschema editor",
-  "main": "dist/main.js",
+  "main": "package/index.js",
   "license": "MIC",
   "scripts":{
     "start": "ykit s -p 8082",
