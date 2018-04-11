@@ -45,14 +45,13 @@ class SchemaString extends PureComponent {
     this.format = context.Model.__jsonSchemaFormat;
   }
 
-  componentWillReceiveProps(nextprops){
-    if(this.props.data.enum !== nextprops.data.enum){
+  componentWillReceiveProps(nextprops) {
+    if (this.props.data.enum !== nextprops.data.enum) {
       this.setState({
         checked: _.isUndefined(nextprops.data.enum) ? false : true
-      })
-    } 
+      });
+    }
   }
-
 
   changeOtherValue = (value, name, data) => {
     data[name] = value;
@@ -60,19 +59,17 @@ class SchemaString extends PureComponent {
   };
 
   changeEnumOtherValue = (value, data) => {
-    
     var arr = value.split('\n');
-		if (arr.length === 0 || arr.length == 1 && !arr[0]) {
-			return;
-		}else{
-      data.enum = arr
+    if (arr.length === 0 || (arr.length == 1 && !arr[0])) {
+      return;
+    } else {
+      data.enum = arr;
       this.context.changeCustomValue(data);
     }
-		
-  }
+  };
 
   onChangeCheckBox = e => {
-    console.log(e)
+    console.log(e);
     this.setState({
       checked: e.target.checked
     });
@@ -152,11 +149,13 @@ class SchemaString extends PureComponent {
           </Col>
           <Col span={20}>
             <TextArea
-              value={data.enum&& data.enum.length && data.enum.join('\n')}
+              value={data.enum && data.enum.length && data.enum.join('\n')}
               disabled={!this.state.checked}
               placeholder={LocalProvider('enum_msg')}
               autosize={{ minRows: 2, maxRows: 6 }}
-              onChange={e =>{this.changeEnumOtherValue(e.target.value, data)}}
+              onChange={e => {
+                this.changeEnumOtherValue(e.target.value, data);
+              }}
             />
           </Col>
         </Row>
@@ -174,9 +173,10 @@ class SchemaString extends PureComponent {
               optionFilterProp="children"
               optionLabelProp="value"
               onChange={e => this.changeOtherValue(e, 'format', data)}
-              filterOption={(input, option) =>
-                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
+              filterOption={(input, option) => {
+                
+                return option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+              }}
             >
               {this.format.map(item => {
                 return (
@@ -192,7 +192,6 @@ class SchemaString extends PureComponent {
     );
   }
 }
-
 
 const SchemaNumber = (props, context) => {
   const { data } = props;

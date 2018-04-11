@@ -5,7 +5,7 @@ exports.format = [
   {  name: 'date-time' },
   {  name: 'date' },
   {  name: 'email' },
-  {  name: 'hosttitle' },
+  {  name: 'hostname' },
   {  name: 'ipv4' },
   {  name: 'ipv6' },
   {  name: 'uri' }
