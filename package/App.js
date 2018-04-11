@@ -51,12 +51,7 @@ class jsonSchema extends React.Component {
     this.jsonData = null;
   }
 
-  static propTypes = {
-    data: PropTypes.string,
-    onChange: PropTypes.func,
-    showEditor: PropTypes.bool,
-    Model: PropTypes.object
-  };
+
   // json 导入弹窗
   showModal = () => {
     this.setState({
@@ -101,11 +96,7 @@ class jsonSchema extends React.Component {
     this.Model.changeEditorSchemaAction({value: JSON.parse(data)});
   }
 
-  static childContextTypes = {
-    getOpenValue: PropTypes.func,
-    changeCustomValue: PropTypes.func,
-    Model: PropTypes.object
-  };
+  
 
   getChildContext() {
     return {
@@ -416,6 +407,19 @@ class jsonSchema extends React.Component {
     );
   }
 }
+
+jsonSchema.childContextTypes = {
+  getOpenValue: PropTypes.func,
+  changeCustomValue: PropTypes.func,
+  Model: PropTypes.object
+};
+
+jsonSchema.propTypes = {
+  data: PropTypes.string,
+  onChange: PropTypes.func,
+  showEditor: PropTypes.bool,
+  Model: PropTypes.object
+};
 
 export default connect(
     state => ({

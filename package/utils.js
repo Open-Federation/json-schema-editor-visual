@@ -120,9 +120,11 @@ exports.handleSchemaRequired = handleSchemaRequired;
 
 function cloneObject(obj) {
   if (typeof obj === 'object') {
-    if (_.isArray(obj)) {
+    if (Array.isArray(obj)) {
       var newArr = [];
-      newArr = [].concat(obj);
+      obj.forEach(function(item, index){
+        newArr[index] = cloneObject(item)
+      })
       return newArr;
     } else {
       var newObj = {};

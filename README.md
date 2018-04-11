@@ -9,20 +9,28 @@ npm install json-schema-editor-visual
 ```
 
 ```js
+const option = {}
 import 'antd/dist/antd.css'
-const Schema = require("json-schema-editor-visual")();
-
+require('json-schema-editor-visual/dist/main.css')
+const schemaEditor = require("json-schema-editor-visual/dist/main.js");
+const SchemaEditor = schemaEditor(option)
 
 render(
-    <Schema />,
+    <SchemaEditor />,
   document.getElementById('root')
 )
 ```
 
-## Run dev
-```
-git clone https://github.com/YMFE/json-schema-editor-visual.git
-npm install
-npm run start
-```
+## Option Object
 
+| name | desc | default |
+| ---- | ----------- | --------- |
+| `lg` | language, support `en_US` or `zh_CN` | en_US 
+
+## SchemaEditor Props
+
+| name | type | default | desc
+| ---- | ----------- | --------- | --------- |
+| `data` | string | null | the data of editor
+| `onChange`| function | null | 
+| `showEditor` | boolean | false | 

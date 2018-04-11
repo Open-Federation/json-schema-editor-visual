@@ -1,28 +1,40 @@
 {
   "name": "json-schema-editor-visual",
-  "description": "json-schema-editor-visual",
-  "main": "index.js",
-  "scripts": {
-    "start": "ykit server -p 8082",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "version": "1.0.8",
+  "description": "jsonschema editor",
+  "main": "package/index.js",
+  "license": "MIC",
+  "scripts":{
+    "start": "ykit s -p 8082",
+    "build": "webpack"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "antd": "^3.1.6",
-    "brace": "^0.10.0",
     "generate-schema": "^2.6.0",
-    "moox": "^1.0.2",
-    "react-addons-perf": "^15.4.2",
+    "moox": "^1.0.2",    
     "react-redux": "^5.0.6",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "brace": "^0.10.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.1",
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-import": "^1.7.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-react-app": "^3.1.0",
     "cross-env": "^5.1.1",
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "less": "^2.7.2",
+    "less-loader": "^4.1.0",
     "react-addons-perf": "^15.4.2",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
     "ykit-config-antd": "^1.2.0"
   }
 }

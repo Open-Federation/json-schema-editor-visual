@@ -1,7 +1,7 @@
 import React from 'react'
 import mockEditor from './mockEditor'
 import PropTypes from 'prop-types'
-import './AceEditor.css'
+import aaa from './AceEditor.css'
 
 const ModeMap = {
   'javascript' : 'ace/mode/javascript',
@@ -11,6 +11,8 @@ const ModeMap = {
   'html' : 'ace/mode/html'
 }
 
+
+
 function getMode(mode){
   return ModeMap[mode] || ModeMap.text
 }
@@ -18,18 +20,6 @@ function getMode(mode){
 class AceEditor extends React.PureComponent {
   constructor(props){
     super(props);
-  }
-
-  static propTypes = {
-    data: PropTypes.string,
-    onChange: PropTypes.func,
-    className: PropTypes.string,
-    mode: PropTypes.string, //enum[json, text, javascript], default is javascript
-    readOnly: PropTypes.bool,
-    callback: PropTypes.func,
-    style: PropTypes.object,
-    fullScreen: PropTypes.bool,
-    insertCode: PropTypes.func
   }
 
   componentDidMount(){
@@ -65,6 +55,19 @@ class AceEditor extends React.PureComponent {
       this.editorElement=editor  
     }} ></div>
   }
+}
+
+
+AceEditor.propTypes = {
+  data: PropTypes.string,
+  onChange: PropTypes.func,
+  className: PropTypes.string,
+  mode: PropTypes.string, //enum[json, text, javascript], default is javascript
+  readOnly: PropTypes.bool,
+  callback: PropTypes.func,
+  style: PropTypes.object,
+  fullScreen: PropTypes.bool,
+  insertCode: PropTypes.func
 }
 
 export default AceEditor;

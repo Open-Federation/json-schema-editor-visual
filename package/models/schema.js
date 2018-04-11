@@ -28,10 +28,18 @@ export default {
     const value = action.value;
     let oldData = oldState.data;
     let parentKeys = utils.getParentKeys(keys);
-    let parentData = utils.getData(oldData, parentKeys);
+    let parentData = utils.getData(oldData, parentKeys);    
     let requiredData = [].concat(parentData.required || []);
     let propertiesData = utils.getData(oldData, keys);
     let newPropertiesData = {};
+
+    let curData = propertiesData[name]
+    let openKeys = [].concat(keys, value, 'properties').join(utils.JSONPATH_JOIN_CHAR)
+    let oldOpenKeys = [].concat(keys,name, 'properties').join(utils.JSONPATH_JOIN_CHAR)
+    if(curData.properties){
+      delete state.open[oldOpenKeys];
+      state.open[openKeys] = true;
+    }
    
     if (propertiesData[value] && typeof propertiesData[value] === 'object') {
       return;
