@@ -58,16 +58,21 @@ class jsonSchema extends React.Component {
       visible: true
     });
   };
-  handleOk = () => {
-    this.setState({ visible: false });
+  handleOk = () => {    
     if (this.importJsonType !== 'schema') {
-      if (!this.jsonData) return;
+      if (!this.jsonData) {
+        return message.error('json 数据格式有误')
+      };
+      
       let jsonData = GenerateSchema(this.jsonData);
       this.Model.changeEditorSchemaAction({value: jsonData});
     } else {
-      if (!this.jsonSchemaData) return;
+      if (!this.jsonSchemaData){
+        return message.error('json 数据格式有误')
+      };      
       this.Model.changeEditorSchemaAction({value: this.jsonSchemaData});
     }
+    this.setState({ visible: false });
   };
   handleCancel = () => {
     this.setState({ visible: false });
