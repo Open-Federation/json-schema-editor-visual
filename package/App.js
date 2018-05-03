@@ -138,14 +138,14 @@ class jsonSchema extends React.Component {
   };
 
   handleImportJson = e => {
-    if (!e.text) {
+    if (!e.text || e.format !== true) {
       return (this.jsonData = null);
     }
     this.jsonData = e.jsonData;
   };
 
   handleImportJsonSchema = e => {
-    if (!e.text) {
+    if (!e.text || e.format !== true) {
       return (this.jsonSchemaData = null);
     }
     this.jsonSchemaData = e.jsonData;
