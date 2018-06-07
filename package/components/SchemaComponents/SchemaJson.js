@@ -303,7 +303,7 @@ class SchemaItem extends PureComponent {
               <Col span={22}>
                 <Input
                   addonAfter={
-                    <Tooltip placement="left" title={LocaleProvider('required')}>
+                    <Tooltip placement="top" title={LocaleProvider('required')}>
                       <Checkbox
                         onChange={this.handleEnableRequire}
                         checked={
