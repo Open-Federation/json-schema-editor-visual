@@ -40,10 +40,7 @@ const mapping = (name, data, showEdit, showAdv) => {
   }
 };
 
-
 class SchemaArray extends PureComponent {
-  
-
   constructor(props, context) {
     super(props);
     this._tagPaddingLeftStyle = {};
@@ -66,32 +63,30 @@ class SchemaArray extends PureComponent {
   handleChangeType = value => {
     let prefix = this.getPrefix();
     let key = [].concat(prefix, 'type');
-    this.Model.changeTypeAction({key, value});
+    this.Model.changeTypeAction({ key, value });
   };
 
   // 修改备注信息
   handleChangeValue = e => {
     let prefix = this.getPrefix();
-    let key = [].concat(prefix, `description`)
-    let value = e.target.value
-    this.Model.changeValueAction({key, value});
+    let key = [].concat(prefix, `description`);
+    let value = e.target.value;
+    this.Model.changeValueAction({ key, value });
   };
 
   // 增加子节点
   handleAddChildField = () => {
-    
     let prefix = this.getPrefix();
     let keyArr = [].concat(prefix, 'properties');
-    this.Model.addChildFieldAction({key:keyArr});
-    this.Model.setOpenValueAction({key: keyArr, value: true});
+    this.Model.addChildFieldAction({ key: keyArr });
+    this.Model.setOpenValueAction({ key: keyArr, value: true });
   };
-
 
   handleClickIcon = () => {
     let prefix = this.getPrefix();
     // 数据存储在 properties.name.properties下
     let keyArr = [].concat(prefix, 'properties');
-    this.Model.setOpenValueAction({key: keyArr});
+    this.Model.setOpenValueAction({ key: keyArr });
   };
 
   handleShowEdit = () => {
@@ -102,8 +97,6 @@ class SchemaArray extends PureComponent {
   handleShowAdv = () => {
     this.props.showAdv(this.getPrefix(), this.props.data.items);
   };
-
-  
 
   render() {
     const { data, prefix, showEdit, showAdv } = this.props;
@@ -185,14 +178,12 @@ class SchemaArray extends PureComponent {
   }
 }
 
-SchemaArray.contextTypes={
+SchemaArray.contextTypes = {
   getOpenValue: PropTypes.func,
   Model: PropTypes.object
-}
+};
 
 class SchemaItem extends PureComponent {
-  
-
   constructor(props, context) {
     super(props);
     this._tagPaddingLeftStyle = {};
@@ -212,47 +203,39 @@ class SchemaItem extends PureComponent {
     return [].concat(this.props.prefix, this.props.name);
   }
 
-
   // 修改节点字段名
   handleChangeName = e => {
     const { data, prefix, name } = this.props;
     let value = e.target.value;
-    
+
     if (data.properties[value] && typeof data.properties[value] === 'object') {
       return message.error(`The field "${value}" already exists.`);
     }
 
-    this.Model.changeNameAction({value, prefix, name});
-    
+    this.Model.changeNameAction({ value, prefix, name });
   };
 
- // 修改备注信息
+  // 修改备注信息
   handleChangeDesc = e => {
-    
     let prefix = this.getPrefix();
     let key = [].concat(prefix, 'description');
     let value = e.target.value;
-    this.Model.changeValueAction({key, value});
-    
+    this.Model.changeValueAction({ key, value });
   };
 
-  
-  // 修改数据类型 
+  // 修改数据类型
   handleChangeType = e => {
     let prefix = this.getPrefix();
     let key = [].concat(prefix, 'type');
-    this.Model.changeTypeAction({key, value: e});
-   
+    this.Model.changeTypeAction({ key, value: e });
   };
 
- 
   // 删除节点
   handleDeleteItem = () => {
     const { prefix, name } = this.props;
     let nameArray = this.getPrefix();
-    this.Model.deleteItemAction({key: nameArray});
-    this.Model.enableRequireAction({prefix, name, required: false});
-   
+    this.Model.deleteItemAction({ key: nameArray });
+    this.Model.enableRequireAction({ prefix, name, required: false });
   };
   // 展示备注编辑弹窗
   handleShowEdit = () => {
@@ -266,29 +249,27 @@ class SchemaItem extends PureComponent {
     showAdv(this.getPrefix(), data.properties[name]);
   };
 
-  //  增加子节点 
+  //  增加子节点
   handleAddField = () => {
     const { prefix, name } = this.props;
-    this.Model.addFieldAction({prefix, name});
+    this.Model.addFieldAction({ prefix, name });
   };
 
-   // 控制三角形按钮
+  // 控制三角形按钮
   handleClickIcon = () => {
-    
     let prefix = this.getPrefix();
     // 数据存储在 properties.xxx.properties 下
     let keyArr = [].concat(prefix, 'properties');
-    this.Model.setOpenValueAction({key: keyArr});
+    this.Model.setOpenValueAction({ key: keyArr });
   };
 
-   // 修改是否必须
+  // 修改是否必须
   handleEnableRequire = e => {
     const { prefix, name } = this.props;
-    let required = e.target.checked
+    let required = e.target.checked;
     // this.enableRequire(this.props.prefix, this.props.name, e.target.checked);
-    this.Model.enableRequireAction({prefix, name, required});
+    this.Model.enableRequireAction({ prefix, name, required });
   };
-
 
   render() {
     let { name, data, prefix, showEdit, showAdv } = this.props;
@@ -322,15 +303,17 @@ class SchemaItem extends PureComponent {
               <Col span={22}>
                 <Input
                   addonAfter={
-                    <Checkbox
-                      onChange={this.handleEnableRequire}
-                      checked={
-                        _.isUndefined(data.required) ? false : data.required.indexOf(name) != -1
-                      }
-                    />
+                    <Tooltip placement="left" title={LocaleProvider('required')}>
+                      <Checkbox
+                        onChange={this.handleEnableRequire}
+                        checked={
+                          _.isUndefined(data.required) ? false : data.required.indexOf(name) != -1
+                        }
+                      />
+                    </Tooltip>
                   }
                   onChange={this.handleChangeName}
-                  value={name}
+                  value={name+'1'}
                 />
               </Col>
             </Row>
@@ -384,10 +367,10 @@ class SchemaItem extends PureComponent {
   }
 }
 
-SchemaItem.contextTypes={
+SchemaItem.contextTypes = {
   getOpenValue: PropTypes.func,
   Model: PropTypes.object
-}
+};
 
 class SchemaObjectComponent extends Component {
   shouldComponentUpdate(nextProps) {
@@ -422,7 +405,7 @@ class SchemaObjectComponent extends Component {
 
 const SchemaObject = connect(state => ({
   open: state.schema.open
-}))(SchemaObjectComponent)
+}))(SchemaObjectComponent);
 
 const DropPlus = (props, context) => {
   const { prefix, name, add } = props;
@@ -430,15 +413,16 @@ const DropPlus = (props, context) => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <span onClick={() => Model.addFieldAction({prefix, name})}>
+        <span onClick={() => Model.addFieldAction({ prefix, name })}>
           {LocaleProvider('sibling_node')}
         </span>
       </Menu.Item>
       <Menu.Item>
-        <span onClick={() => {
-          Model.setOpenValueAction({ key: [].concat(prefix, name, 'properties'), value: true });
-          Model.addChildFieldAction({key: [].concat(prefix, name, 'properties')})}
-          }
+        <span
+          onClick={() => {
+            Model.setOpenValueAction({ key: [].concat(prefix, name, 'properties'), value: true });
+            Model.addChildFieldAction({ key: [].concat(prefix, name, 'properties') });
+          }}
         >
           {LocaleProvider('child_node')}
         </span>
@@ -455,9 +439,9 @@ const DropPlus = (props, context) => {
   );
 };
 
-DropPlus.contextTypes={
+DropPlus.contextTypes = {
   Model: PropTypes.object
-}
+};
 
 const SchemaJson = props => {
   const item = mapping([], props.data, props.showEdit, props.showAdv);

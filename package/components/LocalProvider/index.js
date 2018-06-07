@@ -29,7 +29,8 @@ const langs = {
     'checked_all': 'Checked All',
     'valid_json': 'Not valid json',
     'enum': 'Enum',
-    'enum_msg': 'One value per line'
+    'enum_msg': 'One value per line',
+    'required': 'required'
   },
   zh_CN: {
     'import_json': '导入 json',
@@ -58,7 +59,8 @@ const langs = {
     'checked_all': '全选',
     'valid_json': '不是合法的json字符串',
     'enum': '枚举',
-    'enum_msg': '每行只能写一个值'
+    'enum_msg': '每行只能写一个值',
+    'required': '必须'
   }
 }
 
