@@ -313,7 +313,7 @@ class SchemaItem extends PureComponent {
                     </Tooltip>
                   }
                   onChange={this.handleChangeName}
-                  value={name+'1'}
+                  value={name}
                 />
               </Col>
             </Row>
