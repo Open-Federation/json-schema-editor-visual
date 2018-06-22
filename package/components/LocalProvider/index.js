@@ -50,7 +50,7 @@ const langs = {
     'maxLength': '最大长度',
     'pattern': '用正则表达式约束字符串',
     'exclusiveMinimum': '开启后，数据必须大于最小值',
-    'exclusiveMaximum': '开启后，数据必须大于最大值',
+    'exclusiveMaximum': '开启后，数据必须小于最大值',
     'minimum': '最小值',
     'maximum': '最大值',
     'unique_items': '开启后，每个元素都不相同',
