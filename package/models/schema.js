@@ -77,7 +77,10 @@ export default {
     if (parentData.type === value) {
       return;
     }
-    let newParentData = utils.defaultSchema[value];
+    // let newParentData = utils.defaultSchema[value];
+    let newParentDataItem = utils.defaultSchema[value];
+    let newParentData = Object.assign({}, parentData, newParentDataItem)
+    // console.log('newParentData', newParentData);
     let newKeys = [].concat('data', parentKeys);
     utils.setData(state, newKeys, newParentData);
   },
