@@ -278,7 +278,7 @@ class jsonSchema extends React.Component {
           </Tabs>
         </Modal>
         <Modal
-          title={LocalProvider('default')}
+          title={LocalProvider('description')}
           maskClosable={false}
           visible={editVisible}
           onOk={this.handleEditOk}
@@ -288,7 +288,7 @@ class jsonSchema extends React.Component {
         >
           <TextArea
             value={description}
-            placeholder={LocalProvider('default')}
+            placeholder={LocalProvider('description')}
             onChange={e => this.changeDesc(e.target.value)}
             autosize={{ minRows: 6, maxRows: 10 }}
           />
