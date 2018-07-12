@@ -1,7 +1,7 @@
 const _ = require('underscore');
 import utils from '../utils';
 let fieldNum = 1;
-import handleSchema from '../schema.js'
+import handleSchema from '../schema.js';
 
 export default {
   state: {
@@ -17,30 +17,30 @@ export default {
     }
   },
 
-  changeEditorSchemaAction: function (state, action) {
-    handleSchema(action.value)
+  changeEditorSchemaAction: function(state, action) {
+    handleSchema(action.value);
     state.data = action.value;
   },
 
-  changeNameAction: function (state, action, oldState) {
+  changeNameAction: function(state, action, oldState) {
     const keys = action.prefix;
     const name = action.name;
     const value = action.value;
     let oldData = oldState.data;
     let parentKeys = utils.getParentKeys(keys);
-    let parentData = utils.getData(oldData, parentKeys);    
+    let parentData = utils.getData(oldData, parentKeys);
     let requiredData = [].concat(parentData.required || []);
     let propertiesData = utils.getData(oldData, keys);
     let newPropertiesData = {};
 
-    let curData = propertiesData[name]
-    let openKeys = [].concat(keys, value, 'properties').join(utils.JSONPATH_JOIN_CHAR)
-    let oldOpenKeys = [].concat(keys,name, 'properties').join(utils.JSONPATH_JOIN_CHAR)
-    if(curData.properties){
+    let curData = propertiesData[name];
+    let openKeys = [].concat(keys, value, 'properties').join(utils.JSONPATH_JOIN_CHAR);
+    let oldOpenKeys = [].concat(keys, name, 'properties').join(utils.JSONPATH_JOIN_CHAR);
+    if (curData.properties) {
       delete state.open[oldOpenKeys];
       state.open[openKeys] = true;
     }
-   
+
     if (propertiesData[value] && typeof propertiesData[value] === 'object') {
       return;
     }
@@ -62,12 +62,12 @@ export default {
     utils.setData(state.data, keys, newPropertiesData);
   },
 
-  changeValueAction: function (state, action) {
+  changeValueAction: function(state, action) {
     const keys = action.key;
     utils.setData(state.data, keys, action.value);
   },
 
-  changeTypeAction: function (state, action, oldState) {
+  changeTypeAction: function(state, action, oldState) {
     const keys = action.key;
     const value = action.value;
 
@@ -79,13 +79,16 @@ export default {
     }
     // let newParentData = utils.defaultSchema[value];
     let newParentDataItem = utils.defaultSchema[value];
-    let newParentData = Object.assign({}, parentData, newParentDataItem)
-    // console.log('newParentData', newParentData);
+   
+    // 将备注过滤出来
+    let parentDataItem = parentData.description ? { description: parentData.description } : {};
+    let newParentData = Object.assign({}, newParentDataItem, parentDataItem);
+   
     let newKeys = [].concat('data', parentKeys);
     utils.setData(state, newKeys, newParentData);
   },
 
-  enableRequireAction: function (state, action, oldState) {
+  enableRequireAction: function(state, action, oldState) {
     const keys = action.prefix;
     let parentKeys = utils.getParentKeys(keys);
     let oldData = oldState.data;
@@ -104,16 +107,15 @@ export default {
     }
   },
 
-  requireAllAction: function (state, action, oldState) {
+  requireAllAction: function(state, action, oldState) {
     // let oldData = oldState.data;
-    let data = utils.cloneObject(action.value)
-    utils.handleSchemaRequired(data, action.required)
+    let data = utils.cloneObject(action.value);
+    utils.handleSchemaRequired(data, action.required);
 
     state.data = data;
-
   },
 
-  deleteItemAction: function (state, action, oldState) {
+  deleteItemAction: function(state, action, oldState) {
     const keys = action.key;
 
     let name = keys[keys.length - 1];
@@ -130,7 +132,7 @@ export default {
     utils.setData(state.data, parentKeys, newParentData);
   },
 
-  addFieldAction: function (state, action, oldState) {
+  addFieldAction: function(state, action, oldState) {
     const keys = action.prefix;
     let oldData = oldState.data;
     let name = action.name;
@@ -149,7 +151,7 @@ export default {
     }
     utils.setData(state.data, keys, newPropertiesData);
   },
-  addChildFieldAction: function (state, action, oldState) {
+  addChildFieldAction: function(state, action, oldState) {
     const keys = action.key;
     let oldData = oldState.data;
     let propertiesData = utils.getData(oldData, keys);
@@ -159,7 +161,7 @@ export default {
     utils.setData(state.data, keys, newPropertiesData);
   },
 
-  setOpenValueAction: function (state, action, oldState) {
+  setOpenValueAction: function(state, action, oldState) {
     const keys = action.key.join(utils.JSONPATH_JOIN_CHAR);
 
     let status;
@@ -170,5 +172,4 @@ export default {
     }
     utils.setData(state.open, [keys], status);
   }
-
 };

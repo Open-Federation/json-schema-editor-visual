@@ -32,8 +32,6 @@ const changeOtherValue = (value, name, data, change) => {
 };
 
 class SchemaString extends PureComponent {
-  
-
   constructor(props, context) {
     super(props);
     this.state = {
@@ -65,8 +63,12 @@ class SchemaString extends PureComponent {
     }
   };
 
+  changeEnumDescOtherValue = (value, data) => {
+    data.enumDesc = value;
+    this.context.changeCustomValue(data);
+  };
+
   onChangeCheckBox = e => {
-    console.log(e);
     this.setState({
       checked: e.target.checked
     });
@@ -156,6 +158,24 @@ class SchemaString extends PureComponent {
             />
           </Col>
         </Row>
+        {this.state.checked && (
+          <Row className="other-row" type="flex" align="middle">
+            <Col span={4} className="other-label">
+              <span>{LocalProvider('enum_desc')}</span>
+            </Col>
+            <Col span={20}>
+              <TextArea
+                value={data.enumDesc}
+                disabled={!this.state.checked}
+                placeholder={LocalProvider('enum_desc_msg')}
+                autosize={{ minRows: 2, maxRows: 6 }}
+                onChange={e => {
+                  this.changeEnumDescOtherValue(e.target.value, data);
+                }}
+              />
+            </Col>
+          </Row>
+        )}
         <Row className="other-row" type="flex" align="middle">
           <Col span={4} className="other-label">
             <span>format :</span>
@@ -171,7 +191,6 @@ class SchemaString extends PureComponent {
               optionLabelProp="value"
               onChange={e => this.changeOtherValue(e, 'format', data)}
               filterOption={(input, option) => {
-                
                 return option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
               }}
             >

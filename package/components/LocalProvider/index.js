@@ -30,6 +30,8 @@ const langs = {
     'valid_json': 'Not valid json',
     'enum': 'Enum',
     'enum_msg': 'One value per line',
+    'enum_desc': 'desc',
+    'enum_desc_msg': 'enum description',
     'required': 'required'
   },
   zh_CN: {
@@ -60,6 +62,8 @@ const langs = {
     'valid_json': '不是合法的json字符串',
     'enum': '枚举',
     'enum_msg': '每行只能写一个值',
+    'enum_desc': '备注',
+    'enum_desc_msg': '备注描述信息',
     'required': '必须'
   }
 }
