@@ -56,7 +56,9 @@ class SchemaString extends PureComponent {
   changeEnumOtherValue = (value, data) => {
     var arr = value.split('\n');
     if (arr.length === 0 || (arr.length == 1 && !arr[0])) {
-      return;
+      delete data.enum;
+      this.context.changeCustomValue(data);
+      
     } else {
       data.enum = arr;
       this.context.changeCustomValue(data);
