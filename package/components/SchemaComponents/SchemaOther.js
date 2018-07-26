@@ -58,7 +58,6 @@ class SchemaString extends PureComponent {
     if (arr.length === 0 || (arr.length == 1 && !arr[0])) {
       delete data.enum;
       this.context.changeCustomValue(data);
-      
     } else {
       data.enum = arr;
       this.context.changeCustomValue(data);
@@ -70,10 +69,14 @@ class SchemaString extends PureComponent {
     this.context.changeCustomValue(data);
   };
 
-  onChangeCheckBox = e => {
+  onChangeCheckBox = (checked, data) => {
     this.setState({
-      checked: e.target.checked
+      checked
     });
+    if(!checked) {
+      delete data.enum;
+      this.context.changeCustomValue(data);
+    }
   };
 
   render() {
@@ -145,7 +148,7 @@ class SchemaString extends PureComponent {
           <Col span={4} className="other-label">
             <span>
               {LocalProvider('enum')}
-              <Checkbox checked={this.state.checked} onChange={this.onChangeCheckBox} /> :
+              <Checkbox checked={this.state.checked} onChange={e=>this.onChangeCheckBox(e.target.checked, data)} /> :
             </span>
           </Col>
           <Col span={20}>
@@ -215,105 +218,179 @@ SchemaString.contextTypes = {
   Model: PropTypes.object
 };
 
-const SchemaNumber = (props, context) => {
-  const { data } = props;
+class SchemaNumber extends PureComponent {
 
-  return (
-    <div>
-      <div className="default-setting">{LocalProvider('base_setting')}</div>
-      <Row className="other-row" type="flex" align="middle">
-        <Col span={4} className="other-label">
-          {LocalProvider('default')}：
-        </Col>
-        <Col span={20}>
-          <Input
-            value={data.default}
-            placeholder={LocalProvider('default')}
-            onChange={e =>
-              changeOtherValue(e.target.value, 'default', data, context.changeCustomValue)
-            }
-          />
-        </Col>
-      </Row>
-      <Row className="other-row" type="flex" align="middle">
-        <Col span={12}>
-          <Row type="flex" align="middle">
-            <Col span={13} className="other-label">
-              <span>
-                exclusiveMinimum&nbsp;
-                <Tooltip title={LocalProvider('exclusiveMinimum')}>
-                  <Icon type="question-circle-o" style={{ width: '10px' }} />
-                </Tooltip>
-                &nbsp; :
-              </span>
+  constructor(props, context) {
+    super(props);
+    this.state = {
+      checked: _.isUndefined(props.data.enum) ? false : true
+    };
+    
+  }
+
+  onChangeCheckBox = (checked, data) => {
+    this.setState({
+      checked
+    });
+
+    if(!checked) {
+      delete data.enum;
+      this.context.changeCustomValue(data);
+    }
+  };
+
+  changeEnumOtherValue = (value, data) => {
+    var arr = value.split('\n').map(item => item && parseInt(item, 10));
+    if (arr.length === 0 || (arr.length == 1 && !arr[0])) {
+      delete data.enum;
+      this.context.changeCustomValue(data);
+    } else {
+      data.enum = arr;
+      this.context.changeCustomValue(data);
+    }
+  };
+
+  changeEnumDescOtherValue = (value, data) => {
+    data.enumDesc = value;
+    this.context.changeCustomValue(data);
+  };
+
+  render() {
+    const { data } = this.props;
+    return (
+      <div>
+        <div className="default-setting">{LocalProvider('base_setting')}</div>
+        <Row className="other-row" type="flex" align="middle">
+          <Col span={4} className="other-label">
+            {LocalProvider('default')}：
+          </Col>
+          <Col span={20}>
+            <Input
+              value={data.default}
+              placeholder={LocalProvider('default')}
+              onChange={e =>
+                changeOtherValue(e.target.value, 'default', data, this.context.changeCustomValue)
+              }
+            />
+          </Col>
+        </Row>
+        <Row className="other-row" type="flex" align="middle">
+          <Col span={12}>
+            <Row type="flex" align="middle">
+              <Col span={13} className="other-label">
+                <span>
+                  exclusiveMinimum&nbsp;
+                  <Tooltip title={LocalProvider('exclusiveMinimum')}>
+                    <Icon type="question-circle-o" style={{ width: '10px' }} />
+                  </Tooltip>
+                  &nbsp; :
+                </span>
+              </Col>
+              <Col span={11}>
+                <Switch
+                  checked={data.exclusiveMinimum}
+                  placeholder="exclusiveMinimum"
+                  onChange={e =>
+                    changeOtherValue(e, 'exclusiveMinimum', data, this.context.changeCustomValue)
+                  }
+                />
+              </Col>
+            </Row>
+          </Col>
+          <Col span={12}>
+            <Row type="flex" align="middle">
+              <Col span={13} className="other-label">
+                <span>
+                  exclusiveMaximum&nbsp;
+                  <Tooltip title={LocalProvider('exclusiveMaximum')}>
+                    <Icon type="question-circle-o" style={{ width: '10px' }} />
+                  </Tooltip>
+                  &nbsp; :
+                </span>
+              </Col>
+              <Col span={11}>
+                <Switch
+                  checked={data.exclusiveMaximum}
+                  placeholder="exclusiveMaximum"
+                  onChange={e =>
+                    changeOtherValue(e, 'exclusiveMaximum', data, this.context.changeCustomValue)
+                  }
+                />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row className="other-row" type="flex" align="middle">
+          <Col span={12}>
+            <Row type="flex" align="middle">
+              <Col span={8} className="other-label">
+                {LocalProvider('minimum')}：
+              </Col>
+              <Col span={16}>
+                <InputNumber
+                  value={data.minimum}
+                  placeholder={LocalProvider('minimum')}
+                  onChange={e => changeOtherValue(e, 'minimum', data, this.context.changeCustomValue)}
+                />
+              </Col>
+            </Row>
+          </Col>
+          <Col span={12}>
+            <Row type="flex" align="middle">
+              <Col span={8} className="other-label">
+                {LocalProvider('maximum')}：
+              </Col>
+              <Col span={16}>
+                <InputNumber
+                  value={data.maximum}
+                  placeholder={LocalProvider('maximum')}
+                  onChange={e => changeOtherValue(e, 'maximum', data, this.context.changeCustomValue)}
+                />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row className="other-row" type="flex" align="middle">
+          <Col span={4} className="other-label">
+            <span>
+              {LocalProvider('enum')}
+              <Checkbox checked={this.state.checked} onChange={e =>this.onChangeCheckBox(e.target.checked, data)} /> :
+            </span>
+          </Col>
+          <Col span={20}>
+            <TextArea
+              value={data.enum && data.enum.length && data.enum.join('\n')}
+              disabled={!this.state.checked}
+              placeholder={LocalProvider('enum_msg')}
+              autosize={{ minRows: 2, maxRows: 6 }}
+              onChange={e => {
+                this.changeEnumOtherValue(e.target.value, data);
+              }}
+            />
+          </Col>
+        </Row>
+        {this.state.checked && (
+          <Row className="other-row" type="flex" align="middle">
+            <Col span={4} className="other-label">
+              <span>{LocalProvider('enum_desc')} ：</span>
             </Col>
-            <Col span={11}>
-              <Switch
-                checked={data.exclusiveMinimum}
-                placeholder="exclusiveMinimum"
-                onChange={e =>
-                  changeOtherValue(e, 'exclusiveMinimum', data, context.changeCustomValue)
-                }
+            <Col span={20}>
+              <TextArea
+                value={data.enumDesc}
+                disabled={!this.state.checked}
+                placeholder={LocalProvider('enum_desc_msg')}
+                autosize={{ minRows: 2, maxRows: 6 }}
+                onChange={e => {
+                  this.changeEnumDescOtherValue(e.target.value, data);
+                }}
               />
             </Col>
           </Row>
-        </Col>
-        <Col span={12}>
-          <Row type="flex" align="middle">
-            <Col span={13} className="other-label">
-              <span>
-                exclusiveMaximum&nbsp;
-                <Tooltip title={LocalProvider('exclusiveMaximum')}>
-                  <Icon type="question-circle-o" style={{ width: '10px' }} />
-                </Tooltip>
-                &nbsp; :
-              </span>
-            </Col>
-            <Col span={11}>
-              <Switch
-                checked={data.exclusiveMaximum}
-                placeholder="exclusiveMaximum"
-                onChange={e =>
-                  changeOtherValue(e, 'exclusiveMaximum', data, context.changeCustomValue)
-                }
-              />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row className="other-row" type="flex" align="middle">
-        <Col span={12}>
-          <Row type="flex" align="middle">
-            <Col span={8} className="other-label">
-              {LocalProvider('minimum')}：
-            </Col>
-            <Col span={16}>
-              <InputNumber
-                value={data.minimum}
-                placeholder={LocalProvider('minimum')}
-                onChange={e => changeOtherValue(e, 'minimum', data, context.changeCustomValue)}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={12}>
-          <Row type="flex" align="middle">
-            <Col span={8} className="other-label">
-              {LocalProvider('maximum')}：
-            </Col>
-            <Col span={16}>
-              <InputNumber
-                value={data.maximum}
-                placeholder={LocalProvider('maximum')}
-                onChange={e => changeOtherValue(e, 'maximum', data, context.changeCustomValue)}
-              />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </div>
-  );
-};
+        )}
+      </div>
+    );
+  }
+}
 
 SchemaNumber.contextTypes = {
   changeCustomValue: PropTypes.func
