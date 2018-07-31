@@ -240,7 +240,7 @@ class SchemaNumber extends PureComponent {
   };
 
   changeEnumOtherValue = (value, data) => {
-    var arr = value.split('\n').map(item => item && parseInt(item, 10));
+    var arr = value.split('\n');
     if (arr.length === 0 || (arr.length == 1 && !arr[0])) {
       delete data.enum;
       this.context.changeCustomValue(data);
