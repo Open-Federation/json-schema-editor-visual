@@ -73,7 +73,7 @@ class SchemaString extends PureComponent {
     this.setState({
       checked
     });
-    if(!checked) {
+    if (!checked) {
       delete data.enum;
       this.context.changeCustomValue(data);
     }
@@ -148,7 +148,11 @@ class SchemaString extends PureComponent {
           <Col span={4} className="other-label">
             <span>
               {LocalProvider('enum')}
-              <Checkbox checked={this.state.checked} onChange={e=>this.onChangeCheckBox(e.target.checked, data)} /> :
+              <Checkbox
+                checked={this.state.checked}
+                onChange={e => this.onChangeCheckBox(e.target.checked, data)}
+              />{' '}
+              :
             </span>
           </Col>
           <Col span={20}>
@@ -219,13 +223,13 @@ SchemaString.contextTypes = {
 };
 
 class SchemaNumber extends PureComponent {
-
   constructor(props, context) {
     super(props);
+    console.log(props.data.enum);
     this.state = {
-      checked: _.isUndefined(props.data.enum) ? false : true
+      checked: _.isUndefined(props.data.enum) ? false : true,
+      enum: _.isUndefined(props.data.enum) ? '' : props.data.enum.join('\n')
     };
-    
   }
 
   onChangeCheckBox = (checked, data) => {
@@ -233,21 +237,32 @@ class SchemaNumber extends PureComponent {
       checked
     });
 
-    if(!checked) {
+    if (!checked) {
       delete data.enum;
+      this.setState({ enum: '' });
       this.context.changeCustomValue(data);
     }
   };
 
   changeEnumOtherValue = (value, data) => {
-    var arr = value.split('\n');
+    this.setState({ enum: value });
+    let arr = value.split('\n');
+    const enumLen = this.state.enum.split('\n').length;
+    // 判断是否是删除操作
+    if (enumLen > arr.length) {
+      data.enum = arr.map(item => +item);
+      this.context.changeCustomValue(data);
+    }
     if (arr.length === 0 || (arr.length == 1 && !arr[0])) {
       delete data.enum;
       this.context.changeCustomValue(data);
-    } else {
-      data.enum = arr;
-      this.context.changeCustomValue(data);
     }
+  };
+
+  onEnterEnumOtherValue = (value, data) => {
+    let arr = value.split('\n').map(item => +item);
+    data.enum = arr;
+    this.context.changeCustomValue(data);
   };
 
   changeEnumDescOtherValue = (value, data) => {
@@ -330,7 +345,9 @@ class SchemaNumber extends PureComponent {
                 <InputNumber
                   value={data.minimum}
                   placeholder={LocalProvider('minimum')}
-                  onChange={e => changeOtherValue(e, 'minimum', data, this.context.changeCustomValue)}
+                  onChange={e =>
+                    changeOtherValue(e, 'minimum', data, this.context.changeCustomValue)
+                  }
                 />
               </Col>
             </Row>
@@ -344,7 +361,9 @@ class SchemaNumber extends PureComponent {
                 <InputNumber
                   value={data.maximum}
                   placeholder={LocalProvider('maximum')}
-                  onChange={e => changeOtherValue(e, 'maximum', data, this.context.changeCustomValue)}
+                  onChange={e =>
+                    changeOtherValue(e, 'maximum', data, this.context.changeCustomValue)
+                  }
                 />
               </Col>
             </Row>
@@ -354,18 +373,24 @@ class SchemaNumber extends PureComponent {
           <Col span={4} className="other-label">
             <span>
               {LocalProvider('enum')}
-              <Checkbox checked={this.state.checked} onChange={e =>this.onChangeCheckBox(e.target.checked, data)} /> :
+              <Checkbox
+                checked={this.state.checked}
+                onChange={e => this.onChangeCheckBox(e.target.checked, data)}
+              />{' '}
+              :
             </span>
           </Col>
           <Col span={20}>
             <TextArea
-              value={data.enum && data.enum.length && data.enum.join('\n')}
+              // value={data.enum && data.enum.length && data.enum.join('\n')}
+              value={this.state.enum}
               disabled={!this.state.checked}
               placeholder={LocalProvider('enum_msg')}
               autosize={{ minRows: 2, maxRows: 6 }}
               onChange={e => {
                 this.changeEnumOtherValue(e.target.value, data);
               }}
+              onPressEnter={e => this.onEnterEnumOtherValue(e.target.value, data)}
             />
           </Col>
         </Row>
