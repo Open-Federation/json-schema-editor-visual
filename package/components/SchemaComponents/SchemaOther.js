@@ -223,13 +223,21 @@ SchemaString.contextTypes = {
 };
 
 class SchemaNumber extends PureComponent {
-  constructor(props, context) {
+  constructor(props) {
     super(props);
-    console.log(props.data.enum);
     this.state = {
       checked: _.isUndefined(props.data.enum) ? false : true,
       enum: _.isUndefined(props.data.enum) ? '' : props.data.enum.join('\n')
     };
+  }
+
+
+  componentWillReceiveProps(nextprops) {
+    const enumStr = _.isUndefined(this.props.data.enum) ? '' : this.props.data.enum.join('\n');
+    const nextEnumStr = _.isUndefined(nextprops.data.enum) ? '' : nextprops.data.enum.join('\n');
+    if (enumStr !== nextEnumStr) {
+      this.setState({ enum: nextEnumStr });
+    }
   }
 
   onChangeCheckBox = (checked, data) => {
