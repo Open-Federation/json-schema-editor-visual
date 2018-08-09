@@ -2,13 +2,13 @@ const JSONPATH_JOIN_CHAR = '.';
 exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR;
 exports.lang = 'en_US';
 exports.format = [
-  {  name: 'date-time' },
-  {  name: 'date' },
-  {  name: 'email' },
-  {  name: 'hostname' },
-  {  name: 'ipv4' },
-  {  name: 'ipv6' },
-  {  name: 'uri' }
+  { name: 'date-time' },
+  { name: 'date' },
+  { name: 'email' },
+  { name: 'hostname' },
+  { name: 'ipv4' },
+  { name: 'ipv6' },
+  { name: 'uri' }
 ];
 const _ = require('underscore');
 exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
@@ -68,6 +68,15 @@ exports.setData = function(state, keys, value) {
   curState[keys[keys.length - 1]] = value;
 };
 
+exports.deleteData = function(state, keys) {
+  let curState = state;
+  for (let i = 0; i < keys.length - 1; i++) {
+    curState = curState[keys[i]];
+  }
+
+  delete curState[keys[keys.length - 1]];
+};
+
 exports.getParentKeys = function(keys) {
   if (keys.length === 1) return [];
   let arr = [].concat(keys);
@@ -97,10 +106,13 @@ function handleSchemaRequired(schema, checked) {
   if (schema.type === 'object') {
     let requiredtitle = getFieldstitle(schema.properties);
 
-    schema.required = checked ? [].concat(requiredtitle) : [];
+    // schema.required = checked ? [].concat(requiredtitle) : [];
+    if (checked) {
+      schema.required = [].concat(requiredtitle);
+    } else {
+      delete schema.required;
+    }
 
-    // schema.required =
-    // schema = Object.assign({},schema, {required})
     handleObject(schema.properties, checked);
   } else if (schema.type === 'array') {
     handleSchemaRequired(schema.items, checked);
@@ -122,9 +134,9 @@ function cloneObject(obj) {
   if (typeof obj === 'object') {
     if (Array.isArray(obj)) {
       var newArr = [];
-      obj.forEach(function(item, index){
-        newArr[index] = cloneObject(item)
-      })
+      obj.forEach(function(item, index) {
+        newArr[index] = cloneObject(item);
+      });
       return newArr;
     } else {
       var newObj = {};

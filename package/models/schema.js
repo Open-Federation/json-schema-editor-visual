@@ -79,11 +79,11 @@ export default {
     }
     // let newParentData = utils.defaultSchema[value];
     let newParentDataItem = utils.defaultSchema[value];
-   
+
     // 将备注过滤出来
     let parentDataItem = parentData.description ? { description: parentData.description } : {};
     let newParentData = Object.assign({}, newParentDataItem, parentDataItem);
-   
+
     let newKeys = [].concat('data', parentKeys);
     utils.setData(state, newKeys, newParentData);
   },
@@ -99,7 +99,11 @@ export default {
     if (!action.required && index >= 0) {
       requiredData.splice(index, 1);
       parentKeys.push('required');
-      utils.setData(state.data, parentKeys, requiredData);
+      if (requiredData.length === 0) {
+        utils.deleteData(state.data, parentKeys);
+      } else {
+        utils.setData(state.data, parentKeys, requiredData);
+      }
     } else if (action.required && index === -1) {
       requiredData.push(action.name);
       parentKeys.push('required');
