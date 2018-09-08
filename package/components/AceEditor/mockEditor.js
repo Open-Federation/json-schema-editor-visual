@@ -52,19 +52,13 @@ function run(options) {
     }
   }
 
-  function formatJson(json){
-    try{
-      return JSON.stringify(JSON.parse(json), null, 2);
-    }catch(err){
-      return json;
-    }
-  }
-
   function handleData(data){
     data = data || '';
     if(typeof data === 'string'){
-      return formatJson(data);
+      console.log(data)
+      return data;
     }else if (typeof data === 'object') {
+      console.log(11111)
       return JSON.stringify(data, null, "  ")
     }
   }

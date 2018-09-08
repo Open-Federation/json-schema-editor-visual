@@ -34,7 +34,7 @@ import LocalProvider from './components/LocalProvider/index.js';
 class jsonSchema extends React.Component {
   constructor(props) {
     super(props);
-    this.alterMsg = debounce(this.alterMsg, 500);
+    this.alterMsg = debounce(this.alterMsg, 2000);
     this.state = {
       visible: false,
       show: true,
@@ -111,7 +111,7 @@ class jsonSchema extends React.Component {
   }
 
   alterMsg = () => {
-    return message.error(LocalProvider('valid_json'));
+    // return message.error(LocalProvider('valid_json'));
   };
 
   // AceEditor 中的数据
