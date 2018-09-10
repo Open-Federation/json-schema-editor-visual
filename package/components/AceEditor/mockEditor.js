@@ -55,10 +55,8 @@ function run(options) {
   function handleData(data){
     data = data || '';
     if(typeof data === 'string'){
-      console.log(data)
       return data;
     }else if (typeof data === 'object') {
-      console.log(11111)
       return JSON.stringify(data, null, "  ")
     }
   }

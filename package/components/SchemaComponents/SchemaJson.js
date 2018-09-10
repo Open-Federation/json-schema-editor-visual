@@ -67,10 +67,18 @@ class SchemaArray extends PureComponent {
   };
 
   // 修改备注信息
-  handleChangeValue = e => {
+  handleChangeDesc = e => {
     let prefix = this.getPrefix();
     let key = [].concat(prefix, `description`);
     let value = e.target.value;
+    this.Model.changeValueAction({ key, value });
+  };
+
+  // 修改mock信息
+  handleChangeMock = e => {
+    let prefix = this.getPrefix();
+    let key = [].concat(prefix, `mock`);
+    let value = e.target.value ? { mock: e.target.value } : '';
     this.Model.changeValueAction({ key, value });
   };
 
@@ -89,9 +97,9 @@ class SchemaArray extends PureComponent {
     this.Model.setOpenValueAction({ key: keyArr });
   };
 
-  handleShowEdit = () => {
+  handleShowEdit = (name, type) => {
     let prefix = this.getPrefix();
-    this.props.showEdit(prefix, `description`, this.props.data.items.description);
+    this.props.showEdit(prefix, name, this.props.data.items[name], type);
   };
 
   handleShowAdv = () => {
@@ -110,7 +118,7 @@ class SchemaArray extends PureComponent {
         <div className="array-type">
           <Row className="array-item-type" type="flex" justify="space-around" align="middle">
             <Col
-              span={12}
+              span={this.context.isMock ? 10 : 12}
               className="col-item name-item col-item-name"
               style={this.__tagPaddingLeftStyle}
             >
@@ -147,12 +155,25 @@ class SchemaArray extends PureComponent {
                 })}
               </Select>
             </Col>
-            <Col span={5} className="col-item col-item-desc">
+            {this.context.isMock && (
+              <Col span={3} className="col-item col-item-mock">
+                <Input
+                  addonAfter={
+                    <Icon type="edit" onClick={() => this.handleShowEdit('mock', items.type)} />
+                  }
+                  placeholder={LocaleProvider('mock')}
+                  value={items.mock ? items.mock.mock : ''}
+                  onChange={this.handleChangeMock}
+                  disabled={items.type === 'object' || items.type === 'array'}
+                />
+              </Col>
+            )}
+            <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
               <Input
-                addonAfter={<Icon type="edit" onClick={this.handleShowEdit} />}
+                addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
                 placeholder={LocaleProvider('description')}
                 value={items.description}
-                onChange={this.handleChangeValue}
+                onChange={this.handleChangeDesc}
               />
             </Col>
             <Col span={3} className="col-item col-item-setting">
@@ -180,7 +201,8 @@ class SchemaArray extends PureComponent {
 
 SchemaArray.contextTypes = {
   getOpenValue: PropTypes.func,
-  Model: PropTypes.object
+  Model: PropTypes.object,
+  isMock: PropTypes.bool
 };
 
 class SchemaItem extends PureComponent {
@@ -223,6 +245,14 @@ class SchemaItem extends PureComponent {
     this.Model.changeValueAction({ key, value });
   };
 
+  // 修改mock 信息
+  handleChangeMock = e => {
+    let prefix = this.getPrefix();
+    let key = [].concat(prefix, `mock`);
+    let value = e.target.value ? { mock: e.target.value } : '';
+    this.Model.changeValueAction({ key, value });
+  };
+
   // 修改数据类型
   handleChangeType = e => {
     let prefix = this.getPrefix();
@@ -237,10 +267,15 @@ class SchemaItem extends PureComponent {
     this.Model.deleteItemAction({ key: nameArray });
     this.Model.enableRequireAction({ prefix, name, required: false });
   };
-  // 展示备注编辑弹窗
-  handleShowEdit = () => {
+  /*
+  展示备注编辑弹窗
+  editorName: 弹窗名称 ['description', 'mock']
+  type: 如果当前字段是object || array showEdit 不可用
+  */
+  handleShowEdit = (editorName, type) => {
     const { data, name, showEdit } = this.props;
-    showEdit(this.getPrefix(), `description`, data.properties[name].description);
+
+    showEdit(this.getPrefix(), editorName, data.properties[name][editorName], type);
   };
 
   // 展示高级设置弹窗
@@ -284,7 +319,7 @@ class SchemaItem extends PureComponent {
       <div>
         <Row type="flex" justify="space-around" align="middle">
           <Col
-            span={12}
+            span={this.context.isMock ? 10 : 12}
             className="col-item name-item col-item-name"
             style={this.__tagPaddingLeftStyle}
           >
@@ -333,9 +368,22 @@ class SchemaItem extends PureComponent {
               })}
             </Select>
           </Col>
-          <Col span={5} className="col-item col-item-desc">
+          {this.context.isMock && (
+            <Col span={3} className="col-item col-item-mock">
+              <Input
+                addonAfter={
+                  <Icon type="edit" onClick={() => this.handleShowEdit('mock', value.type)} />
+                }
+                placeholder={LocaleProvider('mock')}
+                value={value.mock ? value.mock.mock : ''}
+                onChange={this.handleChangeMock}
+                disabled={value.type === 'object' || value.type === 'array'}
+              />
+            </Col>
+          )}
+          <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
             <Input
-              addonAfter={<Icon type="edit" onClick={this.handleShowEdit} />}
+              addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
               placeholder={LocaleProvider('description')}
               value={value.description}
               onChange={this.handleChangeDesc}
@@ -369,7 +417,8 @@ class SchemaItem extends PureComponent {
 
 SchemaItem.contextTypes = {
   getOpenValue: PropTypes.func,
-  Model: PropTypes.object
+  Model: PropTypes.object,
+  isMock: PropTypes.bool
 };
 
 class SchemaObjectComponent extends Component {

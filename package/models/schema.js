@@ -64,7 +64,11 @@ export default {
 
   changeValueAction: function(state, action) {
     const keys = action.key;
-    utils.setData(state.data, keys, action.value);
+    if (action.value) {
+      utils.setData(state.data, keys, action.value);
+    } else {
+      utils.deleteData(state.data, keys);
+    }
   },
 
   changeTypeAction: function(state, action, oldState) {

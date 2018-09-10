@@ -64,7 +64,6 @@ exports.setData = function(state, keys, value) {
   for (let i = 0; i < keys.length - 1; i++) {
     curState = curState[keys[i]];
   }
-
   curState[keys[keys.length - 1]] = value;
 };
 

@@ -32,7 +32,8 @@ const langs = {
     'enum_msg': 'One value per line',
     'enum_desc': 'desc',
     'enum_desc_msg': 'enum description',
-    'required': 'required'
+    'required': 'required',
+    'mock': 'mock'
   },
   zh_CN: {
     'import_json': '导入 json',
@@ -64,7 +65,8 @@ const langs = {
     'enum_msg': '每行只能写一个值',
     'enum_desc': '备注',
     'enum_desc_msg': '备注描述信息',
-    'required': '必须'
+    'required': '必须',
+    'mock': 'mock'
   }
 }
 

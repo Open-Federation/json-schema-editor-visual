@@ -44,7 +44,9 @@ class jsonSchema extends React.Component {
       advVisible: false,
       itemKey: [],
       curItemCustomValue: null,
-      checked: false
+      checked: false,
+      editorModalName: '', // 弹窗名称desctiption | mock
+      mock: ''
     };
     this.Model = this.props.Model.schema;
     this.jsonSchemaData = null;
@@ -106,7 +108,8 @@ class jsonSchema extends React.Component {
         return utils.getData(this.props.open, keys);
       },
       changeCustomValue: this.changeCustomValue,
-      Model: this.props.Model
+      Model: this.props.Model,
+      isMock: this.props.isMock
     };
   }
 
@@ -157,15 +160,22 @@ class jsonSchema extends React.Component {
 
   // 修改备注信息
   changeValue = (key, value) => {
+    if (key[0] === 'mock') {
+      value = value ? { mock: value } : '';
+    }
     this.Model.changeValueAction({ key, value });
   };
 
-  // 备注弹窗
-  handleEditOk = () => {
+  // 备注/mock弹窗 点击ok 时
+  handleEditOk = name => {
     this.setState({
       editVisible: false
     });
-    this.Model.changeValueAction({ key: this.state.descriptionKey, value: this.state.description });
+    let value = this.state[name];
+    if (name === 'mock') {
+      value = value ? { mock: value } : '';
+    }
+    this.Model.changeValueAction({ key: this.state.descriptionKey, value });
   };
 
   handleEditCancel = () => {
@@ -173,21 +183,32 @@ class jsonSchema extends React.Component {
       editVisible: false
     });
   };
-  showEdit = (prefix, name, value) => {
+  /*
+    展示弹窗modal
+    prefix: 节点前缀信息
+    name: 弹窗的名称 ['description', 'mock']
+    value: 输入值
+    type: 如果当前字段是object || array showEdit 不可用
+  */
+  showEdit = (prefix, name, value, type) => {
+    if (type === 'object' || type === 'array') {
+      return;
+    }
     let descriptionKey = [].concat(prefix, name);
 
-    let description = value;
+    value = name === 'mock' ? (value ? value.mock : '') : value;
     this.setState({
       editVisible: true,
-      description,
-      descriptionKey
+      [name]: value,
+      descriptionKey,
+      editorModalName: name
     });
   };
 
-  // 修改备注参数信息
-  changeDesc = e => {
+  // 修改备注/mock参数信息
+  changeDesc = (e, name) => {
     this.setState({
-      description: e
+      [name]: e
     });
   };
 
@@ -233,7 +254,15 @@ class jsonSchema extends React.Component {
   };
 
   render() {
-    const { visible, editVisible, description, advVisible, type, checked } = this.state;
+    const {
+      visible,
+      editVisible,
+      description,
+      advVisible,
+      type,
+      checked,
+      editorModalName
+    } = this.state;
 
     let disabled =
       this.props.schema.type === 'object' || this.props.schema.type === 'array' ? false : true;
@@ -276,18 +305,18 @@ class jsonSchema extends React.Component {
           </Tabs>
         </Modal>
         <Modal
-          title={LocalProvider('description')}
+          title={LocalProvider(editorModalName)}
           maskClosable={false}
           visible={editVisible}
-          onOk={this.handleEditOk}
+          onOk={() => this.handleEditOk(editorModalName)}
           onCancel={this.handleEditCancel}
           okText={LocalProvider('ok')}
           cancelText={LocalProvider('cancel')}
         >
           <TextArea
-            value={description}
-            placeholder={LocalProvider('description')}
-            onChange={e => this.changeDesc(e.target.value)}
+            value={this.state[editorModalName]}
+            placeholder={LocalProvider(editorModalName)}
+            onChange={e => this.changeDesc(e.target.value, editorModalName)}
             autosize={{ minRows: 6, maxRows: 10 }}
           />
         </Modal>
@@ -319,7 +348,7 @@ class jsonSchema extends React.Component {
           )}
           <Col span={this.props.showEditor ? 16 : 24} className="wrapper object-style">
             <Row type="flex" align="middle">
-              <Col span={12} className="col-item name-item col-item-name">
+              <Col span={this.props.isMock ? 10 : 12} className="col-item name-item col-item-name">
                 <Row type="flex" justify="space-around" align="middle">
                   <Col span={2} className="down-style-col">
                     {this.props.schema.type === 'object' ? (
@@ -364,7 +393,27 @@ class jsonSchema extends React.Component {
                   })}
                 </Select>
               </Col>
-              <Col span={5} className="col-item col-item-desc">
+              {this.props.isMock && (
+                <Col span={3} className="col-item col-item-mock">
+                  <Input
+                    addonAfter={
+                      <Icon
+                        type="edit"
+                        onClick={() =>
+                          this.showEdit([], 'mock', this.props.schema.mock, this.props.schema.type)
+                        }
+                      />
+                    }
+                    placeholder={LocalProvider('mock')}
+                    value={this.props.schema.mock ? this.props.schema.mock.mock : ''}
+                    onChange={e => this.changeValue(['mock'], e.target.value)}
+                    disabled={
+                      this.props.schema.type === 'object' || this.props.schema.type === 'array'
+                    }
+                  />
+                </Col>
+              )}
+              <Col span={this.props.isMock ? 4 : 5} className="col-item col-item-desc">
                 <Input
                   addonAfter={
                     <Icon
@@ -411,13 +460,15 @@ class jsonSchema extends React.Component {
 jsonSchema.childContextTypes = {
   getOpenValue: PropTypes.func,
   changeCustomValue: PropTypes.func,
-  Model: PropTypes.object
+  Model: PropTypes.object,
+  isMock: PropTypes.bool
 };
 
 jsonSchema.propTypes = {
   data: PropTypes.string,
   onChange: PropTypes.func,
   showEditor: PropTypes.bool,
+  isMock: PropTypes.bool,
   Model: PropTypes.object
 };
 
