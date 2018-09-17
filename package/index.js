@@ -19,6 +19,10 @@ module.exports = (config = {})=>{
     Model.__jsonSchemaFormat = utils.format
   }
 
+  if(config.mock) {
+    Model.__jsonSchemaMock = config.mock
+  }
+
   
 
   const store = Model.getStore();

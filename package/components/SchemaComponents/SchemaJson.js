@@ -25,6 +25,7 @@ import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 const InputGroup = Input.Group;
 import LocaleProvider from '../LocalProvider/index.js';
 import utils from '../../utils';
+import MockSelect from '../MockSelect/index.js';
 
 const mapping = (name, data, showEdit, showAdv) => {
   switch (data.type) {
@@ -78,7 +79,7 @@ class SchemaArray extends PureComponent {
   handleChangeMock = e => {
     let prefix = this.getPrefix();
     let key = [].concat(prefix, `mock`);
-    let value = e.target.value ? { mock: e.target.value } : '';
+    let value = e ? { mock: e } : '';
     this.Model.changeValueAction({ key, value });
   };
 
@@ -157,14 +158,11 @@ class SchemaArray extends PureComponent {
             </Col>
             {this.context.isMock && (
               <Col span={3} className="col-item col-item-mock">
-                <Input
-                  addonAfter={
-                    <Icon type="edit" onClick={() => this.handleShowEdit('mock', items.type)} />
-                  }
-                  placeholder={LocaleProvider('mock')}
-                  value={items.mock ? items.mock.mock : ''}
+                
+                <MockSelect
+                  schema={items}
+                  showEdit={() => this.handleShowEdit('mock', items.type)}
                   onChange={this.handleChangeMock}
-                  disabled={items.type === 'object' || items.type === 'array'}
                 />
               </Col>
             )}
@@ -249,7 +247,7 @@ class SchemaItem extends PureComponent {
   handleChangeMock = e => {
     let prefix = this.getPrefix();
     let key = [].concat(prefix, `mock`);
-    let value = e.target.value ? { mock: e.target.value } : '';
+    let value = e ? { mock: e } : '';
     this.Model.changeValueAction({ key, value });
   };
 
@@ -370,7 +368,7 @@ class SchemaItem extends PureComponent {
           </Col>
           {this.context.isMock && (
             <Col span={3} className="col-item col-item-mock">
-              <Input
+              {/* <Input
                 addonAfter={
                   <Icon type="edit" onClick={() => this.handleShowEdit('mock', value.type)} />
                 }
@@ -378,6 +376,11 @@ class SchemaItem extends PureComponent {
                 value={value.mock ? value.mock.mock : ''}
                 onChange={this.handleChangeMock}
                 disabled={value.type === 'object' || value.type === 'array'}
+              /> */}
+              <MockSelect
+                schema={value}
+                showEdit={() => this.handleShowEdit('mock', value.type)}
+                onChange={this.handleChangeMock}
               />
             </Col>
           )}

@@ -43,3 +43,11 @@
 .json-schema-react-editor .import-json-button{
   margin: 5px;
 }
+
+.json-schema-react-editor .certain-category-search .ant-select-selection--single {
+  height: 32px;
+}
+
+.json-schema-react-editor .certain-category-search .ant-select-search__field__wrap {
+  display: unset;
+}

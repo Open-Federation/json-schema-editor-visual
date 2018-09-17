@@ -231,7 +231,6 @@ class SchemaNumber extends PureComponent {
     };
   }
 
-
   componentWillReceiveProps(nextprops) {
     const enumStr = _.isUndefined(this.props.data.enum) ? '' : this.props.data.enum.join('\n');
     const nextEnumStr = _.isUndefined(nextprops.data.enum) ? '' : nextprops.data.enum.join('\n');
