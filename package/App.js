@@ -443,13 +443,13 @@ class jsonSchema extends React.Component {
               </Col>
               <Col span={3} className="col-item col-item-setting">
                 <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
-                  <Tooltip placement="top" title={'adv_setting'}>
+                  <Tooltip placement="top" title={LocalProvider('adv_setting')}>
                     <Icon type="setting" />
                   </Tooltip>
                 </span>
                 {schema.type === 'object' ? (
                   <span onClick={() => this.addChildField('properties')}>
-                    <Tooltip placement="top" title={'add_child_node'}>
+                    <Tooltip placement="top" title={LocalProvider('add_child_node')}>
                       <Icon type="plus" className="plus" />
                     </Tooltip>
                   </span>
