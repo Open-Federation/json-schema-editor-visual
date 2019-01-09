@@ -66,7 +66,7 @@ const langs = {
     'enum_msg': '每行只能写一个值',
     'enum_desc': '备注',
     'enum_desc_msg': '备注描述信息',
-    'required': '必须',
+    'required': '是否必须',
     'mock': 'mock',
     'mockLink': '查看文档'
   }

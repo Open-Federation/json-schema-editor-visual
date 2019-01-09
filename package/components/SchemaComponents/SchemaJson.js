@@ -2,7 +2,6 @@ import React, { Component, PureComponent } from 'react';
 import {
   Dropdown,
   Menu,
-  Input,
   Row,
   Col,
   Form,
@@ -10,10 +9,13 @@ import {
   Checkbox,
   Button,
   Icon,
+  Input,
   Modal,
   message,
   Tooltip
 } from 'antd';
+import FieldInput from './FieldInput'
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -334,7 +336,7 @@ class SchemaItem extends PureComponent {
                 ) : null}
               </Col>
               <Col span={22}>
-                <Input
+                <FieldInput
                   addonAfter={
                     <Tooltip placement="top" title={LocaleProvider('required')}>
                       <Checkbox
@@ -351,6 +353,8 @@ class SchemaItem extends PureComponent {
               </Col>
             </Row>
           </Col>
+
+
           <Col span={4} className="col-item col-item-type">
             <Select
               className="type-select-style"
@@ -366,6 +370,8 @@ class SchemaItem extends PureComponent {
               })}
             </Select>
           </Col>
+
+
           {this.context.isMock && (
             <Col span={3} className="col-item col-item-mock">
               {/* <Input
@@ -384,6 +390,8 @@ class SchemaItem extends PureComponent {
               />
             </Col>
           )}
+
+
           <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
             <Input
               addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
@@ -392,6 +400,8 @@ class SchemaItem extends PureComponent {
               onChange={this.handleChangeDesc}
             />
           </Col>
+
+          
           <Col span={3} className="col-item col-item-setting">
             <span className="adv-set" onClick={this.handleShowAdv}>
               <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
