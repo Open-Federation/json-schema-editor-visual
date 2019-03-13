@@ -258,7 +258,7 @@ class SchemaNumber extends PureComponent {
       delete data.enum;
       this.context.changeCustomValue(data);
     } else {
-      data.enum = arr;
+      data.enum = arr.map(item => +item);
       this.context.changeCustomValue(data);
     }
   };
