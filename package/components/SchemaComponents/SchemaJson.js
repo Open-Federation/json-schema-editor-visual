@@ -77,6 +77,38 @@ class SchemaArray extends PureComponent {
     this.Model.changeValueAction({ key, value });
   };
 
+	// 修改minLength信息
+	handleChangeMinLength = e => {
+	  let prefix = this.getPrefix();
+	  let key = [].concat(prefix, 'minLength');
+	  let value = e.target.value;
+	  this.Model.changeValueAction({ key, value });
+	};
+
+	// 修改maxLength信息
+	handleChangeMaxLength = e => {
+	  let prefix = this.getPrefix();
+	  let key = [].concat(prefix, 'maxLength');
+	  let value = e.target.value;
+	  this.Model.changeValueAction({ key, value });
+	};
+
+	// 修改default信息
+	handleChangeDefault = e => {
+	  let prefix = this.getPrefix();
+	  let key = [].concat(prefix, 'default');
+	  let value = e.target.value;
+	  this.Model.changeValueAction({ key, value });
+	};
+	
+	// 修改pattern信息
+	handleChangePattern = e => {
+	  let prefix = this.getPrefix();
+	  let key = [].concat(prefix, 'pattern');
+	  let value = e.target.value;
+	  this.Model.changeValueAction({ key, value });
+	};
+
   // 修改mock信息
   handleChangeMock = e => {
     let prefix = this.getPrefix();
@@ -121,7 +153,7 @@ class SchemaArray extends PureComponent {
         <div className="array-type">
           <Row className="array-item-type" type="flex" justify="space-around" align="middle">
             <Col
-              span={this.context.isMock ? 10 : 12}
+              span={this.context.isMock ? 6 : 8}
               className="col-item name-item col-item-name"
               style={this.__tagPaddingLeftStyle}
             >
@@ -142,7 +174,7 @@ class SchemaArray extends PureComponent {
                 </Col>
               </Row>
             </Col>
-            <Col span={4} className="col-item col-item-type">
+            <Col span={2} className="col-item col-item-type">
               <Select
                 name="itemtype"
                 className="type-select-style"
@@ -168,14 +200,41 @@ class SchemaArray extends PureComponent {
                 />
               </Col>
             )}
-            <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
+            <Col span={this.context.isMock ? 2 : 3} className="col-item col-item-desc">
               <Input
-                addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
                 placeholder={LocaleProvider('description')}
                 value={items.description}
                 onChange={this.handleChangeDesc}
               />
             </Col>
+						<Col span={2} className="col-item col-item-min">
+						  <Input
+						    placeholder={LocaleProvider('minLength')}
+						    value={items.minLength}
+						    onChange={this.handleChangeMinLength}
+						  />
+						</Col>
+						<Col span={2} className="col-item col-item-max">
+						  <Input
+						    placeholder={LocaleProvider('maxLength')}
+						    value={items.maxLength}
+						    onChange={this.handleChangeMaxLength}
+						  />
+						</Col>
+						<Col span={2} className="col-item col-item-default">
+						  <Input
+						    placeholder={LocaleProvider('default')}
+						    value={items.default}
+						    onChange={this.handleChangeDefault}
+						  />
+						</Col>
+						<Col span={2} className="col-item col-item-pattern">
+						  <Input
+						    placeholder={LocaleProvider('pattern')}
+						    value={items.pattern}
+						    onChange={this.handleChangePattern}
+						  />
+						</Col>
             <Col span={3} className="col-item col-item-setting">
               <span className="adv-set" onClick={this.handleShowAdv}>
                 <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
@@ -244,6 +303,38 @@ class SchemaItem extends PureComponent {
     let value = e.target.value;
     this.Model.changeValueAction({ key, value });
   };
+	
+	// 修改minLength信息
+	handleChangeMinLength = e => {
+	  let prefix = this.getPrefix();
+	  let key = [].concat(prefix, 'minLength');
+	  let value = e.target.value;
+	  this.Model.changeValueAction({ key, value });
+	};
+
+	// 修改maxLength信息
+	handleChangeMaxLength = e => {
+	  let prefix = this.getPrefix();
+	  let key = [].concat(prefix, 'maxLength');
+	  let value = e.target.value;
+	  this.Model.changeValueAction({ key, value });
+	};
+	
+	// 修改default信息
+	handleChangeDefault = e => {
+	  let prefix = this.getPrefix();
+	  let key = [].concat(prefix, 'default');
+	  let value = e.target.value;
+	  this.Model.changeValueAction({ key, value });
+	};
+	
+	// 修改pattern信息
+	handleChangePattern = e => {
+	  let prefix = this.getPrefix();
+	  let key = [].concat(prefix, 'pattern');
+	  let value = e.target.value;
+	  this.Model.changeValueAction({ key, value });
+	};
 
   // 修改mock 信息
   handleChangeMock = e => {
@@ -319,7 +410,7 @@ class SchemaItem extends PureComponent {
       <div>
         <Row type="flex" justify="space-around" align="middle">
           <Col
-            span={this.context.isMock ? 10 : 12}
+            span={this.context.isMock ? 6 : 8}
             className="col-item name-item col-item-name"
             style={this.__tagPaddingLeftStyle}
           >
@@ -355,7 +446,7 @@ class SchemaItem extends PureComponent {
           </Col>
 
 
-          <Col span={4} className="col-item col-item-type">
+          <Col span={2} className="col-item col-item-type">
             <Select
               className="type-select-style"
               onChange={this.handleChangeType}
@@ -392,16 +483,44 @@ class SchemaItem extends PureComponent {
           )}
 
 
-          <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
+          <Col span={this.context.isMock ? 2 : 3} className="col-item col-item-desc">
             <Input
-              addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
               placeholder={LocaleProvider('description')}
               value={value.description}
               onChange={this.handleChangeDesc}
             />
           </Col>
+					
+					<Col span={2} className="col-item col-item-min">
+					  <Input
+					    placeholder={LocaleProvider('minLength')}
+					    value={value.minLength}
+					    onChange={this.handleChangeMinLength}
+					  />
+					</Col>
 
-          
+					<Col span={2} className="col-item col-item-max">
+					  <Input
+					    placeholder={LocaleProvider('maxLength')}
+					    value={value.maxLength}
+					    onChange={this.handleChangeMaxLength}
+					  />
+					</Col>
+					<Col span={2} className="col-item col-item-default">
+					  <Input
+					    placeholder={LocaleProvider('default')}
+					    value={value.default}
+					    onChange={this.handleChangeDefault}
+					  />
+					</Col>
+					<Col span={2} className="col-item col-item-pattern">
+					  <Input
+					    placeholder={LocaleProvider('pattern')}
+					    value={value.pattern}
+					    onChange={this.handleChangePattern}
+					  />
+					</Col>
+
           <Col span={3} className="col-item col-item-setting">
             <span className="adv-set" onClick={this.handleShowAdv}>
               <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
