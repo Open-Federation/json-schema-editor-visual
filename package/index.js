@@ -23,6 +23,19 @@ module.exports = (config = {})=>{
     Model.__jsonSchemaMock = config.mock
   }
 
+  if(config.lockRoot) {
+    // 根节点属性不可修改
+    Model.__controlLockRoot = config.lockRoot
+  }
+
+  // 支持: 'description-addon', 'advanced-settings', 'import-json'
+  if(config.hideElements) {
+    // 隐藏一些元素
+    Model.__controlHideElements = config.hideElements
+  } else {
+    Model.__controlHideElements = []
+  }
+
   
 
   const store = Model.getStore();

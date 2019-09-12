@@ -394,7 +394,7 @@ class SchemaItem extends PureComponent {
 
           <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
             <Input
-              addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
+              addonAfter={!this.context.Model.__controlHideElements.includes('description-addon') && <Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
               placeholder={LocaleProvider('description')}
               value={value.description}
               onChange={this.handleChangeDesc}
@@ -403,11 +403,13 @@ class SchemaItem extends PureComponent {
 
           
           <Col span={3} className="col-item col-item-setting">
-            <span className="adv-set" onClick={this.handleShowAdv}>
-              <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
-                <Icon type="setting" />
-              </Tooltip>
-            </span>
+            {!this.context.Model.__controlHideElements.includes('advanced-settings') &&
+              <span className="adv-set" onClick={this.handleShowAdv}>
+                <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
+                  <Icon type="setting" />
+                </Tooltip>
+              </span>
+            }
             <span className="delete-item" onClick={this.handleDeleteItem}>
               <Icon type="close" className="close" />
             </span>
