@@ -27,6 +27,10 @@ module.exports = (config = {})=>{
     // 根节点属性不可修改
     Model.__controlLockRoot = config.lockRoot
   }
+  if (config.readonly) {
+    // 整体只读
+    Model.__controlReadonly = config.readonly
+  }
 
   // 支持: 'description-addon', 'advanced-settings', 'import-json'
   if(config.hideElements) {
