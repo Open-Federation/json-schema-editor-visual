@@ -337,7 +337,7 @@ class SchemaItem extends PureComponent {
               </Col>
               <Col span={22}>
                 <FieldInput
-                  addonAfter={
+                  addonAfter={ !this.context.Model.__controlReadonly &&
                     <Tooltip placement="top" title={LocaleProvider('required')}>
                       <Checkbox
                         onChange={this.handleEnableRequire}
@@ -349,6 +349,7 @@ class SchemaItem extends PureComponent {
                   }
                   onChange={this.handleChangeName}
                   value={name}
+                  disabled={this.context.Model.__controlReadonly}
                 />
               </Col>
             </Row>
@@ -360,7 +361,8 @@ class SchemaItem extends PureComponent {
               className="type-select-style"
               onChange={this.handleChangeType}
               value={value.type}
-            >
+              disabled={this.context.Model.__controlReadonly}
+              >
               {SCHEMA_TYPE.map((item, index) => {
                 return (
                   <Option value={item} key={index}>
@@ -394,24 +396,32 @@ class SchemaItem extends PureComponent {
 
           <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
             <Input
-              addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
+              addonAfter={!this.context.Model.__controlHideElements.includes('description-addon') && <Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
               placeholder={LocaleProvider('description')}
               value={value.description}
               onChange={this.handleChangeDesc}
-            />
+              disabled={this.context.Model.__controlReadonly}
+              />
           </Col>
 
           
           <Col span={3} className="col-item col-item-setting">
-            <span className="adv-set" onClick={this.handleShowAdv}>
-              <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
-                <Icon type="setting" />
-              </Tooltip>
-            </span>
-            <span className="delete-item" onClick={this.handleDeleteItem}>
-              <Icon type="close" className="close" />
-            </span>
-            {value.type === 'object' ? (
+            {!this.context.Model.__controlHideElements.includes('advanced-settings') &&
+              <span className="adv-set" onClick={this.handleShowAdv}>
+                <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
+                  <Icon type="setting" />
+                </Tooltip>
+              </span>
+            }
+            { !this.context.Model.__controlReadonly &&
+              <span
+                className="delete-item"
+                onClick={this.handleDeleteItem}>
+                <Icon type="close" className="close" />
+              </span>
+            }
+            {!this.context.Model.__controlReadonly &&
+            (value.type === 'object' ? (
               <DropPlus prefix={prefix} name={name} />
             ) : (
               <span onClick={this.handleAddField}>
@@ -419,7 +429,7 @@ class SchemaItem extends PureComponent {
                   <Icon type="plus" className="plus" />
                 </Tooltip>
               </span>
-            )}
+            ))}
           </Col>
         </Row>
         <div className="option-formStyle">{mapping(prefixArray, value, showEdit, showAdv)}</div>

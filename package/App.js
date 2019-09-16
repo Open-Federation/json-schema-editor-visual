@@ -274,9 +274,12 @@ class jsonSchema extends React.Component {
 
     return (
       <div className="json-schema-react-editor">
-        <Button className="import-json-button" type="primary" onClick={this.showModal}>
-          {LocalProvider('import_json')}
-        </Button>
+        {
+          !this.props.Model.__controlHideElements.includes('import-json') &&
+          <Button className="import-json-button" type="primary" onClick={this.showModal}>
+            {LocalProvider('import_json')}
+          </Button>
+        }
         <Modal
           maskClosable={false}
           visible={visible}
@@ -387,7 +390,7 @@ class jsonSchema extends React.Component {
                   </Col>
                   <Col span={22}>
                     <Input
-                      addonAfter={
+                      addonAfter={ !this.props.Model.__controlReadonly &&
                         <Tooltip placement="top" title={'checked_all'}>
                           <Checkbox
                             checked={checked}
@@ -407,6 +410,7 @@ class jsonSchema extends React.Component {
                   className="type-select-style"
                   onChange={e => this.changeType(`type`, e)}
                   value={schema.type || 'object'}
+                  disabled={this.props.Model.__controlLockRoot || this.props.Model.__controlReadonly}
                 >
                   {SCHEMA_TYPE.map((item, index) => {
                     return (
@@ -428,7 +432,7 @@ class jsonSchema extends React.Component {
               )}
               <Col span={this.props.isMock ? 4 : 5} className="col-item col-item-desc">
                 <Input
-                  addonAfter={
+                  addonAfter={!this.props.Model.__controlHideElements.includes('description-addon') &&
                     <Icon
                       type="edit"
                       onClick={() =>
@@ -439,15 +443,16 @@ class jsonSchema extends React.Component {
                   placeholder={'description'}
                   value={schema.description}
                   onChange={e => this.changeValue(['description'], e.target.value)}
+                  disabled={this.props.Model.__controlLockRoot || this.props.Model.__controlReadonly}
                 />
               </Col>
               <Col span={3} className="col-item col-item-setting">
-                <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
+                {!this.props.Model.__controlHideElements.includes('advanced-settings') && <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
                   <Tooltip placement="top" title={LocalProvider('adv_setting')}>
                     <Icon type="setting" />
                   </Tooltip>
-                </span>
-                {schema.type === 'object' ? (
+                </span>}
+                {schema.type === 'object' && !this.props.Model.__controlReadonly ? (
                   <span onClick={() => this.addChildField('properties')}>
                     <Tooltip placement="top" title={LocalProvider('add_child_node')}>
                       <Icon type="plus" className="plus" />
