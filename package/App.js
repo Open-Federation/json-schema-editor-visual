@@ -320,7 +320,7 @@ class jsonSchema extends React.Component {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://yapi.ymfe.org/documents/mock.html#方式2.-json-schema"
+                    href="https://github.com/YMFE/json-schema-editor-visual/issues/38"
                   >
                     <Icon type="question-circle-o" />
                   </a>
