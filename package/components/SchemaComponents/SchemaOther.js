@@ -253,15 +253,12 @@ class SchemaNumber extends PureComponent {
 
   changeEnumOtherValue = (value, data) => {
     this.setState({ enum: value });
-    let arr = value.split('\n');
-    const enumLen = this.state.enum.split('\n').length;
-    // 判断是否是删除操作
-    if (enumLen > arr.length) {
-      data.enum = arr.map(item => +item);
-      this.context.changeCustomValue(data);
-    }
+    var arr = value.split('\n');
     if (arr.length === 0 || (arr.length == 1 && !arr[0])) {
       delete data.enum;
+      this.context.changeCustomValue(data);
+    } else {
+      data.enum = arr.map(item => +item);
       this.context.changeCustomValue(data);
     }
   };
@@ -397,7 +394,6 @@ class SchemaNumber extends PureComponent {
               onChange={e => {
                 this.changeEnumOtherValue(e.target.value, data);
               }}
-              onPressEnter={e => this.onEnterEnumOtherValue(e.target.value, data)}
             />
           </Col>
         </Row>
