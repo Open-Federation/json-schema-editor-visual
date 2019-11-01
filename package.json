@@ -7,7 +7,7 @@
   "scripts": {
     "start": "ykit s -p 8082",
     "demo": "NODE_ENV=production ykit pack -m",
-    "build": "webpack"
+    "build": "NODE_ENV=production webpack"
   },
   "dependencies": {
     "antd": "^3.1.6",
