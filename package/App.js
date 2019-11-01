@@ -99,7 +99,7 @@ class jsonSchema extends React.Component {
     if (!data) {
       data = `{
         "type": "object",
-        "title": "empty object",
+        "title": "title",
         "properties":{}
       }`;
     }
@@ -372,7 +372,7 @@ class jsonSchema extends React.Component {
           )}
           <Col span={this.props.showEditor ? 16 : 24} className="wrapper object-style">
             <Row type="flex" align="middle">
-              <Col span={this.props.isMock ? 10 : 12} className="col-item name-item col-item-name">
+              <Col span={8} className="col-item name-item col-item-name">
                 <Row type="flex" justify="space-around" align="middle">
                   <Col span={2} className="down-style-col">
                     {schema.type === 'object' ? (
@@ -402,7 +402,7 @@ class jsonSchema extends React.Component {
                   </Col>
                 </Row>
               </Col>
-              <Col span={4} className="col-item col-item-type">
+              <Col span={3} className="col-item col-item-type">
                 <Select
                   className="type-select-style"
                   onChange={e => this.changeType(`type`, e)}
@@ -426,6 +426,21 @@ class jsonSchema extends React.Component {
                   />
                 </Col>
               )}
+              <Col span={this.props.isMock ? 4 : 5} className="col-item col-item-mock">
+                <Input
+                  addonAfter={
+                    <Icon
+                      type="edit"
+                      onClick={() =>
+                        this.showEdit([], 'title', this.props.schema.title)
+                      }
+                    />
+                  }
+                  placeholder={'Title'}
+                  value={this.props.schema.title}
+                  onChange={e => this.changeValue(['title'], e.target.value)}
+                />
+              </Col>
               <Col span={this.props.isMock ? 4 : 5} className="col-item col-item-desc">
                 <Input
                   addonAfter={
@@ -441,7 +456,7 @@ class jsonSchema extends React.Component {
                   onChange={e => this.changeValue(['description'], e.target.value)}
                 />
               </Col>
-              <Col span={3} className="col-item col-item-setting">
+              <Col span={2} className="col-item col-item-setting">
                 <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
                   <Tooltip placement="top" title={LocalProvider('adv_setting')}>
                     <Icon type="setting" />

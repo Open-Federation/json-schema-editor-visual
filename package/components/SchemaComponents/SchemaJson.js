@@ -85,6 +85,13 @@ class SchemaArray extends PureComponent {
     this.Model.changeValueAction({ key, value });
   };
 
+  handleChangeTitle = e =>{
+    let prefix = this.getPrefix();
+    let key = [].concat(prefix, `title`);
+    let value = e.target.value;
+    this.Model.changeValueAction({ key, value });
+  }
+
   // 增加子节点
   handleAddChildField = () => {
     let prefix = this.getPrefix();
@@ -121,7 +128,7 @@ class SchemaArray extends PureComponent {
         <div className="array-type">
           <Row className="array-item-type" type="flex" justify="space-around" align="middle">
             <Col
-              span={this.context.isMock ? 10 : 12}
+              span={8}
               className="col-item name-item col-item-name"
               style={this.__tagPaddingLeftStyle}
             >
@@ -142,7 +149,7 @@ class SchemaArray extends PureComponent {
                 </Col>
               </Row>
             </Col>
-            <Col span={4} className="col-item col-item-type">
+            <Col span={3} className="col-item col-item-type">
               <Select
                 name="itemtype"
                 className="type-select-style"
@@ -168,6 +175,14 @@ class SchemaArray extends PureComponent {
                 />
               </Col>
             )}
+            <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-mock">
+              <Input
+                addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('title')} />}
+                placeholder={LocaleProvider('title')}
+                value={value.title}
+                onChange={this.handleChangeTitle}
+              />
+            </Col>
             <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
               <Input
                 addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
@@ -176,7 +191,7 @@ class SchemaArray extends PureComponent {
                 onChange={this.handleChangeDesc}
               />
             </Col>
-            <Col span={3} className="col-item col-item-setting">
+            <Col span={this.context.isMock ? 2: 3} className="col-item col-item-setting">
               <span className="adv-set" onClick={this.handleShowAdv}>
                 <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
                   <Icon type="setting" />
@@ -253,6 +268,13 @@ class SchemaItem extends PureComponent {
     this.Model.changeValueAction({ key, value });
   };
 
+  handleChangeTitle = e => {
+    let prefix = this.getPrefix();
+    let key = [].concat(prefix, `title`);
+    let value = e.target.value;
+    this.Model.changeValueAction({ key, value });
+  }
+
   // 修改数据类型
   handleChangeType = e => {
     let prefix = this.getPrefix();
@@ -319,7 +341,7 @@ class SchemaItem extends PureComponent {
       <div>
         <Row type="flex" justify="space-around" align="middle">
           <Col
-            span={this.context.isMock ? 10 : 12}
+            span={8}
             className="col-item name-item col-item-name"
             style={this.__tagPaddingLeftStyle}
           >
@@ -355,7 +377,7 @@ class SchemaItem extends PureComponent {
           </Col>
 
 
-          <Col span={4} className="col-item col-item-type">
+          <Col span={3} className="col-item col-item-type">
             <Select
               className="type-select-style"
               onChange={this.handleChangeType}
@@ -391,6 +413,14 @@ class SchemaItem extends PureComponent {
             </Col>
           )}
 
+          <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-mock">
+            <Input
+              addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('title')} />}
+              placeholder={LocaleProvider('title')}
+              value={value.title}
+              onChange={this.handleChangeTitle}
+            />
+          </Col>
 
           <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
             <Input
@@ -402,7 +432,7 @@ class SchemaItem extends PureComponent {
           </Col>
 
           
-          <Col span={3} className="col-item col-item-setting">
+          <Col span={this.context.isMock ? 2: 3}  className="col-item col-item-setting">
             <span className="adv-set" onClick={this.handleShowAdv}>
               <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
                 <Icon type="setting" />

@@ -6,6 +6,7 @@
   "license": "MIC",
   "scripts": {
     "start": "ykit s -p 8082",
+    "demo": "NODE_ENV=production ykit pack -m",
     "build": "webpack"
   },
   "dependencies": {
