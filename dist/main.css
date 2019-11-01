@@ -88,11 +88,11 @@
 
 .json-schema-react-editor .col-item-mock{
   text-align: center;
-  padding-right: 16px;
+  padding-right: 6px;
 }
 
 .json-schema-react-editor .col-item-setting{
-  padding-left: 16px;
+  padding-left: 6px;
   cursor: pointer;
 }
 
@@ -148,7 +148,7 @@
 }
 
 .json-schema-react-editor .type-select-style {
-  width: 80%
+  width: 90%
 }
 
 .json-schema-react-editor-import-modal .ant-tabs-nav .ant-tabs-tab{
