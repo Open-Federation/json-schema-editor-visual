@@ -179,7 +179,7 @@ class SchemaArray extends PureComponent {
               <Input
                 addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('title')} />}
                 placeholder={LocaleProvider('title')}
-                value={value.title}
+                value={items.title}
                 onChange={this.handleChangeTitle}
               />
             </Col>
