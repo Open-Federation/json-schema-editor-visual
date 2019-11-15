@@ -10,6 +10,11 @@ exports.format = [
   { name: 'ipv6' },
   { name: 'uri' }
 ];
+exports.integerFormat = [
+  { title: 'Integer', name: 'int32' },
+  { title: 'Long', name: 'int64' },
+  { title: 'Short', name: 'int16' }
+];
 const _ = require('underscore');
 exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
 exports.defaultSchema = {
