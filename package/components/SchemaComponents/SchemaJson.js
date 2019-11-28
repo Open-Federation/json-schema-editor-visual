@@ -204,7 +204,7 @@ class SchemaArray extends PureComponent {
               {items.type === 'object' ? (
                 <span onClick={this.handleAddChildField}>
                   <Tooltip placement="top" title={LocaleProvider('add_child_node')}>
-                    <Icon type="plus" className="plus" />sss
+                    <Icon type="plus" className="plus" />
                   </Tooltip>
                 </span>
               ) : null}
