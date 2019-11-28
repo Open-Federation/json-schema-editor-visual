@@ -29,6 +29,8 @@ import LocaleProvider from '../LocalProvider/index.js';
 import utils from '../../utils';
 import MockSelect from '../MockSelect/index.js';
 
+
+// 添加字段类型是字段还是数组
 const mapping = (name, data, showEdit, showAdv) => {
   switch (data.type) {
     case 'array':
@@ -42,6 +44,7 @@ const mapping = (name, data, showEdit, showAdv) => {
       return null;
   }
 };
+
 
 class SchemaArray extends PureComponent {
   constructor(props, context) {
@@ -201,7 +204,7 @@ class SchemaArray extends PureComponent {
               {items.type === 'object' ? (
                 <span onClick={this.handleAddChildField}>
                   <Tooltip placement="top" title={LocaleProvider('add_child_node')}>
-                    <Icon type="plus" className="plus" />
+                    <Icon type="plus" className="plus" />sss
                   </Tooltip>
                 </span>
               ) : null}
@@ -220,6 +223,10 @@ SchemaArray.contextTypes = {
   isMock: PropTypes.bool
 };
 
+
+
+
+// 内容Schema
 class SchemaItem extends PureComponent {
   constructor(props, context) {
     super(props);
@@ -312,6 +319,43 @@ class SchemaItem extends PureComponent {
     this.Model.addFieldAction({ prefix, name });
   };
 
+
+  // 向上
+  handleUpItem = () => {
+    const { prefix, name, data } = this.props;
+    let nameArray = this.getPrefix();
+    let requiredArr = data.required;
+    let itemIndex = requiredArr.indexOf(name);
+    console.log(prefix);
+    console.log(data.required);
+    console.log(data.properties);
+
+    if(itemIndex === 0){
+      return false;
+    }
+
+    this.Model.upItemAction({ key: nameArray });
+    // this.Model.enableRequireAction({ prefix, name, up:true });    //  required:true
+  }
+
+  // 向下 
+  handleDownItem = () => {
+    const { prefix, name, data } = this.props;
+    let nameArray = this.getPrefix();
+    let requiredArr = data.required;
+    let itemIndex = requiredArr.indexOf(name);
+    let len = requiredArr.length;
+    console.log(prefix);
+    console.log(data.required)
+    console.log(data.properties);
+
+    if(itemIndex === len-1){
+      return false;
+    }
+
+    this.Model.downItemAction({ key: nameArray });
+  }
+
   // 控制三角形按钮
   handleClickIcon = () => {
     let prefix = this.getPrefix();
@@ -341,7 +385,7 @@ class SchemaItem extends PureComponent {
       <div>
         <Row type="flex" justify="space-around" align="middle">
           <Col
-            span={8}
+            span={6}
             className="col-item name-item col-item-name"
             style={this.__tagPaddingLeftStyle}
           >
@@ -376,7 +420,6 @@ class SchemaItem extends PureComponent {
             </Row>
           </Col>
 
-
           <Col span={3} className="col-item col-item-type">
             <Select
               className="type-select-style"
@@ -392,7 +435,6 @@ class SchemaItem extends PureComponent {
               })}
             </Select>
           </Col>
-
 
           {this.context.isMock && (
             <Col span={3} className="col-item col-item-mock">
@@ -422,7 +464,7 @@ class SchemaItem extends PureComponent {
             />
           </Col>
 
-          <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
+          <Col span={this.context.isMock ? 3 : 4} className="col-item col-item-desc">
             <Input
               addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
               placeholder={LocaleProvider('description')}
@@ -431,8 +473,8 @@ class SchemaItem extends PureComponent {
             />
           </Col>
 
-          
-          <Col span={this.context.isMock ? 2: 3}  className="col-item col-item-setting">
+          {/* 操作按钮 */}
+          <Col span={this.context.isMock ? 3: 4}  className="col-item col-item-setting">
             <span className="adv-set" onClick={this.handleShowAdv}>
               <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
                 <Icon type="setting" />
@@ -444,12 +486,18 @@ class SchemaItem extends PureComponent {
             {value.type === 'object' ? (
               <DropPlus prefix={prefix} name={name} />
             ) : (
-              <span onClick={this.handleAddField}>
+              <span className="delete-item" onClick={this.handleAddField}>
                 <Tooltip placement="top" title={LocaleProvider('add_sibling_node')}>
                   <Icon type="plus" className="plus" />
                 </Tooltip>
               </span>
             )}
+            <span className="delete-item" onClick={this.handleUpItem}>
+              <Icon type="up" className="up" />
+            </span>
+            <span className="delete-item" onClick={this.handleDownItem}>
+              <Icon type="down" className="down" />
+            </span>
           </Col>
         </Row>
         <div className="option-formStyle">{mapping(prefixArray, value, showEdit, showAdv)}</div>
@@ -464,17 +512,20 @@ SchemaItem.contextTypes = {
   isMock: PropTypes.bool
 };
 
+
+
+// 字段为对象类型处理
 class SchemaObjectComponent extends Component {
-  shouldComponentUpdate(nextProps) {
-    if (
-      _.isEqual(nextProps.data, this.props.data) &&
-      _.isEqual(nextProps.prefix, this.props.prefix) &&
-      _.isEqual(nextProps.open, this.props.open)
-    ) {
-      return false;
-    }
-    return true;
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   if (
+  //     _.isEqual(nextProps.data, this.props.data) &&
+  //     _.isEqual(nextProps.prefix, this.props.prefix) &&
+  //     _.isEqual(nextProps.open, this.props.open)
+  //   ) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   render() {
     const { data, prefix, showEdit, showAdv } = this.props;
@@ -482,7 +533,7 @@ class SchemaObjectComponent extends Component {
       <div className="object-style">
         {Object.keys(data.properties).map((name, index) => (
           <SchemaItem
-            key={index}
+            key={index+ Math.random()}
             data={this.props.data}
             name={name}
             prefix={prefix}
@@ -535,9 +586,10 @@ DropPlus.contextTypes = {
   Model: PropTypes.object
 };
 
+
 const SchemaJson = props => {
   const item = mapping([], props.data, props.showEdit, props.showAdv);
-  return <div className="schema-content">{item}</div>;
+  return <div className="schema-content" >{item}</div>;
 };
 
 export default SchemaJson;

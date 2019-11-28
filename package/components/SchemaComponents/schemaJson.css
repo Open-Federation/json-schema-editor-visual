@@ -44,8 +44,19 @@
   cursor: pointer;
 }
 
+.ant-dropdown-trigger {
+  margin-right: 8px!important;
+}
+
 .json-schema-react-editor .plus {
   color: #2395f1
+}
+
+.json-schema-react-editor .up {
+  color: #780650
+}
+.json-schema-react-editor .down {
+  color: #10239e
 }
 
 .json-schema-react-editor .close {
