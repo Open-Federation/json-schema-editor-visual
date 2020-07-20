@@ -10,12 +10,12 @@ import {
   Select,
   Checkbox,
   Button,
-  Icon,
   Modal,
   message,
   Tooltip,
   Switch
 } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons'
 const { TextArea } = Input;
 import './schemaJson.css';
 import _ from 'underscore';
@@ -131,7 +131,7 @@ class SchemaString extends PureComponent {
             <span>
               Pattern&nbsp;
               <Tooltip title={LocalProvider('pattern')}>
-                <Icon type="question-circle-o" style={{ width: '10px' }} />
+                <QuestionCircleOutlined type="question-circle-o" style={{ width: '10px' }} />
               </Tooltip>
               &nbsp; :
             </span>
@@ -300,7 +300,7 @@ class SchemaNumber extends PureComponent {
                 <span>
                   exclusiveMinimum&nbsp;
                   <Tooltip title={LocalProvider('exclusiveMinimum')}>
-                    <Icon type="question-circle-o" style={{ width: '10px' }} />
+                    <QuestionCircleOutlined type="question-circle-o" style={{ width: '10px' }} />
                   </Tooltip>
                   &nbsp; :
                 </span>
@@ -322,7 +322,7 @@ class SchemaNumber extends PureComponent {
                 <span>
                   exclusiveMaximum&nbsp;
                   <Tooltip title={LocalProvider('exclusiveMaximum')}>
-                    <Icon type="question-circle-o" style={{ width: '10px' }} />
+                    <QuestionCircleOutlined type="question-circle-o" style={{ width: '10px' }} />
                   </Tooltip>
                   &nbsp; :
                 </span>
@@ -470,7 +470,7 @@ const SchemaArray = (props, context) => {
           <span>
             uniqueItems&nbsp;
             <Tooltip title={LocalProvider('unique_items')}>
-              <Icon type="question-circle-o" style={{ width: '10px' }} />
+              <QuestionCircleOutlined type="question-circle-o" style={{ width: '10px' }} />
             </Tooltip>
             &nbsp; :
           </span>

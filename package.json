@@ -10,12 +10,15 @@
     "build": "NODE_ENV=production webpack"
   },
   "dependencies": {
-    "antd": "^3.1.6",
+    "@ant-design/icons": "^4.2.1",
+    "antd": "^4",
+    "brace": "^0.10.0",
     "generate-schema": "^2.6.0",
     "moox": "^1.0.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-redux": "^5.0.6",
-    "underscore": "^1.8.3",
-    "brace": "^0.10.0"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.1",
@@ -32,10 +35,9 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "less": "^2.7.2",
     "less-loader": "^4.1.0",
-    "react-addons-perf": "^15.4.2",
     "style-loader": "^0.20.3",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14",
-    "ykit-config-antd": "^1.2.0"
+    "ykit-config-antd": "^2"
   }
 }

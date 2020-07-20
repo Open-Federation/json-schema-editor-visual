@@ -8,12 +8,19 @@ import {
   Select,
   Checkbox,
   Button,
-  Icon,
   Input,
   Modal,
   message,
   Tooltip
 } from 'antd';
+import {
+  CaretDownOutlined,
+  CaretRightOutlined,
+  EditOutlined,
+  SettingOutlined,
+  PlusOutlined,
+  CloseOutlined,
+} from '@ant-design/icons'
 import FieldInput from './FieldInput'
 
 const FormItem = Form.Item;
@@ -137,9 +144,9 @@ class SchemaArray extends PureComponent {
                   {items.type === 'object' ? (
                     <span className="down-style" onClick={this.handleClickIcon}>
                       {showIcon ? (
-                        <Icon className="icon-object" type="caret-down" />
+                        <CaretDownOutlined className="icon-object" type="caret-down" />
                       ) : (
-                        <Icon className="icon-object" type="caret-right" />
+                        <CaretRightOutlined className="icon-object" type="caret-right" />
                       )}
                     </span>
                   ) : null}
@@ -177,7 +184,7 @@ class SchemaArray extends PureComponent {
             )}
             <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-mock">
               <Input
-                addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('title')} />}
+                addonAfter={<EditOutlined type="edit" onClick={() => this.handleShowEdit('title')} />}
                 placeholder={LocaleProvider('title')}
                 value={items.title}
                 onChange={this.handleChangeTitle}
@@ -185,7 +192,7 @@ class SchemaArray extends PureComponent {
             </Col>
             <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
               <Input
-                addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
+                addonAfter={<EditOutlined type="edit" onClick={() => this.handleShowEdit('description')} />}
                 placeholder={LocaleProvider('description')}
                 value={items.description}
                 onChange={this.handleChangeDesc}
@@ -194,14 +201,14 @@ class SchemaArray extends PureComponent {
             <Col span={this.context.isMock ? 2: 3} className="col-item col-item-setting">
               <span className="adv-set" onClick={this.handleShowAdv}>
                 <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
-                  <Icon type="setting" />
+                  <SettingOutlined type="setting" />
                 </Tooltip>
               </span>
 
               {items.type === 'object' ? (
                 <span onClick={this.handleAddChildField}>
                   <Tooltip placement="top" title={LocaleProvider('add_child_node')}>
-                    <Icon type="plus" className="plus" />
+                    <PlusOutlined type="plus" className="plus" />
                   </Tooltip>
                 </span>
               ) : null}
@@ -350,9 +357,9 @@ class SchemaItem extends PureComponent {
                 {value.type === 'object' ? (
                   <span className="down-style" onClick={this.handleClickIcon}>
                     {showIcon ? (
-                      <Icon className="icon-object" type="caret-down" />
+                      <CaretDownOutlined className="icon-object" type="caret-down" />
                     ) : (
-                      <Icon className="icon-object" type="caret-right" />
+                      <CaretRightOutlined className="icon-object" type="caret-right" />
                     )}
                   </span>
                 ) : null}
@@ -415,7 +422,7 @@ class SchemaItem extends PureComponent {
 
           <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-mock">
             <Input
-              addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('title')} />}
+              addonAfter={<EditOutlined type="edit" onClick={() => this.handleShowEdit('title')} />}
               placeholder={LocaleProvider('title')}
               value={value.title}
               onChange={this.handleChangeTitle}
@@ -424,7 +431,7 @@ class SchemaItem extends PureComponent {
 
           <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
             <Input
-              addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
+              addonAfter={<EditOutlined type="edit" onClick={() => this.handleShowEdit('description')} />}
               placeholder={LocaleProvider('description')}
               value={value.description}
               onChange={this.handleChangeDesc}
@@ -435,18 +442,18 @@ class SchemaItem extends PureComponent {
           <Col span={this.context.isMock ? 2: 3}  className="col-item col-item-setting">
             <span className="adv-set" onClick={this.handleShowAdv}>
               <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
-                <Icon type="setting" />
+                <SettingOutlined type="setting" />
               </Tooltip>
             </span>
             <span className="delete-item" onClick={this.handleDeleteItem}>
-              <Icon type="close" className="close" />
+              <CloseOutlined type="close" className="close" />
             </span>
             {value.type === 'object' ? (
               <DropPlus prefix={prefix} name={name} />
             ) : (
               <span onClick={this.handleAddField}>
                 <Tooltip placement="top" title={LocaleProvider('add_sibling_node')}>
-                  <Icon type="plus" className="plus" />
+                  <PlusOutlined type="plus" className="plus" />
                 </Tooltip>
               </span>
             )}
@@ -525,7 +532,7 @@ const DropPlus = (props, context) => {
   return (
     <Tooltip placement="top" title={LocaleProvider('add_node')}>
       <Dropdown overlay={menu}>
-        <Icon type="plus" className="plus" />
+        <PlusOutlined type="plus" className="plus" />
       </Dropdown>
     </Tooltip>
   );
