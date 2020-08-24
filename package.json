@@ -1,8 +1,8 @@
 {
-  "name": "json-schema-editor-visual",
-  "version": "1.1.1",
+  "name": "@banmafe/jsonschema",
+  "version": "0.0.1",
   "description": "jsonschema editor",
-  "main": "package/index.js",
+  "main": "dist/main.js",
   "license": "MIC",
   "scripts": {
     "start": "ykit s -p 8082",
