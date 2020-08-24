@@ -11,7 +11,7 @@ exports.format = [
   { name: 'uri' }
 ];
 const _ = require('underscore');
-exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
+
 exports.defaultSchema = {
   string: {
     type: 'string'
@@ -36,6 +36,10 @@ exports.defaultSchema = {
     type: 'integer'
   }
 };
+
+exports.customSchema = type => ({
+  type
+});
 
 // 防抖函数，减少高频触发的函数执行的频率
 // 请在 constructor 里使用:

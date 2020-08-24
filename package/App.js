@@ -25,14 +25,22 @@ import _ from 'underscore';
 import { connect } from 'react-redux';
 import SchemaJson from './components/SchemaComponents/SchemaJson.js';
 import PropTypes from 'prop-types';
-import { SCHEMA_TYPE, debounce } from './utils.js';
+import { debounce } from './utils.js';
 import handleSchema from './schema';
 const GenerateSchema = require('generate-schema/src/schemas/json.js');
 const utils = require('./utils');
 import CustomItem from './components/SchemaComponents/SchemaOther.js';
 import LocalProvider from './components/LocalProvider/index.js';
 import MockSelect from './components/MockSelect/index.js';
+import Global from './global';
 
+/*
+interface Props {
+  hasRoot: boolean; // default true
+  rootTitle: string;
+  showDefaultInput: boolean; // default false
+}
+*/
 
 
 class jsonSchema extends React.Component {
@@ -55,6 +63,10 @@ class jsonSchema extends React.Component {
     this.Model = this.props.Model.schema;
     this.jsonSchemaData = null;
     this.jsonData = null;
+    const { schemaType } = props;
+    if (schemaType && Array.isArray(schemaType)) {
+      Global.SCHEMA_TYPE = schemaType;
+    }
   }
 
   // json 导入弹窗
@@ -103,7 +115,26 @@ class jsonSchema extends React.Component {
         "properties":{}
       }`;
     }
+
     this.Model.changeEditorSchemaAction({ value: JSON.parse(data) });
+
+    const { rootTitle, showDefaultInput, isMock } = this.props;
+    // initialize rootTitle
+    if (rootTitle) {
+      this.changeValue(['title'], rootTitle);
+    }
+    // initialize colSpan
+    if (isMock) {
+      if (showDefaultInput) {
+        this.Model.setColSpanAction({ value: Global.colSpanMap.mock_defaultValue });
+      } else{
+        this.Model.setColSpanAction({ value: Global.colSpanMap.mock });
+      }
+    } else if (showDefaultInput) {
+      this.Model.setColSpanAction({ value: Global.colSpanMap.defaultValue });
+    } else {
+      this.Model.setColSpanAction({ value: Global.colSpanMap.basic });
+    }
   }
 
   getChildContext() {
@@ -113,7 +144,11 @@ class jsonSchema extends React.Component {
       },
       changeCustomValue: this.changeCustomValue,
       Model: this.props.Model,
-      isMock: this.props.isMock
+      isMock: this.props.isMock,
+      hasRoot: this.props.hasRoot,
+      colSpan: this.props.colSpan,
+      showDefaultInput: this.props.showDefaultInput,
+      descriptionPlaceholders: this.props.descriptionPlaceholders
     };
   }
 
@@ -254,8 +289,156 @@ class jsonSchema extends React.Component {
 
   changeCheckBox = e => {
     this.setState({ checked: e });
-    this.Model.requireAllAction({ required: e, value: this.props.schema });
+    this.Model.requireAllAction({ common: e, value: this.props.schema });
   };
+
+  rootRender() {
+    const {
+      visible,
+      editVisible,
+      description,
+      advVisible,
+      type,
+      checked,
+      editorModalName
+    } = this.state;
+    const { schema, colSpan } = this.props;
+    let disabled =
+      this.props.schema.type === 'object' || this.props.schema.type === 'array' ? false : true;
+    if (!this.props.hasRoot) {
+    // if (false) {
+      return (
+        <Row>
+          <Col>
+            <span onClick={() => this.addChildField('properties')}>
+              <Tooltip placement="top" title={LocalProvider('add_child_node')}>
+                <Icon type="plus" className="plus" />
+              </Tooltip>
+            </span>
+          </Col>
+        </Row>
+      )
+    }
+    return (
+      <Row type="flex" align="middle">
+        <Col span={colSpan.fieldName} className="col-item name-item col-item-name">
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={2} className="down-style-col">
+              {schema.type === 'object' ? (
+                <span className="down-style" onClick={this.clickIcon}>
+                  {this.state.show ? (
+                    <Icon className="icon-object" type="caret-down" />
+                  ) : (
+                      <Icon className="icon-object" type="caret-right" />
+                    )}
+                </span>
+              ) : null}
+            </Col>
+            <Col span={22}>
+              <Input
+                addonAfter={
+                  <Tooltip placement="top" title={'checked_all'}>
+                    <Checkbox
+                      checked={checked}
+                      disabled={disabled}
+                      onChange={e => this.changeCheckBox(e.target.checked)}
+                    />
+                  </Tooltip>
+                }
+                disabled
+                value={this.props.schema.title}
+              />
+            </Col>
+          </Row>
+        </Col>
+        <Col span={colSpan.type} className="col-item col-item-type">
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={20}>
+              <Select
+                className="type-select-style"
+                onChange={e => this.changeType(`type`, e)}
+                value={schema.type || 'object'}
+              >
+                {Global.SCHEMA_TYPE.map((item, index) => {
+                  return (
+                    <Option value={item} key={index}>
+                      {item}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </Col>
+            <Col span={4}>
+              <Checkbox
+                disabled
+                checked={false}
+              />
+            </Col>
+          </Row>
+
+        </Col>
+        {this.props.showDefaultInput && (
+          <Col span={colSpan.default} className="col-item col-item-mock">
+            <Input disabled placeholder={LocalProvider('default_value')} />
+          </Col>
+        )}
+        {this.props.isMock && (
+          <Col span={colSpan.mock} className="col-item col-item-mock">
+            <MockSelect
+              schema={schema}
+              showEdit={() => this.showEdit([], 'mock', schema.mock, schema.type)}
+              onChange={value => this.changeValue(['mock'], value)}
+            />
+          </Col>
+        )}
+        <Col span={colSpan.title} className="col-item col-item-mock">
+          <Input
+            addonAfter={
+              <Icon
+                type="edit"
+                onClick={() =>
+                  this.showEdit([], 'title', this.props.schema.title)
+                }
+              />
+            }
+            disabled
+            placeholder={'Title'}
+            value={this.props.schema.title}
+            onChange={e => this.changeValue(['title'], e.target.value)}
+          />
+        </Col>
+        <Col span={colSpan.description} className="col-item col-item-desc">
+          <Input
+            addonAfter={
+              <Icon
+                type="edit"
+                onClick={() =>
+                  this.showEdit([], 'description', this.props.schema.description)
+                }
+              />
+            }
+            placeholder={'description'}
+            value={schema.description}
+            onChange={e => this.changeValue(['description'], e.target.value)}
+          />
+        </Col>
+        <Col span={colSpan.setting} className="col-item col-item-setting">
+          <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
+            <Tooltip placement="top" title={LocalProvider('adv_setting')}>
+              <Icon type="setting" />
+            </Tooltip>
+          </span>
+          {schema.type === 'object' ? (
+            <span onClick={() => this.addChildField('properties')}>
+              <Tooltip placement="top" title={LocalProvider('add_child_node')}>
+                <Icon type="plus" className="plus" />
+              </Tooltip>
+            </span>
+          ) : null}
+        </Col>
+      </Row>
+    )
+  }
 
   render() {
     const {
@@ -371,106 +554,7 @@ class jsonSchema extends React.Component {
             </Col>
           )}
           <Col span={this.props.showEditor ? 16 : 24} className="wrapper object-style">
-            <Row type="flex" align="middle">
-              <Col span={8} className="col-item name-item col-item-name">
-                <Row type="flex" justify="space-around" align="middle">
-                  <Col span={2} className="down-style-col">
-                    {schema.type === 'object' ? (
-                      <span className="down-style" onClick={this.clickIcon}>
-                        {this.state.show ? (
-                          <Icon className="icon-object" type="caret-down" />
-                        ) : (
-                          <Icon className="icon-object" type="caret-right" />
-                        )}
-                      </span>
-                    ) : null}
-                  </Col>
-                  <Col span={22}>
-                    <Input
-                      addonAfter={
-                        <Tooltip placement="top" title={'checked_all'}>
-                          <Checkbox
-                            checked={checked}
-                            disabled={disabled}
-                            onChange={e => this.changeCheckBox(e.target.checked)}
-                          />
-                        </Tooltip>
-                      }
-                      disabled
-                      value="root"
-                    />
-                  </Col>
-                </Row>
-              </Col>
-              <Col span={3} className="col-item col-item-type">
-                <Select
-                  className="type-select-style"
-                  onChange={e => this.changeType(`type`, e)}
-                  value={schema.type || 'object'}
-                >
-                  {SCHEMA_TYPE.map((item, index) => {
-                    return (
-                      <Option value={item} key={index}>
-                        {item}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Col>
-              {this.props.isMock && (
-                <Col span={3} className="col-item col-item-mock">
-                  <MockSelect
-                    schema={schema}
-                    showEdit={() => this.showEdit([], 'mock', schema.mock, schema.type)}
-                    onChange={value => this.changeValue(['mock'], value)}
-                  />
-                </Col>
-              )}
-              <Col span={this.props.isMock ? 4 : 5} className="col-item col-item-mock">
-                <Input
-                  addonAfter={
-                    <Icon
-                      type="edit"
-                      onClick={() =>
-                        this.showEdit([], 'title', this.props.schema.title)
-                      }
-                    />
-                  }
-                  placeholder={'Title'}
-                  value={this.props.schema.title}
-                  onChange={e => this.changeValue(['title'], e.target.value)}
-                />
-              </Col>
-              <Col span={this.props.isMock ? 4 : 5} className="col-item col-item-desc">
-                <Input
-                  addonAfter={
-                    <Icon
-                      type="edit"
-                      onClick={() =>
-                        this.showEdit([], 'description', this.props.schema.description)
-                      }
-                    />
-                  }
-                  placeholder={'description'}
-                  value={schema.description}
-                  onChange={e => this.changeValue(['description'], e.target.value)}
-                />
-              </Col>
-              <Col span={2} className="col-item col-item-setting">
-                <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
-                  <Tooltip placement="top" title={LocalProvider('adv_setting')}>
-                    <Icon type="setting" />
-                  </Tooltip>
-                </span>
-                {schema.type === 'object' ? (
-                  <span onClick={() => this.addChildField('properties')}>
-                    <Tooltip placement="top" title={LocalProvider('add_child_node')}>
-                      <Icon type="plus" className="plus" />
-                    </Tooltip>
-                  </span>
-                ) : null}
-              </Col>
-            </Row>
+            {this.rootRender()}
             {this.state.show && (
               <SchemaJson
                 data={this.props.schema}
@@ -489,7 +573,11 @@ jsonSchema.childContextTypes = {
   getOpenValue: PropTypes.func,
   changeCustomValue: PropTypes.func,
   Model: PropTypes.object,
-  isMock: PropTypes.bool
+  isMock: PropTypes.bool,
+  hasRoot: PropTypes.bool,
+  colSpan: PropTypes.object,
+  showDefaultInput: PropTypes.bool,
+  descriptionPlaceholders: PropTypes.object
 };
 
 jsonSchema.propTypes = {
@@ -497,10 +585,15 @@ jsonSchema.propTypes = {
   onChange: PropTypes.func,
   showEditor: PropTypes.bool,
   isMock: PropTypes.bool,
-  Model: PropTypes.object
+  Model: PropTypes.object,
+  hasRoot: PropTypes.bool,
+  colSpan: PropTypes.object,
+  showDefaultInput: PropTypes.bool,
+  descriptionPlaceholders: PropTypes.object
 };
 
 export default connect(state => ({
   schema: state.schema.data,
-  open: state.schema.open
+  open: state.schema.open,
+  colSpan: state.schema.colSpan
 }))(jsonSchema);

@@ -1,7 +1,7 @@
 import utils from '../../utils'
 import React from 'react';
 
-const langs = {
+export const langs = {
   en_US: {
     'title': 'Title',
     'import_json': 'Import JSON',
@@ -35,7 +35,9 @@ const langs = {
     'enum_desc_msg': 'enum description',
     'required': 'required',
     'mock': 'mock',
-    'mockLink': 'Help'
+    'mockLink': 'Help',
+    'common': 'common',
+    'default_value': 'Default Value'
   },
   zh_CN: {
     'title': '标题',
@@ -70,7 +72,9 @@ const langs = {
     'enum_desc_msg': '备注描述信息',
     'required': '是否必须',
     'mock': 'mock',
-    'mockLink': '查看文档'
+    'mockLink': '查看文档',
+    'common': '是否公共参数',
+    'default_value': '默认值'
   }
 }
 

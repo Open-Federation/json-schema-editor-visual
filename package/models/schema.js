@@ -14,10 +14,21 @@ export default {
     },
     open: {
       properties: true
+    },
+    colSpan: {
+      fieldName: 8,
+      type: 3,
+      title: 5,
+      description: 5,
+      setting: 3,
     }
   },
 
-  changeEditorSchemaAction: function(state, action) {
+  setColSpanAction: function (state, action) {
+    state.colSpan = action.value;
+  },
+
+  changeEditorSchemaAction: function (state, action) {
     handleSchema(action.value);
     state.data = action.value;
   },
@@ -82,7 +93,7 @@ export default {
       return;
     }
     // let newParentData = utils.defaultSchema[value];
-    let newParentDataItem = utils.defaultSchema[value];
+    let newParentDataItem = utils.defaultSchema[value] || utils.customSchema(value);
 
     // 将备注过滤出来
     let parentDataItem = parentData.description ? { description: parentData.description } : {};
@@ -123,6 +134,29 @@ export default {
     state.data = data;
   },
 
+  enableCommonAction: function(state, action, oldState) {
+    const keys = action.prefix;
+    let parentKeys = utils.getParentKeys(keys);
+    let oldData = oldState.data;
+    let parentData = utils.getData(oldData, parentKeys);
+    let commonData = [].concat(parentData.common || []);
+    let index = commonData.indexOf(action.name);
+
+    if (!action.common && index >= 0) {
+      commonData.splice(index, 1);
+      parentKeys.push('common');
+      if (commonData.length === 0) {
+        utils.deleteData(state.data, parentKeys);
+      } else {
+        utils.setData(state.data, parentKeys, commonData);
+      }
+    } else if (action.common && index === -1) {
+      commonData.push(action.name);
+      parentKeys.push('common');
+      utils.setData(state.data, parentKeys, commonData);
+    }
+  },
+
   deleteItemAction: function(state, action, oldState) {
     const keys = action.key;
 
@@ -155,20 +189,20 @@ export default {
       newPropertiesData = Object.assign({}, propertiesData);
       let ranName = 'field_' + fieldNum++;
       newPropertiesData[ranName] = utils.defaultSchema.string;
-      requiredData.push(ranName);
+      // requiredData.push(ranName);
     } else {
       for (let i in propertiesData) {
         newPropertiesData[i] = propertiesData[i];
         if (i === name) {
           let ranName = 'field_' + fieldNum++;
           newPropertiesData[ranName] = utils.defaultSchema.string;
-          requiredData.push(ranName);
+          // requiredData.push(ranName);
         }
       }
     }
     utils.setData(state.data, keys, newPropertiesData);
     // add required
-    parentKeys.push('required');
+    // parentKeys.push('required');
     utils.setData(state.data, parentKeys, requiredData);
   },
   addChildFieldAction: function(state, action, oldState) {
@@ -186,7 +220,7 @@ export default {
     let parentKeys = utils.getParentKeys(keys);
     let parentData = utils.getData(oldData, parentKeys);
     let requiredData = [].concat(parentData.required || []);
-    requiredData.push(ranName);
+    // requiredData.push(ranName);
     parentKeys.push('required');
     utils.setData(state.data, parentKeys, requiredData);
   },

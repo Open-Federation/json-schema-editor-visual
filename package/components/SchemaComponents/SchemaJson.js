@@ -23,11 +23,12 @@ import './schemaJson.css';
 import _ from 'underscore';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
+import { JSONPATH_JOIN_CHAR } from '../../utils.js';
 const InputGroup = Input.Group;
 import LocaleProvider from '../LocalProvider/index.js';
 import utils from '../../utils';
 import MockSelect from '../MockSelect/index.js';
+import Global from '../../global';
 
 const mapping = (name, data, showEdit, showAdv) => {
   switch (data.type) {
@@ -52,9 +53,10 @@ class SchemaArray extends PureComponent {
 
   componentWillMount() {
     const { prefix } = this.props;
-    let length = prefix.filter(name => name != 'properties').length;
+    const { hasRoot } = this.context;
+    const length = prefix.filter(name => name != 'properties').length + Number(!!hasRoot);
     this.__tagPaddingLeftStyle = {
-      paddingLeft: `${20 * (length + 1)}px`
+      paddingLeft: `${20 * (length)}px`
     };
   }
 
@@ -118,6 +120,7 @@ class SchemaArray extends PureComponent {
 
   render() {
     const { data, prefix, showEdit, showAdv } = this.props;
+    const { colSpan, descriptionPlaceholders } = this.context;
     const items = data.items;
     let prefixArray = [].concat(prefix, 'items');
 
@@ -128,7 +131,7 @@ class SchemaArray extends PureComponent {
         <div className="array-type">
           <Row className="array-item-type" type="flex" justify="space-around" align="middle">
             <Col
-              span={8}
+              span={colSpan.fieldName}
               className="col-item name-item col-item-name"
               style={this.__tagPaddingLeftStyle}
             >
@@ -145,28 +148,43 @@ class SchemaArray extends PureComponent {
                   ) : null}
                 </Col>
                 <Col span={22}>
-                  <Input addonAfter={<Checkbox disabled />} disabled value="Items" />
+                  <Input addonAfter={<Checkbox disabled checked={false} />} disabled value="Items" />
                 </Col>
               </Row>
             </Col>
-            <Col span={3} className="col-item col-item-type">
-              <Select
-                name="itemtype"
-                className="type-select-style"
-                onChange={this.handleChangeType}
-                value={items.type}
-              >
-                {SCHEMA_TYPE.map((item, index) => {
-                  return (
-                    <Option value={item} key={index}>
-                      {item}
-                    </Option>
-                  );
-                })}
-              </Select>
+            <Col span={colSpan.type} className="col-item col-item-type">
+              <Row type="flex" justify="space-around" align="middle">
+                <Col span={20}>
+                  <Select
+                    name="itemtype"
+                    className="type-select-style"
+                    onChange={this.handleChangeType}
+                    value={items.type}
+                  >
+                    {Global.SCHEMA_TYPE.map((item, index) => {
+                      return (
+                        <Option value={item} key={index}>
+                          {item}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+                </Col>
+                <Col span={4}>
+                  <Checkbox
+                    disabled
+                    checked={false}
+                  />
+                </Col>
+              </Row>
             </Col>
+            {this.context.showDefaultInput && (
+              <Col span={colSpan.default} className="col-item col-item-mock">
+                <Input placeholder={LocaleProvider('default_value')} />
+              </Col>
+            )}
             {this.context.isMock && (
-              <Col span={3} className="col-item col-item-mock">
+              <Col span={colSpan.mock} className="col-item col-item-mock">
                 
                 <MockSelect
                   schema={items}
@@ -175,7 +193,7 @@ class SchemaArray extends PureComponent {
                 />
               </Col>
             )}
-            <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-mock">
+            <Col span={colSpan.title} className="col-item col-item-mock">
               <Input
                 addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('title')} />}
                 placeholder={LocaleProvider('title')}
@@ -183,15 +201,15 @@ class SchemaArray extends PureComponent {
                 onChange={this.handleChangeTitle}
               />
             </Col>
-            <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
+            <Col span={colSpan.description} className="col-item col-item-desc">
               <Input
                 addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
-                placeholder={LocaleProvider('description')}
+                placeholder={descriptionPlaceholders[items.type] ||LocaleProvider('description')}
                 value={items.description}
                 onChange={this.handleChangeDesc}
               />
             </Col>
-            <Col span={this.context.isMock ? 2: 3} className="col-item col-item-setting">
+            <Col span={colSpan.setting} className="col-item col-item-setting">
               <span className="adv-set" onClick={this.handleShowAdv}>
                 <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
                   <Icon type="setting" />
@@ -217,7 +235,11 @@ class SchemaArray extends PureComponent {
 SchemaArray.contextTypes = {
   getOpenValue: PropTypes.func,
   Model: PropTypes.object,
-  isMock: PropTypes.bool
+  isMock: PropTypes.bool,
+  hasRoot: PropTypes.bool,
+  colSpan: PropTypes.object,
+  showDefaultInput: PropTypes.bool,
+  descriptionPlaceholders: PropTypes.object
 };
 
 class SchemaItem extends PureComponent {
@@ -230,9 +252,10 @@ class SchemaItem extends PureComponent {
 
   componentWillMount() {
     const { prefix } = this.props;
-    let length = prefix.filter(name => name != 'properties').length;
+    const { hasRoot } = this.context;
+    const length = prefix.filter(name => name != 'properties').length + Number(!!hasRoot);
     this.__tagPaddingLeftStyle = {
-      paddingLeft: `${20 * (length + 1)}px`
+      paddingLeft: `${20 * (length)}px`
     };
   }
 
@@ -268,6 +291,13 @@ class SchemaItem extends PureComponent {
     this.Model.changeValueAction({ key, value });
   };
 
+  handleChangeDefaultValue = e => {
+    let prefix = this.getPrefix();
+    let key = [].concat(prefix, `default`);
+    let value = e.target.value;
+    this.Model.changeValueAction({ key, value });
+  }
+
   handleChangeTitle = e => {
     let prefix = this.getPrefix();
     let key = [].concat(prefix, `title`);
@@ -287,7 +317,7 @@ class SchemaItem extends PureComponent {
     const { prefix, name } = this.props;
     let nameArray = this.getPrefix();
     this.Model.deleteItemAction({ key: nameArray });
-    this.Model.enableRequireAction({ prefix, name, required: false });
+    this.Model.enableRequireAction({ prefix, name, common: false });
   };
   /*
   展示备注编辑弹窗
@@ -328,8 +358,16 @@ class SchemaItem extends PureComponent {
     this.Model.enableRequireAction({ prefix, name, required });
   };
 
+  handleChangeCommon = e => {
+    const { prefix, name } = this.props;
+    let common = e.target.checked;
+    // this.enableRequire(this.props.prefix, this.props.name, e.target.checked);
+    this.Model.enableCommonAction({ prefix, name, common });
+  }
+
   render() {
     let { name, data, prefix, showEdit, showAdv } = this.props;
+    const { colSpan, descriptionPlaceholders } = this.context;
     let value = data.properties[name];
     let prefixArray = [].concat(prefix, name);
 
@@ -341,7 +379,7 @@ class SchemaItem extends PureComponent {
       <div>
         <Row type="flex" justify="space-around" align="middle">
           <Col
-            span={8}
+            span={colSpan.fieldName}
             className="col-item name-item col-item-name"
             style={this.__tagPaddingLeftStyle}
           >
@@ -360,11 +398,11 @@ class SchemaItem extends PureComponent {
               <Col span={22}>
                 <FieldInput
                   addonAfter={
-                    <Tooltip placement="top" title={LocaleProvider('required')}>
+                    <Tooltip placement="top" title={LocaleProvider('common')}>
                       <Checkbox
-                        onChange={this.handleEnableRequire}
+                        onChange={this.handleChangeCommon}
                         checked={
-                          _.isUndefined(data.required) ? false : data.required.indexOf(name) != -1
+                          _.isUndefined(data.common) ? false : data.common.indexOf(name) != -1
                         }
                       />
                     </Tooltip>
@@ -377,25 +415,49 @@ class SchemaItem extends PureComponent {
           </Col>
 
 
-          <Col span={3} className="col-item col-item-type">
-            <Select
-              className="type-select-style"
-              onChange={this.handleChangeType}
-              value={value.type}
-            >
-              {SCHEMA_TYPE.map((item, index) => {
-                return (
-                  <Option value={item} key={index}>
-                    {item}
-                  </Option>
-                );
-              })}
-            </Select>
+          <Col span={colSpan.type} className="col-item col-item-type">
+            <Row type="flex" justify="space-around" align="middle">
+                <Col span={20}>
+                  <Select
+                    className="type-select-style"
+                    onChange={this.handleChangeType}
+                    value={value.type}
+                  >
+                    {Global.SCHEMA_TYPE.map((item, index) => {
+                      return (
+                        <Option value={item} key={index}>
+                          {item}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+                </Col>
+                <Col span={4}>
+                  <Tooltip placement="top" title={LocaleProvider('required')}>
+                    <Checkbox
+                      onChange={this.handleEnableRequire}
+                      checked={
+                        _.isUndefined(data.required) ? false : data.required.indexOf(name) != -1
+                      }
+                    />
+                  </Tooltip>
+                </Col>
+            </Row>
           </Col>
 
+          {this.context.showDefaultInput && (
+            <Col span={colSpan.default} className="col-item col-item-mock">
+              <Input
+                value={value.default}
+                onChange={this.handleChangeDefaultValue}
+                disabled={value.type === 'object' || value.type === 'array'}
+                placeholder={LocaleProvider('default_value')}
+              />
+            </Col>
+          )}
 
           {this.context.isMock && (
-            <Col span={3} className="col-item col-item-mock">
+            <Col span={colSpan.mock} className="col-item col-item-mock">
               {/* <Input
                 addonAfter={
                   <Icon type="edit" onClick={() => this.handleShowEdit('mock', value.type)} />
@@ -413,7 +475,7 @@ class SchemaItem extends PureComponent {
             </Col>
           )}
 
-          <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-mock">
+          <Col span={colSpan.title} className="col-item col-item-mock">
             <Input
               addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('title')} />}
               placeholder={LocaleProvider('title')}
@@ -422,17 +484,17 @@ class SchemaItem extends PureComponent {
             />
           </Col>
 
-          <Col span={this.context.isMock ? 4 : 5} className="col-item col-item-desc">
+          <Col span={colSpan.description} className="col-item col-item-desc">
             <Input
               addonAfter={<Icon type="edit" onClick={() => this.handleShowEdit('description')} />}
-              placeholder={LocaleProvider('description')}
+              placeholder={descriptionPlaceholders[value.type] || LocaleProvider('description')}
               value={value.description}
               onChange={this.handleChangeDesc}
             />
           </Col>
 
           
-          <Col span={this.context.isMock ? 2: 3}  className="col-item col-item-setting">
+          <Col span={colSpan.setting}  className="col-item col-item-setting">
             <span className="adv-set" onClick={this.handleShowAdv}>
               <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
                 <Icon type="setting" />
@@ -461,7 +523,11 @@ class SchemaItem extends PureComponent {
 SchemaItem.contextTypes = {
   getOpenValue: PropTypes.func,
   Model: PropTypes.object,
-  isMock: PropTypes.bool
+  isMock: PropTypes.bool,
+  hasRoot: PropTypes.bool,
+  colSpan: PropTypes.object,
+  showDefaultInput: PropTypes.bool,
+  descriptionPlaceholders: PropTypes.object
 };
 
 class SchemaObjectComponent extends Component {
@@ -478,6 +544,7 @@ class SchemaObjectComponent extends Component {
 
   render() {
     const { data, prefix, showEdit, showAdv } = this.props;
+    const { hasRoot } = this.context;
     return (
       <div className="object-style">
         {Object.keys(data.properties).map((name, index) => (
@@ -488,6 +555,7 @@ class SchemaObjectComponent extends Component {
             prefix={prefix}
             showEdit={showEdit}
             showAdv={showAdv}
+            hasRoot={hasRoot}
           />
         ))}
       </div>
