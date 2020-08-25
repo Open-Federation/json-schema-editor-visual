@@ -122,6 +122,8 @@ class jsonSchema extends React.Component {
     // initialize rootTitle
     if (rootTitle) {
       this.changeValue(['title'], rootTitle);
+    } else {
+      this.changeValue(['title'], 'root');
     }
     // initialize colSpan
     if (isMock) {

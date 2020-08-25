@@ -29,11 +29,13 @@ module.exports = (config = {})=>{
 
   const Component = (props)=>{
     const hasRoot = props.hasRoot === undefined ? true : props.hasRoot;
+    const { descriptionPlaceholders } = props;
     return <Provider store={store} className="wrapper">
       <App
         Model={Model}
         {...props}
         hasRoot={hasRoot}
+        descriptionPlaceholders={descriptionPlaceholders || {}}
       />
     </Provider>
   }

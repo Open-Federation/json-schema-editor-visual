@@ -1,5 +1,11 @@
 # json-schema-editor-visual
-A json-schema editor of high efficient and easy-to-use, base on React.
+基于[json-schema-editor](https://github.com/YMFE/json-schema-editor-visual)的编辑器。
+与原版相比，特点如下：
+1. 可以隐藏根节点
+2. 支持自定义placeholder
+3. 支持自定义类型
+4. 新增默认值输入框
+5. 新增公共参数复选框
 
 ## Usage
 ```
@@ -17,6 +23,7 @@ render(
     <SchemaEditor />,
   document.getElementById('root')
 )
+[更多示例](https://github.com/echo6456/json-schema-editor-visual)
 ```
 
 ## Option Object
@@ -34,4 +41,4 @@ render(
 | `showEditor` | boolean | false | 
 
 ## Links
-https://github.com/zyqwst/json-schema-editor-vue
+https://github.com/echo6456/json-schema-editor-visual

@@ -1,6 +1,6 @@
 {
   "name": "@banmafe/jsonschema",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "jsonschema editor",
   "main": "dist/main.js",
   "license": "MIC",
