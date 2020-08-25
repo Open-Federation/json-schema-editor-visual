@@ -28,8 +28,13 @@ module.exports = (config = {})=>{
   const store = Model.getStore();
 
   const Component = (props)=>{
+    const hasRoot = props.hasRoot === undefined ? true : props.hasRoot;
     return <Provider store={store} className="wrapper">
-      <App Model={Model} {...props} />
+      <App
+        Model={Model}
+        {...props}
+        hasRoot={hasRoot}
+      />
     </Provider>
   }
 

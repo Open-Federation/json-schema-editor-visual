@@ -306,18 +306,7 @@ class jsonSchema extends React.Component {
     let disabled =
       this.props.schema.type === 'object' || this.props.schema.type === 'array' ? false : true;
     if (!this.props.hasRoot) {
-    // if (false) {
-      return (
-        <Row>
-          <Col>
-            <span onClick={() => this.addChildField('properties')}>
-              <Tooltip placement="top" title={LocalProvider('add_child_node')}>
-                <Icon type="plus" className="plus" />
-              </Tooltip>
-            </span>
-          </Col>
-        </Row>
-      )
+      return null;
     }
     return (
       <Row type="flex" align="middle">
@@ -460,6 +449,11 @@ class jsonSchema extends React.Component {
         <Button className="import-json-button" type="primary" onClick={this.showModal}>
           {LocalProvider('import_json')}
         </Button>
+        {!this.props.hasRoot && (
+          <Button className="import-json-button" type="primary" onClick={() => this.addChildField('properties')}>
+            {LocalProvider('add_child')}
+          </Button>
+        )}
         <Modal
           maskClosable={false}
           visible={visible}

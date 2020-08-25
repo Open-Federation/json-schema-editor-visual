@@ -37,7 +37,8 @@ export const langs = {
     'mock': 'mock',
     'mockLink': 'Help',
     'common': 'common',
-    'default_value': 'Default Value'
+    'default_value': 'Default Value',
+    'add_child': 'Add Child'
   },
   zh_CN: {
     'title': '标题',
@@ -74,7 +75,8 @@ export const langs = {
     'mock': 'mock',
     'mockLink': '查看文档',
     'common': '是否公共参数',
-    'default_value': '默认值'
+    'default_value': '默认值',
+    'add_child': '添加属性'
   }
 }
 

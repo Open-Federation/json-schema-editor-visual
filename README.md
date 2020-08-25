@@ -1,11 +1,9 @@
 # json-schema-editor-visual
 A json-schema editor of high efficient and easy-to-use, base on React.
 
-![avatar](json-schema-editor-visual.jpg)
-
 ## Usage
 ```
-npm install json-schema-editor-visual
+mnpm install @banmafe/jsonschema
 ```
 
 ```js

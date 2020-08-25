@@ -1,6 +1,6 @@
 {
   "name": "@banmafe/jsonschema",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "jsonschema editor",
   "main": "dist/main.js",
   "license": "MIC",
@@ -11,11 +11,12 @@
   },
   "dependencies": {
     "antd": "^3.1.6",
+    "brace": "^0.10.0",
     "generate-schema": "^2.6.0",
     "moox": "^1.0.2",
+    "prop-types": "^15.7.2",
     "react-redux": "^5.0.6",
-    "underscore": "^1.8.3",
-    "brace": "^0.10.0"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.1",

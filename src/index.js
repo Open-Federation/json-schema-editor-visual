@@ -8,7 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
   window.Perf = require('react-addons-perf');
 }
 import '../dist/main.css'
-const jeditor = require('../package/index.js');
+const jeditor = require('../dist/main');
 const mock = [
   { name: '字符串', mock: '@string' },
   { name: '自然数', mock: '@natural' },
@@ -31,7 +31,7 @@ const JEditor1 = jeditor({
 
 const DemoApp = () => {
   // const [data, setData] = useState('');
-  const schemaType = ['string', 'integer', 'long', 'double', 'object', 'array', 'longlong'];
+  const schemaType = ['string', 'integer', 'long', 'double', 'object', 'array'];
   const descriptionPlaceholders = {
     double: "与钱相关，请勿使用该类型",
     long: "展示字段请使用string类型",
