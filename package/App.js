@@ -431,6 +431,25 @@ class jsonSchema extends React.Component {
     )
   }
 
+  buttonsRender() {
+    const { buttonsConfig, hasRoot } = this.props;
+    return (
+      <div>
+        {buttonsConfig.importJSON && (
+          <Button className="import-json-button" type="primary" onClick={this.showModal}>
+            {LocalProvider('import_json')}
+          </Button>
+        )}
+        {!hasRoot && (
+          <Button className="import-json-button" type="primary" onClick={() => this.addChildField('properties')}>
+            {LocalProvider('add_child')}
+          </Button>
+        )}
+        {buttonsConfig && buttonsConfig.extra}
+      </div>
+    )
+  }
+
   render() {
     const {
       visible,
@@ -441,21 +460,20 @@ class jsonSchema extends React.Component {
       checked,
       editorModalName
     } = this.state;
-    const { schema } = this.props;
-
+    const { schema, buttonsConfig } = this.props;
+    let topButtons = null,
+        bottomButtons = null;
+    if (buttonsConfig.position === 'bottom') {
+      bottomButtons = this.buttonsRender();
+    } else {
+      topButtons = this.buttonsRender();
+    }
     let disabled =
       this.props.schema.type === 'object' || this.props.schema.type === 'array' ? false : true;
 
     return (
       <div className="json-schema-react-editor">
-        <Button className="import-json-button" type="primary" onClick={this.showModal}>
-          {LocalProvider('import_json')}
-        </Button>
-        {!this.props.hasRoot && (
-          <Button className="import-json-button" type="primary" onClick={() => this.addChildField('properties')}>
-            {LocalProvider('add_child')}
-          </Button>
-        )}
+        {topButtons}
         <Modal
           maskClosable={false}
           visible={visible}
@@ -560,6 +578,7 @@ class jsonSchema extends React.Component {
             )}
           </Col>
         </Row>
+        {bottomButtons}
       </div>
     );
   }

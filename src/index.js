@@ -9,6 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 import '../dist/main.css'
 const jeditor = require('../dist/main');
+// const jeditor = require('../package/index')
 const mock = [
   { name: '字符串', mock: '@string' },
   { name: '自然数', mock: '@natural' },
@@ -36,6 +37,11 @@ const DemoApp = () => {
     double: "与钱相关，请勿使用该类型",
     long: "展示字段请使用string类型",
     integer: "展示字段请使用string类型"
+  }
+  const buttonsConfig = {
+    position: 'bottom',
+    importJSON: true,
+    extra: (<span>extra</span>)
   }
   const handleChange = e => {
     // console.log(e)
@@ -75,6 +81,7 @@ const DemoApp = () => {
         onChange={handleChange}
         schemaType={schemaType}
         descriptionPlaceholders={descriptionPlaceholders}
+        buttonsConfig={buttonsConfig}
       />
 
       {/* <JEditor2
