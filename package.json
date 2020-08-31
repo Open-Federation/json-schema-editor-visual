@@ -10,7 +10,7 @@
     "build": "NODE_ENV=production webpack"
   },
   "dependencies": {
-    "antd": "^3.1.6",
+    "antd": "3.2.2",
     "generate-schema": "^2.6.0",
     "moox": "^1.0.2",
     "react-redux": "^5.0.6",
