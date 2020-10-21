@@ -1,5 +1,5 @@
 {
-  "name": "json-schema-visual-editor",
+  "name": "json-schema-editor-visual",
   "version": "1.0.0",
   "description": "A visual json schema editor",
   "source": "package/index.js",
