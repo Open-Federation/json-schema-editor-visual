@@ -1,6 +1,6 @@
 
 
-module.exports = handleSchema;
+export default handleSchema;
 
 function handleType(schema) {
   if(!schema.type && schema.properties && typeof schema.properties === 'object') {

@@ -23,11 +23,10 @@ import './schemaJson.css';
 import _ from 'underscore';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
+import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils';
 const InputGroup = Input.Group;
-import LocaleProvider from '../LocalProvider/index.js';
-import utils from '../../utils';
-import MockSelect from '../MockSelect/index.js';
+import LocaleProvider from '../LocalProvider/index';
+import MockSelect from '../MockSelect/index';
 
 const mapping = (name, data, showEdit, showAdv) => {
   switch (data.type) {
@@ -192,11 +191,11 @@ class SchemaArray extends PureComponent {
               />
             </Col>
             <Col span={this.context.isMock ? 2: 3} className="col-item col-item-setting">
-              <span className="adv-set" onClick={this.handleShowAdv}>
+            {items.type != 'object' && <span className="adv-set" onClick={this.handleShowAdv}>
                 <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
                   <Icon type="setting" />
                 </Tooltip>
-              </span>
+              </span>}
 
               {items.type === 'object' ? (
                 <span onClick={this.handleAddChildField}>
@@ -433,11 +432,11 @@ class SchemaItem extends PureComponent {
 
           
           <Col span={this.context.isMock ? 2: 3}  className="col-item col-item-setting">
-            <span className="adv-set" onClick={this.handleShowAdv}>
+          {value.type != 'object' && <span className="adv-set" onClick={this.handleShowAdv}>
               <Tooltip placement="top" title={LocaleProvider('adv_setting')}>
                 <Icon type="setting" />
               </Tooltip>
-            </span>
+            </span>}
             <span className="delete-item" onClick={this.handleDeleteItem}>
               <Icon type="close" className="close" />
             </span>

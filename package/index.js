@@ -2,14 +2,12 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import App from './App.js'
-import utils from './utils'
+import * as utils from './utils'
 import moox from 'moox'
 import schema from './models/schema'
 import PropTypes from 'prop-types'
 
-module.exports = (config = {})=>{
-  if(config.lang) utils.lang = config.lang;
-  
+export default (config = {})=>{
   const Model = moox({
     schema
   })

@@ -20,15 +20,13 @@ const { TextArea } = Input;
 const TabPane = Tabs.TabPane;
 
 import './index.css';
-import AceEditor from './components/AceEditor/AceEditor.js';
 import _ from 'underscore';
 import { connect } from 'react-redux';
 import SchemaJson from './components/SchemaComponents/SchemaJson.js';
 import PropTypes from 'prop-types';
-import { SCHEMA_TYPE, debounce } from './utils.js';
+import * as utils from './utils';
 import handleSchema from './schema';
 const GenerateSchema = require('generate-schema/src/schemas/json.js');
-const utils = require('./utils');
 import CustomItem from './components/SchemaComponents/SchemaOther.js';
 import LocalProvider from './components/LocalProvider/index.js';
 import MockSelect from './components/MockSelect/index.js';
@@ -38,7 +36,7 @@ import MockSelect from './components/MockSelect/index.js';
 class jsonSchema extends React.Component {
   constructor(props) {
     super(props);
-    this.alterMsg = debounce(this.alterMsg, 2000);
+    this.alterMsg = utils.debounce(this.alterMsg, 2000);
     this.state = {
       visible: false,
       show: true,
@@ -274,9 +272,6 @@ class jsonSchema extends React.Component {
 
     return (
       <div className="json-schema-react-editor">
-        <Button className="import-json-button" type="primary" onClick={this.showModal}>
-          {LocalProvider('import_json')}
-        </Button>
         <Modal
           maskClosable={false}
           visible={visible}
@@ -295,19 +290,6 @@ class jsonSchema extends React.Component {
             </Button>
           ]}
         >
-          <Tabs
-            defaultActiveKey="json"
-            onChange={key => {
-              this.importJsonType = key;
-            }}
-          >
-            <TabPane tab="JSON" key="json">
-              <AceEditor data="" mode="json" onChange={this.handleImportJson} />
-            </TabPane>
-            <TabPane tab="JSON-SCHEMA" key="schema">
-              <AceEditor data="" mode="json" onChange={this.handleImportJsonSchema} />
-            </TabPane>
-          </Tabs>
         </Modal>
 
         <Modal
@@ -339,7 +321,7 @@ class jsonSchema extends React.Component {
             value={this.state[editorModalName]}
             placeholder={LocalProvider(editorModalName)}
             onChange={e => this.changeDesc(e.target.value, editorModalName)}
-            autosize={{ minRows: 6, maxRows: 10 }}
+            autoSize={{ minRows: 6, maxRows: 10 }}
           />
         </Modal>
 
@@ -360,16 +342,6 @@ class jsonSchema extends React.Component {
         )}
 
         <Row>
-          {this.props.showEditor && (
-            <Col span={8}>
-              <AceEditor
-                className="pretty-editor"
-                mode="json"
-                data={JSON.stringify(schema, null, 2)}
-                onChange={this.handleParams}
-              />
-            </Col>
-          )}
           <Col span={this.props.showEditor ? 16 : 24} className="wrapper object-style">
             <Row type="flex" align="middle">
               <Col span={8} className="col-item name-item col-item-name">
@@ -408,7 +380,7 @@ class jsonSchema extends React.Component {
                   onChange={e => this.changeType(`type`, e)}
                   value={schema.type || 'object'}
                 >
-                  {SCHEMA_TYPE.map((item, index) => {
+                  {utils.SCHEMA_TYPE.map((item, index) => {
                     return (
                       <Option value={item} key={index}>
                         {item}
@@ -451,17 +423,17 @@ class jsonSchema extends React.Component {
                       }
                     />
                   }
-                  placeholder={'description'}
+                  placeholder={'Description'}
                   value={schema.description}
                   onChange={e => this.changeValue(['description'], e.target.value)}
                 />
               </Col>
               <Col span={2} className="col-item col-item-setting">
-                <span className="adv-set" onClick={() => this.showAdv([], this.props.schema)}>
+                {schema.type != 'object' && <span className="adv-set" onClick={() => { console.log("SCHEMA", this.props.schema); this.showAdv([], this.props.schema)}}>
                   <Tooltip placement="top" title={LocalProvider('adv_setting')}>
                     <Icon type="setting" />
                   </Tooltip>
-                </span>
+                </span>}
                 {schema.type === 'object' ? (
                   <span onClick={() => this.addChildField('properties')}>
                     <Tooltip placement="top" title={LocalProvider('add_child_node')}>

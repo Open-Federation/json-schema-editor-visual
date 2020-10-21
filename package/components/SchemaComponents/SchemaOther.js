@@ -21,9 +21,7 @@ import './schemaJson.css';
 import _ from 'underscore';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
 const Option = Select.Option;
-import AceEditor from '../AceEditor/AceEditor.js';
 import LocalProvider from '../LocalProvider/index.js';
 
 const changeOtherValue = (value, name, data, change) => {
@@ -160,7 +158,7 @@ class SchemaString extends PureComponent {
               value={data.enum && data.enum.length && data.enum.join('\n')}
               disabled={!this.state.checked}
               placeholder={LocalProvider('enum_msg')}
-              autosize={{ minRows: 2, maxRows: 6 }}
+              autoSize={{ minRows: 2, maxRows: 6 }}
               onChange={e => {
                 this.changeEnumOtherValue(e.target.value, data);
               }}
@@ -177,7 +175,7 @@ class SchemaString extends PureComponent {
                 value={data.enumDesc}
                 disabled={!this.state.checked}
                 placeholder={LocalProvider('enum_desc_msg')}
-                autosize={{ minRows: 2, maxRows: 6 }}
+                autoSize={{ minRows: 2, maxRows: 6 }}
                 onChange={e => {
                   this.changeEnumDescOtherValue(e.target.value, data);
                 }}
@@ -390,7 +388,7 @@ class SchemaNumber extends PureComponent {
               value={this.state.enum}
               disabled={!this.state.checked}
               placeholder={LocalProvider('enum_msg')}
-              autosize={{ minRows: 2, maxRows: 6 }}
+              autoSize={{ minRows: 2, maxRows: 6 }}
               onChange={e => {
                 this.changeEnumOtherValue(e.target.value, data);
               }}
@@ -407,7 +405,7 @@ class SchemaNumber extends PureComponent {
                 value={data.enumDesc}
                 disabled={!this.state.checked}
                 placeholder={LocalProvider('enum_desc_msg')}
-                autosize={{ minRows: 2, maxRows: 6 }}
+                autoSize={{ minRows: 2, maxRows: 6 }}
                 onChange={e => {
                   this.changeEnumDescOtherValue(e.target.value, data);
                 }}
@@ -543,12 +541,7 @@ const CustomItem = (props, context) => {
   return (
     <div>
       <div>{optionForm}</div>
-      <div className="default-setting">{LocalProvider('all_setting')}</div>
-      <AceEditor
-        data={data}
-        mode="json"
-        onChange={e => handleInputEditor(e, context.changeCustomValue)}
-      />
+      <div className="default-setting">{LocalProvider()}</div>
     </div>
   );
 };

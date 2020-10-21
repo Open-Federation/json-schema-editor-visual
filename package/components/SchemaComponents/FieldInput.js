@@ -44,7 +44,7 @@ export default class FieldInput extends PureComponent {
     const {value} = this.state;
 
     return (
-      <Input  {...this.props} value={value} onKeyUp={this.onKeyup} onBlur={this.handleBlur} onChange={this.handleChange} />
+      <Input  {...this.props} placeHolder={"Form field"} value={value} onKeyUp={this.onKeyup} onBlur={this.handleBlur} onChange={this.handleChange} />
     )
   }
 }

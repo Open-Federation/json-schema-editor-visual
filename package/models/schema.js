@@ -1,5 +1,5 @@
 const _ = require('underscore');
-import utils from '../utils';
+import * as utils from '../utils';
 let fieldNum = 1;
 import handleSchema from '../schema.js';
 
@@ -9,6 +9,7 @@ export default {
     data: {
       title: '',
       type: 'object',
+      $schema:  "http://json-schema.org/draft-06/schema",
       properties: {},
       required: []
     },
