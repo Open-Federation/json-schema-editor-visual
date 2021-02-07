@@ -1,0 +1,10 @@
+export const CHANGE_EDITOR_SCHEMA = "CHANGE_EDITOR_SCHEMA";
+export const CHANGE_NAME = "CHANGE_NAME";
+export const CHANGE_VALUE = "CHANGE_VALUE";
+export const CHANGE_TYPE = "CHANGE_TYPE";
+export const ENABLE_REQUIRE = "ENABLE_REQUIRE";
+export const REQUIRE_ALL = "REQUIRE_ALL";
+export const DELETE_ITEM = "DELETE_ITEM";
+export const ADD_FIELD = "ADD_FIELD";
+export const ADD_CHILD_FIELD = "ADD_CHILD_FIELD";
+export const SET_OPEN_VALUE = "SET_OPEN_VALUE";

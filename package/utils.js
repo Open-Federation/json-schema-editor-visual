@@ -1,7 +1,9 @@
-const JSONPATH_JOIN_CHAR = '.';
-exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR;
-exports.lang = 'en_US';
-exports.format = [
+import _ from 'lodash';
+
+export const JSONPATH_JOIN_CHAR = '.';
+export const lang = 'en_US';
+
+export const STRING_FORMATS = [
   { name: 'date-time' },
   { name: 'date' },
   { name: 'email' },
@@ -10,7 +12,7 @@ exports.format = [
   { name: 'ipv6' },
   { name: 'uri' }
 ];
-const _ = require('underscore');
+
 exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
 exports.defaultSchema = {
   string: {
@@ -49,22 +51,19 @@ exports.debounce = (func, wait) => {
   };
 };
 
-function getData(state, keys) {
-  let curState = state;
-  for (let i = 0; i < keys.length; i++) {
-    curState = curState[keys[i]];
-  }
-  return curState;
+export const getData = (state, keys) => {
+  let objPath = keys.join(JSONPATH_JOIN_CHAR);
+  return _.get(state, objPath);
 }
 
 exports.getData = getData;
 
-exports.setData = function(state, keys, value) {
-  let curState = state;
-  for (let i = 0; i < keys.length - 1; i++) {
-    curState = curState[keys[i]];
+export const setData = (state, keys, value) => {
+  let objPath = keys.join(JSONPATH_JOIN_CHAR);
+  if(_.has(state, objPath)) {
+    return _.set(state, objPath, value);
   }
-  curState[keys[keys.length - 1]] = value;
+  return state;
 };
 
 exports.deleteData = function(state, keys) {
@@ -101,7 +100,6 @@ function getFieldstitle(data) {
 }
 
 function handleSchemaRequired(schema, checked) {
-  // console.log(schema)
   if (schema.type === 'object') {
     let requiredtitle = getFieldstitle(schema.properties);
 

@@ -1,7 +1,6 @@
 const _ = require('underscore');
 import utils from '../utils';
 let fieldNum = 1;
-import handleSchema from '../schema.js';
 
 export default {
   state: {
@@ -15,11 +14,6 @@ export default {
     open: {
       properties: true
     }
-  },
-
-  changeEditorSchemaAction: function(state, action) {
-    handleSchema(action.value);
-    state.data = action.value;
   },
 
   changeNameAction: function(state, action, oldState) {
@@ -122,84 +116,4 @@ export default {
 
     state.data = data;
   },
-
-  deleteItemAction: function(state, action, oldState) {
-    const keys = action.key;
-
-    let name = keys[keys.length - 1];
-    let oldData = oldState.data;
-    let parentKeys = utils.getParentKeys(keys);
-    let parentData = utils.getData(oldData, parentKeys);
-    let newParentData = {};
-    for (let i in parentData) {
-      if (i !== name) {
-        newParentData[i] = parentData[i];
-      }
-    }
-
-    utils.setData(state.data, parentKeys, newParentData);
-  },
-
-  addFieldAction: function(state, action, oldState) {
-    const keys = action.prefix;
-    let oldData = oldState.data;
-    let name = action.name;
-    let propertiesData = utils.getData(oldData, keys);
-    let newPropertiesData = {};
-
-    let parentKeys = utils.getParentKeys(keys);
-    let parentData = utils.getData(oldData, parentKeys);
-    let requiredData = [].concat(parentData.required || []);
-
-    if (!name) {
-      newPropertiesData = Object.assign({}, propertiesData);
-      let ranName = 'field_' + fieldNum++;
-      newPropertiesData[ranName] = utils.defaultSchema.string;
-      requiredData.push(ranName);
-    } else {
-      for (let i in propertiesData) {
-        newPropertiesData[i] = propertiesData[i];
-        if (i === name) {
-          let ranName = 'field_' + fieldNum++;
-          newPropertiesData[ranName] = utils.defaultSchema.string;
-          requiredData.push(ranName);
-        }
-      }
-    }
-    utils.setData(state.data, keys, newPropertiesData);
-    // add required
-    parentKeys.push('required');
-    utils.setData(state.data, parentKeys, requiredData);
-  },
-  addChildFieldAction: function(state, action, oldState) {
-    const keys = action.key;
-    let oldData = oldState.data;
-    let propertiesData = utils.getData(oldData, keys);
-    let newPropertiesData = {};
-
-    newPropertiesData = Object.assign({}, propertiesData);
-    let ranName = 'field_' + fieldNum++;
-    newPropertiesData[ranName] = utils.defaultSchema.string;
-    utils.setData(state.data, keys, newPropertiesData);
-
-    // add required
-    let parentKeys = utils.getParentKeys(keys);
-    let parentData = utils.getData(oldData, parentKeys);
-    let requiredData = [].concat(parentData.required || []);
-    requiredData.push(ranName);
-    parentKeys.push('required');
-    utils.setData(state.data, parentKeys, requiredData);
-  },
-
-  setOpenValueAction: function(state, action, oldState) {
-    const keys = action.key.join(utils.JSONPATH_JOIN_CHAR);
-
-    let status;
-    if (_.isUndefined(action.value)) {
-      status = utils.getData(oldState.open, [keys]) ? false : true;
-    } else {
-      status = action.value;
-    }
-    utils.setData(state.open, [keys], status);
-  }
 };
