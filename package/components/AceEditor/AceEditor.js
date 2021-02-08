@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import mockEditor from './mockEditor';
 import PropTypes from 'prop-types';
-import _ from 'underscore';
+import _ from 'lodash';
 
 const ModeMap = {
   javascript: 'ace/mode/javascript',
@@ -25,7 +25,7 @@ function getMode(mode) {
   return ModeMap[mode] || ModeMap.text;
 }
 
-class AceEditor extends React.PureComponent {
+class AceEditor extends PureComponent {
   constructor(props) {
     super(props);
   }

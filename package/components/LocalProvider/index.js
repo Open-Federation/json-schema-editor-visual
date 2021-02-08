@@ -1,5 +1,4 @@
-import utils from '../../utils'
-import React from 'react';
+import { lang } from '../../utils'
 
 const langs = {
   en_US: {
@@ -75,14 +74,5 @@ const langs = {
 }
 
 export default (message) => {
-  return langs[utils.lang][message]
+  return langs[lang][message]
 }
-
-
-
-
-// exports.LocalProvider = (props)=>{
-//   console.log(langs[utils.lang][props.message])
-//   return <span>{langs[utils.lang][props.message]}</span>
-//   // return langs[utils.lang][props.message]
-// }

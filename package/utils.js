@@ -1,7 +1,9 @@
-const JSONPATH_JOIN_CHAR = '.';
-exports.JSONPATH_JOIN_CHAR = JSONPATH_JOIN_CHAR;
-exports.lang = 'en_US';
-exports.format = [
+import _ from 'lodash';
+
+export const JSONPATH_JOIN_CHAR = '.';
+export const lang = 'en_US';
+
+export const STRING_FORMATS = [
   { name: 'date-time' },
   { name: 'date' },
   { name: 'email' },
@@ -10,9 +12,10 @@ exports.format = [
   { name: 'ipv6' },
   { name: 'uri' }
 ];
-const _ = require('underscore');
-exports.SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
-exports.defaultSchema = {
+
+export const SCHEMA_TYPE = ['string', 'number', 'array', 'object', 'boolean', 'integer'];
+
+export const defaultSchema = {
   string: {
     type: 'string'
   },
@@ -37,11 +40,7 @@ exports.defaultSchema = {
   }
 };
 
-// 防抖函数，减少高频触发的函数执行的频率
-// 请在 constructor 里使用:
-
-// this.func = debounce(this.func, 400);
-exports.debounce = (func, wait) => {
+export const debounce = (func, wait) => {
   let timeout;
   return function() {
     clearTimeout(timeout);
@@ -49,25 +48,20 @@ exports.debounce = (func, wait) => {
   };
 };
 
-function getData(state, keys) {
-  let curState = state;
-  for (let i = 0; i < keys.length; i++) {
-    curState = curState[keys[i]];
-  }
-  return curState;
+export const getData = (state, keys) => {
+  let objPath = keys.join(JSONPATH_JOIN_CHAR);
+  return _.get(state, objPath);
 }
 
-exports.getData = getData;
-
-exports.setData = function(state, keys, value) {
-  let curState = state;
-  for (let i = 0; i < keys.length - 1; i++) {
-    curState = curState[keys[i]];
+export const setData = (state, keys, value) => {
+  let objPath = keys.join(JSONPATH_JOIN_CHAR);
+  if(_.has(state, objPath)) {
+    return _.set(state, objPath, value);
   }
-  curState[keys[keys.length - 1]] = value;
+  return state;
 };
 
-exports.deleteData = function(state, keys) {
+export const deleteData = function(state, keys) {
   let curState = state;
   for (let i = 0; i < keys.length - 1; i++) {
     curState = curState[keys[i]];
@@ -76,14 +70,14 @@ exports.deleteData = function(state, keys) {
   delete curState[keys[keys.length - 1]];
 };
 
-exports.getParentKeys = function(keys) {
+export const getParentKeys = function(keys) {
   if (keys.length === 1) return [];
   let arr = [].concat(keys);
   arr.splice(keys.length - 1, 1);
   return arr;
 };
 
-exports.clearSomeFields = function(keys, data) {
+export const clearSomeFields = function(keys, data) {
   const newData = Object.assign({}, data);
   keys.forEach(key => {
     delete newData[key];
@@ -100,8 +94,7 @@ function getFieldstitle(data) {
   return requiredtitle;
 }
 
-function handleSchemaRequired(schema, checked) {
-  // console.log(schema)
+export const handleSchemaRequired = (schema, checked) => {
   if (schema.type === 'object') {
     let requiredtitle = getFieldstitle(schema.properties);
 
@@ -127,9 +120,7 @@ function handleObject(properties, checked) {
   }
 }
 
-exports.handleSchemaRequired = handleSchemaRequired;
-
-function cloneObject(obj) {
+export const cloneObject = (obj) => {
   if (typeof obj === 'object') {
     if (Array.isArray(obj)) {
       var newArr = [];
@@ -148,5 +139,3 @@ function cloneObject(obj) {
     return obj;
   }
 }
-
-exports.cloneObject = cloneObject;
