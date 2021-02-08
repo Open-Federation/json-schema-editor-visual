@@ -1,5 +1,7 @@
 {
-  "presets": ["env", "react"],
-  "plugins": ["transform-class-properties"
+  "presets": [["@babel/preset-env", {"targets": "defaults" }], "@babel/preset-react"],
+  "plugins": [
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties"
   ]
 }

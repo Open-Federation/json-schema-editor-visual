@@ -1,5 +1,6 @@
-var ace = require('brace');
-require('brace/mode/json');
+// import ace from 'ace-builds/src-min-noconflict/ace';
+import ace from 'brace';
+import 'brace/mode/json';
 
 
 function run(options) {
@@ -78,4 +79,4 @@ function run(options) {
   return mockEditor;
 }
 
-module.exports = run;
+export default run;

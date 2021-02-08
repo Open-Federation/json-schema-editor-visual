@@ -1,25 +1,17 @@
 import React, { PureComponent } from 'react';
 import {
-  Dropdown,
-  Menu,
   Input,
   InputNumber,
   Row,
   Col,
-  Form,
   Select,
   Checkbox,
-  Button,
   Icon,
-  Modal,
-  message,
   Tooltip,
   Switch
 } from 'antd';
 const { TextArea } = Input;
 import './schemaJson.css';
-import _ from 'underscore';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { STRING_FORMATS } from '../../utils.js';
 const Option = Select.Option;
