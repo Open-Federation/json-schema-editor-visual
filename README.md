@@ -25,7 +25,7 @@ render(
 
 | name | desc | default |
 | ---- | ----------- | --------- |
-| `lg` | language, support `en_US` or `zh_CN` | en_US 
+| `lang` | language, support `en_US` or `zh_CN` | en_US 
 
 ## SchemaEditor Props
 
