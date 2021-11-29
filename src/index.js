@@ -1,11 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import { combineReducers, createStore, applyMiddleware } from 'redux';
 import 'antd/dist/antd.css';
 
-//import '../dist/main.css'
-const jeditor = require('../package/index.js');
+import '../dist/main.css'
+const jeditor = require('../dist/main');
+//const jeditor = require('../package/index.js');
 const mock = [
   { name: '字符串', mock: '@string' },
   { name: '自然数', mock: '@natural' },
@@ -36,7 +35,7 @@ render(
     </p>
     <br />
     <h3>
-      该工具已被用于开源接口管理平台：{' '}
+      The tool has been used for open source api management platforms：{' '}
       <a target="_blank" href="https://github.com/ymfe/yapi">
         YApi
       </a>

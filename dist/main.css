@@ -185,3 +185,9 @@
   position: absolute;
   right: 16px;
 }
+
+.ant-modal-close-x {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
