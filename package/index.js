@@ -18,6 +18,11 @@ module.exports = (config = {})=>{
   } else {
     Model.__jsonSchemaFormat = utils.format
   }
+  if(config.integerFormat){
+    Model.__jsonIntegerFormat = config.integerFormat
+  } else {
+    Model.__jsonIntegerFormat = utils.integerFormat
+  }
 
   if(config.mock) {
     Model.__jsonSchemaMock = config.mock
