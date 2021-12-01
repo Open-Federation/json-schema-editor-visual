@@ -100,7 +100,11 @@ export default {
     let requiredData = [].concat(parentData.required || []);
     let index = requiredData.indexOf(action.name);
 
-    if (!action.required && index >= 0) {
+    if(action.up || action.down){
+      parentKeys.push('required');
+      utils.setData(state.data, parentKeys, requiredData);
+    }
+    else if (!action.required && index >= 0) {
       requiredData.splice(index, 1);
       parentKeys.push('required');
       if (requiredData.length === 0) {
@@ -115,6 +119,33 @@ export default {
     }
   },
 
+  enableRequireActionUpdate: function(state, action, oldState) {
+    const keys = action.prefix;
+    let parentKeys = utils.getParentKeys(keys);
+    let oldData = oldState.data;
+    let parentData = utils.getData(oldData, parentKeys);
+    let requiredData = [].concat(parentData.required || []);
+    let index = requiredData.indexOf(action.name);
+
+    if(action.up){
+      utils.setData(state.data, parentKeys, requiredData);
+    }
+    else{
+      if (!action.required && index >= 0) {
+        parentKeys.push('required');
+        if (requiredData.length === 0) {
+          utils.deleteData(state.data, parentKeys);
+        } else {
+          utils.setData(state.data, parentKeys, requiredData);
+        }
+      } else if (action.required && index === -1) {
+        requiredData.push(action.name);
+        parentKeys.push('required');
+        utils.setData(state.data, parentKeys, requiredData);
+      }
+    }
+  },
+
   requireAllAction: function(state, action, oldState) {
     // let oldData = oldState.data;
     let data = utils.cloneObject(action.value);
@@ -123,9 +154,9 @@ export default {
     state.data = data;
   },
 
+  // 删除节点
   deleteItemAction: function(state, action, oldState) {
     const keys = action.key;
-
     let name = keys[keys.length - 1];
     let oldData = oldState.data;
     let parentKeys = utils.getParentKeys(keys);
@@ -140,6 +171,84 @@ export default {
     utils.setData(state.data, parentKeys, newParentData);
   },
 
+  // 向上
+  upItemAction: function(state, action, oldState) {
+    const keys = action.key;
+    let name = keys[keys.length - 1];
+    let oldData = oldState.data;
+    let parentKeys = utils.getParentKeys(keys);
+    let parentData = utils.getData(oldData, parentKeys);
+
+    // 数组key
+    let requiredData = Object.keys(parentData);
+    
+    // 取移动项下标
+    let itemIndex = requiredData.indexOf(name);
+
+    // 如果第一个元素就不允许在执行
+    if(itemIndex === 0){
+      return false;
+    }
+
+    let pevitemName = requiredData[itemIndex-1];
+
+    // 将数组下标进行换位
+    requiredData[itemIndex] = pevitemName;
+    requiredData[itemIndex-1] = name;
+
+    // 修改properties
+    let newParentData = {};
+    requiredData.forEach((item) => {
+      newParentData[item] = parentData[item]
+    })
+    utils.setData(state.data, parentKeys, newParentData);
+    
+    // 修改required
+    let requiredKeys = utils.getParentKeys(parentKeys);
+    requiredKeys.push('required')
+    utils.setData(state.data, requiredKeys, requiredData);
+  },
+
+  // 向下
+  downItemAction: function(state, action, oldState) {
+    const keys = action.key;
+    let name = keys[keys.length - 1];
+    let oldData = oldState.data;
+    let parentKeys = utils.getParentKeys(keys);
+    let parentData = utils.getData(oldData, parentKeys);
+
+    // 数组key
+    let requiredData = Object.keys(parentData);
+    let len = requiredData.length
+    
+    // 取移动项下标
+    let itemIndex = requiredData.indexOf(name);
+
+    // 如果第一个元素就不允许在执行
+    if(itemIndex === len-1){
+      return false;
+    }
+
+    let pevitemName = requiredData[itemIndex+1];
+
+    // 将数组下标进行换位
+    requiredData[itemIndex] = pevitemName;
+    requiredData[itemIndex+1] = name;
+
+    // 修改properties
+    let newParentData = {};
+    requiredData.forEach((item) => {
+      newParentData[item] = parentData[item]
+    })
+    utils.setData(state.data, parentKeys, newParentData);
+    
+    // 修改required
+    let requiredKeys = utils.getParentKeys(parentKeys);
+    requiredKeys.push('required')
+    utils.setData(state.data, requiredKeys, requiredData);
+  },
+
+  // 添加子节点
   addFieldAction: function(state, action, oldState) {
     const keys = action.prefix;
     let oldData = oldState.data;
@@ -171,6 +280,8 @@ export default {
     parentKeys.push('required');
     utils.setData(state.data, parentKeys, requiredData);
   },
+
+  // 添加子节点
   addChildFieldAction: function(state, action, oldState) {
     const keys = action.key;
     let oldData = oldState.data;
