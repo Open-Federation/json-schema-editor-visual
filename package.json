@@ -39,6 +39,7 @@
     "style-loader": "^0.20.3",
     "webpack": "^4.5.0",
     "webpack-cli": "^4.9.1",
+    "ykit": "^0.8.13",
     "ykit-config-antd": "^2"
   }
 }
