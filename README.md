@@ -9,6 +9,8 @@
 ~~npm install json-schema-editor-visual~~
 ```
 npm install git+https://github.com/liuwei0514/json-schema-editor-visual.git
+or
+yarn add liuwei0514/json-schema-editor-visual
 ```
 
 ```js
