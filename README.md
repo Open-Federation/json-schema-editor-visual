@@ -6,9 +6,9 @@
 ![avatar](json-schema-editor-visual.jpg)
 
 ## Usage
-
+~~npm install json-schema-editor-visual~~
 ```
-npm install json-schema-editor-visual
+npm install git+https://github.com/liuwei0514/json-schema-editor-visual.git
 ```
 
 ```js
