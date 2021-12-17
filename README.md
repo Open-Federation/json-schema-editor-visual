@@ -14,13 +14,17 @@ yarn add liuwei0514/json-schema-editor-visual
 ```
 
 ```js
-const option = {}
-import 'antd/dist/antd.css'
-require('json-schema-editor-visual/dist/main.css')
-const schemaEditor = require('json-schema-editor-visual/dist/main.js')
-const SchemaEditor = schemaEditor(option)
+import schemaEditor from 'json-schema-editor-visual/dist/main.js';
+const SchemaEditor = schemaEditor({});
 
-render(<SchemaEditor />, document.getElementById('root'))
+<SchemaEditor
+  showEditor={true}
+  isMock={false}
+  data={''}
+  onChange={(e) => {
+    console.log('changeValue', e);
+  }}
+/>
 ```
 
 ## Option Object
