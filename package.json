@@ -11,15 +11,16 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
+    "ace-builds": "^1.4.13",
     "antd": "^4",
-    "brace": "^0.10.0",
     "generate-schema": "^2.6.0",
     "moox": "^1.0.2",
     "react": "^17.0.2",
+    "react-ace": "^9.5.0",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.13.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.1",

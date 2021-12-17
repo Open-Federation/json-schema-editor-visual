@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import {
   Dropdown,
   Menu,
@@ -13,74 +13,75 @@ import {
   Modal,
   message,
   Tooltip,
-  Switch
-} from 'antd';
+  Switch,
+} from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
-const { TextArea } = Input;
-import './schemaJson.css';
-import _ from 'underscore';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js';
-const Option = Select.Option;
-import AceEditor from '../AceEditor/AceEditor.js';
-import LocalProvider from '../LocalProvider/index.js';
+const { TextArea } = Input
+import './schemaJson.css'
+import _ from 'underscore'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { JSONPATH_JOIN_CHAR, SCHEMA_TYPE } from '../../utils.js'
+const Option = Select.Option
+import AceEditor from 'react-ace'
+// import AceEditor from '../AceEditor/AceEditor.js';
+import LocalProvider from '../LocalProvider/index.js'
 
 const changeOtherValue = (value, name, data, change) => {
-  data[name] = value;
-  change(data);
-};
+  data[name] = value
+  change(data)
+}
 
 class SchemaString extends PureComponent {
   constructor(props, context) {
-    super(props);
+    super(props)
     this.state = {
-      checked: _.isUndefined(props.data.enum) ? false : true
-    };
-    this.format = context.Model.__jsonSchemaFormat;
+      checked: _.isUndefined(props.data.enum) ? false : true,
+    }
+    this.format = context.Model.__jsonSchemaFormat
   }
 
   componentWillReceiveProps(nextprops) {
     if (this.props.data.enum !== nextprops.data.enum) {
       this.setState({
-        checked: _.isUndefined(nextprops.data.enum) ? false : true
-      });
+        checked: _.isUndefined(nextprops.data.enum) ? false : true,
+      })
     }
   }
 
   changeOtherValue = (value, name, data) => {
-    data[name] = value;
-    this.context.changeCustomValue(data);
-  };
+    data[name] = value
+    this.context.changeCustomValue(data)
+  }
 
   changeEnumOtherValue = (value, data) => {
-    var arr = value.split('\n');
+    var arr = value.split('\n')
     if (arr.length === 0 || (arr.length == 1 && !arr[0])) {
-      delete data.enum;
-      this.context.changeCustomValue(data);
+      delete data.enum
+      this.context.changeCustomValue(data)
     } else {
-      data.enum = arr;
-      this.context.changeCustomValue(data);
+      data.enum = arr
+      this.context.changeCustomValue(data)
     }
-  };
+  }
 
   changeEnumDescOtherValue = (value, data) => {
-    data.enumDesc = value;
-    this.context.changeCustomValue(data);
-  };
+    data.enumDesc = value
+    this.context.changeCustomValue(data)
+  }
 
   onChangeCheckBox = (checked, data) => {
     this.setState({
-      checked
-    });
+      checked,
+    })
     if (!checked) {
-      delete data.enum;
-      this.context.changeCustomValue(data);
+      delete data.enum
+      this.context.changeCustomValue(data)
     }
-  };
+  }
 
   render() {
-    const { data } = this.props;
+    const { data } = this.props
     return (
       <div>
         <div className="default-setting">{LocalProvider('base_setting')}</div>
@@ -92,7 +93,9 @@ class SchemaString extends PureComponent {
             <Input
               value={data.default}
               placeholder={LocalProvider('default')}
-              onChange={e => this.changeOtherValue(e.target.value, 'default', data)}
+              onChange={(e) =>
+                this.changeOtherValue(e.target.value, 'default', data)
+              }
             />
           </Col>
         </Row>
@@ -106,7 +109,7 @@ class SchemaString extends PureComponent {
                 <InputNumber
                   value={data.minLength}
                   placeholder="min.length"
-                  onChange={e => this.changeOtherValue(e, 'minLength', data)}
+                  onChange={(e) => this.changeOtherValue(e, 'minLength', data)}
                 />
               </Col>
             </Row>
@@ -120,7 +123,7 @@ class SchemaString extends PureComponent {
                 <InputNumber
                   value={data.maxLength}
                   placeholder="max.length"
-                  onChange={e => this.changeOtherValue(e, 'maxLength', data)}
+                  onChange={(e) => this.changeOtherValue(e, 'maxLength', data)}
                 />
               </Col>
             </Row>
@@ -131,7 +134,10 @@ class SchemaString extends PureComponent {
             <span>
               Pattern&nbsp;
               <Tooltip title={LocalProvider('pattern')}>
-                <QuestionCircleOutlined type="question-circle-o" style={{ width: '10px' }} />
+                <QuestionCircleOutlined
+                  type="question-circle-o"
+                  style={{ width: '10px' }}
+                />
               </Tooltip>
               &nbsp; :
             </span>
@@ -140,7 +146,9 @@ class SchemaString extends PureComponent {
             <Input
               value={data.pattern}
               placeholder="Pattern"
-              onChange={e => this.changeOtherValue(e.target.value, 'pattern', data)}
+              onChange={(e) =>
+                this.changeOtherValue(e.target.value, 'pattern', data)
+              }
             />
           </Col>
         </Row>
@@ -150,7 +158,7 @@ class SchemaString extends PureComponent {
               {LocalProvider('enum')}
               <Checkbox
                 checked={this.state.checked}
-                onChange={e => this.onChangeCheckBox(e.target.checked, data)}
+                onChange={(e) => this.onChangeCheckBox(e.target.checked, data)}
               />{' '}
               :
             </span>
@@ -161,8 +169,8 @@ class SchemaString extends PureComponent {
               disabled={!this.state.checked}
               placeholder={LocalProvider('enum_msg')}
               autosize={{ minRows: 2, maxRows: 6 }}
-              onChange={e => {
-                this.changeEnumOtherValue(e.target.value, data);
+              onChange={(e) => {
+                this.changeEnumOtherValue(e.target.value, data)
               }}
             />
           </Col>
@@ -178,8 +186,8 @@ class SchemaString extends PureComponent {
                 disabled={!this.state.checked}
                 placeholder={LocalProvider('enum_desc_msg')}
                 autosize={{ minRows: 2, maxRows: 6 }}
-                onChange={e => {
-                  this.changeEnumDescOtherValue(e.target.value, data);
+                onChange={(e) => {
+                  this.changeEnumDescOtherValue(e.target.value, data)
                 }}
               />
             </Col>
@@ -198,84 +206,93 @@ class SchemaString extends PureComponent {
               placeholder="Select a format"
               optionFilterProp="children"
               optionLabelProp="value"
-              onChange={e => this.changeOtherValue(e, 'format', data)}
+              onChange={(e) => this.changeOtherValue(e, 'format', data)}
               filterOption={(input, option) => {
-                return option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+                return (
+                  option.props.value
+                    .toLowerCase()
+                    .indexOf(input.toLowerCase()) >= 0
+                )
               }}
             >
-              {this.format.map(item => {
+              {this.format.map((item) => {
                 return (
                   <Option value={item.name} key={item.name}>
-                    {item.name} <span className="format-items-title">{item.title}</span>
+                    {item.name}{' '}
+                    <span className="format-items-title">{item.title}</span>
                   </Option>
-                );
+                )
               })}
             </Select>
           </Col>
         </Row>
       </div>
-    );
+    )
   }
 }
 SchemaString.contextTypes = {
   changeCustomValue: PropTypes.func,
-  Model: PropTypes.object
-};
+  Model: PropTypes.object,
+}
 
 class SchemaNumber extends PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       checked: _.isUndefined(props.data.enum) ? false : true,
-      enum: _.isUndefined(props.data.enum) ? '' : props.data.enum.join('\n')
-    };
+      enum: _.isUndefined(props.data.enum) ? '' : props.data.enum.join('\n'),
+    }
   }
 
   componentWillReceiveProps(nextprops) {
-    const enumStr = _.isUndefined(this.props.data.enum) ? '' : this.props.data.enum.join('\n');
-    const nextEnumStr = _.isUndefined(nextprops.data.enum) ? '' : nextprops.data.enum.join('\n');
+    const enumStr = _.isUndefined(this.props.data.enum)
+      ? ''
+      : this.props.data.enum.join('\n')
+    const nextEnumStr = _.isUndefined(nextprops.data.enum)
+      ? ''
+      : nextprops.data.enum.join('\n')
     if (enumStr !== nextEnumStr) {
-      this.setState({ enum: nextEnumStr });
+      this.setState({ enum: nextEnumStr })
     }
   }
 
   onChangeCheckBox = (checked, data) => {
     this.setState({
-      checked
-    });
+      checked,
+    })
 
     if (!checked) {
-      delete data.enum;
-      this.setState({ enum: '' });
-      this.context.changeCustomValue(data);
+      delete data.enum
+      this.setState({ enum: '' })
+      this.context.changeCustomValue(data)
     }
-  };
+  }
 
   changeEnumOtherValue = (value, data) => {
-    this.setState({ enum: value });
-    var arr = value.split('\n');
+    this.setState({ enum: value })
+    var arr = value.split('\n')
     if (arr.length === 0 || (arr.length == 1 && !arr[0])) {
-      delete data.enum;
-      this.context.changeCustomValue(data);
+      delete data.enum
+      this.context.changeCustomValue(data)
     } else {
-      data.enum = arr.map(item => +item);
-      this.context.changeCustomValue(data);
+      data.enum = arr.map((item) => +item)
+      this.context.changeCustomValue(data)
     }
-  };
+  }
 
   onEnterEnumOtherValue = (value, data) => {
-    let arr = value.split('\n').map(item => +item);
-    data.enum = arr;
-    this.context.changeCustomValue(data);
-  };
+    let arr = value.split('\n').map((item) => +item)
+    data.enum = arr
+    this.context.changeCustomValue(data)
+  }
 
   changeEnumDescOtherValue = (value, data) => {
-    data.enumDesc = value;
-    this.context.changeCustomValue(data);
-  };
+    data.enumDesc = value
+    this.context.changeCustomValue(data)
+  }
 
   render() {
-    const { data } = this.props;
+    const { data } = this.props
     return (
       <div>
         <div className="default-setting">{LocalProvider('base_setting')}</div>
@@ -287,8 +304,13 @@ class SchemaNumber extends PureComponent {
             <Input
               value={data.default}
               placeholder={LocalProvider('default')}
-              onChange={e =>
-                changeOtherValue(e.target.value, 'default', data, this.context.changeCustomValue)
+              onChange={(e) =>
+                changeOtherValue(
+                  e.target.value,
+                  'default',
+                  data,
+                  this.context.changeCustomValue
+                )
               }
             />
           </Col>
@@ -300,7 +322,10 @@ class SchemaNumber extends PureComponent {
                 <span>
                   exclusiveMinimum&nbsp;
                   <Tooltip title={LocalProvider('exclusiveMinimum')}>
-                    <QuestionCircleOutlined type="question-circle-o" style={{ width: '10px' }} />
+                    <QuestionCircleOutlined
+                      type="question-circle-o"
+                      style={{ width: '10px' }}
+                    />
                   </Tooltip>
                   &nbsp; :
                 </span>
@@ -309,8 +334,13 @@ class SchemaNumber extends PureComponent {
                 <Switch
                   checked={data.exclusiveMinimum}
                   placeholder="exclusiveMinimum"
-                  onChange={e =>
-                    changeOtherValue(e, 'exclusiveMinimum', data, this.context.changeCustomValue)
+                  onChange={(e) =>
+                    changeOtherValue(
+                      e,
+                      'exclusiveMinimum',
+                      data,
+                      this.context.changeCustomValue
+                    )
                   }
                 />
               </Col>
@@ -322,7 +352,10 @@ class SchemaNumber extends PureComponent {
                 <span>
                   exclusiveMaximum&nbsp;
                   <Tooltip title={LocalProvider('exclusiveMaximum')}>
-                    <QuestionCircleOutlined type="question-circle-o" style={{ width: '10px' }} />
+                    <QuestionCircleOutlined
+                      type="question-circle-o"
+                      style={{ width: '10px' }}
+                    />
                   </Tooltip>
                   &nbsp; :
                 </span>
@@ -331,8 +364,13 @@ class SchemaNumber extends PureComponent {
                 <Switch
                   checked={data.exclusiveMaximum}
                   placeholder="exclusiveMaximum"
-                  onChange={e =>
-                    changeOtherValue(e, 'exclusiveMaximum', data, this.context.changeCustomValue)
+                  onChange={(e) =>
+                    changeOtherValue(
+                      e,
+                      'exclusiveMaximum',
+                      data,
+                      this.context.changeCustomValue
+                    )
                   }
                 />
               </Col>
@@ -349,8 +387,13 @@ class SchemaNumber extends PureComponent {
                 <InputNumber
                   value={data.minimum}
                   placeholder={LocalProvider('minimum')}
-                  onChange={e =>
-                    changeOtherValue(e, 'minimum', data, this.context.changeCustomValue)
+                  onChange={(e) =>
+                    changeOtherValue(
+                      e,
+                      'minimum',
+                      data,
+                      this.context.changeCustomValue
+                    )
                   }
                 />
               </Col>
@@ -365,8 +408,13 @@ class SchemaNumber extends PureComponent {
                 <InputNumber
                   value={data.maximum}
                   placeholder={LocalProvider('maximum')}
-                  onChange={e =>
-                    changeOtherValue(e, 'maximum', data, this.context.changeCustomValue)
+                  onChange={(e) =>
+                    changeOtherValue(
+                      e,
+                      'maximum',
+                      data,
+                      this.context.changeCustomValue
+                    )
                   }
                 />
               </Col>
@@ -379,7 +427,7 @@ class SchemaNumber extends PureComponent {
               {LocalProvider('enum')}
               <Checkbox
                 checked={this.state.checked}
-                onChange={e => this.onChangeCheckBox(e.target.checked, data)}
+                onChange={(e) => this.onChangeCheckBox(e.target.checked, data)}
               />{' '}
               :
             </span>
@@ -391,8 +439,8 @@ class SchemaNumber extends PureComponent {
               disabled={!this.state.checked}
               placeholder={LocalProvider('enum_msg')}
               autosize={{ minRows: 2, maxRows: 6 }}
-              onChange={e => {
-                this.changeEnumOtherValue(e.target.value, data);
+              onChange={(e) => {
+                this.changeEnumOtherValue(e.target.value, data)
               }}
             />
           </Col>
@@ -408,25 +456,25 @@ class SchemaNumber extends PureComponent {
                 disabled={!this.state.checked}
                 placeholder={LocalProvider('enum_desc_msg')}
                 autosize={{ minRows: 2, maxRows: 6 }}
-                onChange={e => {
-                  this.changeEnumDescOtherValue(e.target.value, data);
+                onChange={(e) => {
+                  this.changeEnumDescOtherValue(e.target.value, data)
                 }}
               />
             </Col>
           </Row>
         )}
       </div>
-    );
+    )
   }
 }
 
 SchemaNumber.contextTypes = {
-  changeCustomValue: PropTypes.func
-};
+  changeCustomValue: PropTypes.func,
+}
 
 const SchemaBoolean = (props, context) => {
-  const { data } = props;
-  let value = _.isUndefined(data.default) ? '' : data.default ? 'true' : 'false';
+  const { data } = props
+  let value = _.isUndefined(data.default) ? '' : data.default ? 'true' : 'false'
   return (
     <div>
       <div className="default-setting">{LocalProvider('base_setting')}</div>
@@ -437,7 +485,7 @@ const SchemaBoolean = (props, context) => {
         <Col span={20}>
           <Select
             value={value}
-            onChange={e =>
+            onChange={(e) =>
               changeOtherValue(
                 e === 'true' ? true : false,
                 'default',
@@ -453,15 +501,15 @@ const SchemaBoolean = (props, context) => {
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
 SchemaBoolean.contextTypes = {
-  changeCustomValue: PropTypes.func
-};
+  changeCustomValue: PropTypes.func,
+}
 
 const SchemaArray = (props, context) => {
-  const { data } = props;
+  const { data } = props
   return (
     <div>
       <div className="default-setting">{LocalProvider('base_setting')}</div>
@@ -470,7 +518,10 @@ const SchemaArray = (props, context) => {
           <span>
             uniqueItems&nbsp;
             <Tooltip title={LocalProvider('unique_items')}>
-              <QuestionCircleOutlined type="question-circle-o" style={{ width: '10px' }} />
+              <QuestionCircleOutlined
+                type="question-circle-o"
+                style={{ width: '10px' }}
+              />
             </Tooltip>
             &nbsp; :
           </span>
@@ -479,7 +530,14 @@ const SchemaArray = (props, context) => {
           <Switch
             checked={data.uniqueItems}
             placeholder="uniqueItems"
-            onChange={e => changeOtherValue(e, 'uniqueItems', data, context.changeCustomValue)}
+            onChange={(e) =>
+              changeOtherValue(
+                e,
+                'uniqueItems',
+                data,
+                context.changeCustomValue
+              )
+            }
           />
         </Col>
       </Row>
@@ -493,7 +551,14 @@ const SchemaArray = (props, context) => {
               <InputNumber
                 value={data.minItems}
                 placeholder="minItems"
-                onChange={e => changeOtherValue(e, 'minItems', data, context.changeCustomValue)}
+                onChange={(e) =>
+                  changeOtherValue(
+                    e,
+                    'minItems',
+                    data,
+                    context.changeCustomValue
+                  )
+                }
               />
             </Col>
           </Row>
@@ -507,54 +572,62 @@ const SchemaArray = (props, context) => {
               <InputNumber
                 value={data.maxItems}
                 placeholder="maxItems"
-                onChange={e => changeOtherValue(e, 'maxItems', data, context.changeCustomValue)}
+                onChange={(e) =>
+                  changeOtherValue(
+                    e,
+                    'maxItems',
+                    data,
+                    context.changeCustomValue
+                  )
+                }
               />
             </Col>
           </Row>
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
 SchemaArray.contextTypes = {
-  changeCustomValue: PropTypes.func
-};
+  changeCustomValue: PropTypes.func,
+}
 
-const mapping = data => {
+const mapping = (data) => {
   return {
     string: <SchemaString data={data} />,
     number: <SchemaNumber data={data} />,
     boolean: <SchemaBoolean data={data} />,
     integer: <SchemaNumber data={data} />,
-    array: <SchemaArray data={data} />
-  }[data.type];
-};
+    array: <SchemaArray data={data} />,
+  }[data.type]
+}
 
-const handleInputEditor = (e, change) => {
-  if (!e.text) return;
-  change(e.jsonData);
-};
+const handleInputEditor = (jsonData, change) => {
+  change(jsonData)
+}
 
 const CustomItem = (props, context) => {
-  const { data } = props;
-  const optionForm = mapping(JSON.parse(data));
+  const { data } = props
+  const optionForm = mapping(JSON.parse(data))
 
   return (
     <div>
       <div>{optionForm}</div>
       <div className="default-setting">{LocalProvider('all_setting')}</div>
       <AceEditor
-        data={data}
+        value={data}
         mode="json"
-        onChange={e => handleInputEditor(e, context.changeCustomValue)}
+        onChange={(e) =>
+          handleInputEditor(JSON.parse(e), context.changeCustomValue)
+        }
       />
     </div>
-  );
-};
+  )
+}
 
 CustomItem.contextTypes = {
-  changeCustomValue: PropTypes.func
-};
+  changeCustomValue: PropTypes.func,
+}
 
-export default CustomItem;
+export default CustomItem

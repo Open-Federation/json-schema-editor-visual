@@ -1,10 +1,10 @@
-import React from 'react';
-import { render } from 'react-dom';
-import 'antd/dist/antd.css';
+import React from 'react'
+import { render } from 'react-dom'
+import 'antd/dist/antd.css'
 
 import '../dist/main.css'
-const jeditor = require('../dist/main');
-//const jeditor = require('../package/index.js');
+// const jeditor = require('../dist/main');
+const jeditor = require('../package/index.js')
 const mock = [
   { name: '字符串', mock: '@string' },
   { name: '自然数', mock: '@natural' },
@@ -17,10 +17,10 @@ const mock = [
   { name: 'id', mock: '@id' },
   { name: 'guid', mock: '@guid' },
   { name: '当前时间', mock: '@now' },
-  { name: '时间戳', mock: '@timestamp' }
-];
+  { name: '时间戳', mock: '@timestamp' },
+]
 
-const JEditor1 = jeditor({mock: mock});
+const JEditor1 = jeditor({ mock: mock })
 
 render(
   <div>
@@ -29,7 +29,10 @@ render(
     </a>
     <p style={{ fontSize: '16px' }}>
       A json-schema editor of high efficient and easy-to-use, base on React.{' '}
-      <a target="_blank" href="https://github.com/YMFE/json-schema-editor-visual">
+      <a
+        target="_blank"
+        href="https://github.com/YMFE/json-schema-editor-visual"
+      >
         Github
       </a>
     </p>
@@ -49,8 +52,8 @@ render(
       showEditor={true}
       isMock={false}
       data={''}
-      onChange={e => {
-        console.log('changeValue', e);
+      onChange={(e) => {
+        console.log('changeValue', e)
       }}
     />
 
@@ -63,4 +66,4 @@ render(
     /> */}
   </div>,
   document.getElementById('root')
-);
+)

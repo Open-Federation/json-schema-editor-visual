@@ -26,7 +26,10 @@ const { TextArea } = Input
 const TabPane = Tabs.TabPane
 
 import './index.css'
-import AceEditor from './components/AceEditor/AceEditor.js'
+// import AceEditor from './components/AceEditor/AceEditor.js'
+import AceEditor from 'react-ace'
+import 'ace-builds/src-noconflict/mode-json'
+import 'ace-builds/src-noconflict/theme-github'
 import _ from 'underscore'
 import { connect } from 'react-redux'
 import SchemaJson from './components/SchemaComponents/SchemaJson.js'
@@ -129,15 +132,11 @@ class jsonSchema extends React.Component {
   }
 
   // AceEditor 中的数据
-  handleParams = (e) => {
-    if (!e.text) return
-    // 将数据map 到store中
-    if (e.format !== true) {
-      return this.alterMsg()
-    }
-    handleSchema(e.jsonData)
+  handleParams = (data) => {
+    const jsonData = JSON.parse(data)
+    handleSchema(jsonData)
     this.Model.changeEditorSchemaAction({
-      value: e.jsonData,
+      value: jsonData,
     })
   }
 
@@ -146,18 +145,12 @@ class jsonSchema extends React.Component {
     this.Model.changeTypeAction({ key: [key], value })
   }
 
-  handleImportJson = (e) => {
-    if (!e.text || e.format !== true) {
-      return (this.jsonData = null)
-    }
-    this.jsonData = e.jsonData
+  handleImportJson = (jsonData) => {
+    this.jsonData = JSON.parse(jsonData)
   }
 
-  handleImportJsonSchema = (e) => {
-    if (!e.text || e.format !== true) {
-      return (this.jsonSchemaData = null)
-    }
-    this.jsonSchemaData = e.jsonData
+  handleImportJsonSchema = (jsonData) => {
+    this.jsonSchemaData = JSON.parse(jsonData)
   }
   // 增加子节点
   addChildField = (key) => {
@@ -315,11 +308,15 @@ class jsonSchema extends React.Component {
             }}
           >
             <TabPane tab="JSON" key="json">
-              <AceEditor data="" mode="json" onChange={this.handleImportJson} />
+              <AceEditor
+                value=""
+                mode="json"
+                onChange={this.handleImportJson}
+              />
             </TabPane>
             <TabPane tab="JSON-SCHEMA" key="schema">
               <AceEditor
-                data=""
+                value=""
                 mode="json"
                 onChange={this.handleImportJsonSchema}
               />
@@ -382,10 +379,12 @@ class jsonSchema extends React.Component {
           {this.props.showEditor && (
             <Col span={8}>
               <AceEditor
-                className="pretty-editor"
                 mode="json"
-                data={JSON.stringify(schema, null, 2)}
+                theme="github"
                 onChange={this.handleParams}
+                value={JSON.stringify(schema, null, 2)}
+                name="UNIQUE_ID_OF_DIV"
+                editorProps={{ $blockScrolling: true }}
               />
             </Col>
           )}
