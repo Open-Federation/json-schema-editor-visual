@@ -24,9 +24,8 @@ const FormItem = Form.Item
 const Option = Select.Option
 const { TextArea } = Input
 const TabPane = Tabs.TabPane
-
+import 'antd/dist/antd.css'
 import './index.css'
-// import AceEditor from './components/AceEditor/AceEditor.js'
 import AceEditor from 'react-ace'
 import 'ace-builds/src-noconflict/mode-json'
 import 'ace-builds/src-noconflict/theme-github'
@@ -379,6 +378,7 @@ class jsonSchema extends React.Component {
           {this.props.showEditor && (
             <Col span={8}>
               <AceEditor
+                width="100%"
                 mode="json"
                 theme="github"
                 onChange={this.handleParams}
