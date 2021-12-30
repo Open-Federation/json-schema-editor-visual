@@ -2,7 +2,7 @@ name: Public Npm
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master ] # master有提交就会发包 版本不变更不会覆盖
 
 jobs:
   publish:
