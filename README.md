@@ -7,7 +7,6 @@
 ![avatar](json-schema-editor-visual.jpg)
 
 ## Usage
-~~npm install json-schema-editor-visual~~
 ```
 yarn add @leslieliu/react-jsonschema-editor
 ```
@@ -25,21 +24,3 @@ const SchemaEditor = schemaEditor({});
   }}
 />
 ```
-
-## Option Object
-
-| name   | desc                                 | default |
-| ------ | ------------------------------------ | ------- |
-| `lang` | language, support `en_US` or `zh_CN` | en_US   |
-
-## SchemaEditor Props
-
-| name         | type     | default | desc               |
-| ------------ | -------- | ------- | ------------------ |
-| `data`       | string   | null    | the data of editor |
-| `onChange`   | function | null    |
-| `showEditor` | boolean  | false   |
-
-## Links
-
-https://github.com/liuwei0514/json-schema-editor-vue
