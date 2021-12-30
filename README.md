@@ -24,3 +24,7 @@ const SchemaEditor = schemaEditor({});
   }}
 />
 ```
+
+## Links
+
+https://github.com/liuwei0514/react-jsonschema-editor
