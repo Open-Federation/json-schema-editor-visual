@@ -18,6 +18,7 @@ exports.SCHEMA_TYPE = [
   'object',
   'boolean',
   'integer',
+  'datetime',
 ]
 exports.defaultSchema = {
   string: {
