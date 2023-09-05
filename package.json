@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "description": "jsonschema editor",
   "main": "package/index.js",
+  "repository": {
+    "url": "https://github.com/Open-Federation/json-schema-editor-visual"
+  },
   "license": "MIT",
   "scripts": {
     "start": "ykit s -p 8082",
