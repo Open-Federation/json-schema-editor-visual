@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "jsonschema editor",
   "main": "package/index.js",
-  "license": "MIC",
+  "license": "MIT",
   "scripts": {
     "start": "ykit s -p 8082",
     "demo": "NODE_ENV=production ykit pack -m",
